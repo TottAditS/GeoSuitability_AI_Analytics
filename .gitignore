@@ -1,0 +1,10 @@
+.env
+.env.example
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# raw data is large, keep it out of git
+datasets/raw/
+datasets/processed/
