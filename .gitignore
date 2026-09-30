@@ -8,3 +8,11 @@ venv/
 # raw data is large, keep it out of git
 datasets/raw/
 datasets/processed/
+
+# third-party Windows Hadoop binaries (winutils.exe/hadoop.dll), needed locally by PySpark on Windows
+tools/
+
+# Spark/Derby local run artifacts
+scripts/preprocessing/metastore_db/
+scripts/preprocessing/derby.log
+scripts/preprocessing/spark-warehouse/
