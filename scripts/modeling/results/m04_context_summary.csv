@@ -1,11 +1,11 @@
 scheme,n_features,pixel,pixel
 model,,hgb,ridge
 feature_set,,,
-point (base),14,0.8065,0.567
-+ focal 3,28,0.81,0.5971
-+ focal 9,28,0.8134,0.6737
-"+ focal 3, 9, 25",56,0.8298,0.7215
-+ all focal,98,0.8329,0.7209
-focal 9 only,14,0.7883,0.6721
-pixel mean only,14,0.7642,0.7071
-base + pixel mean,28,0.8021,0.7086
+point (base),14,0.808,0.605
++ focal 3,28,0.8143,0.6375
++ focal 9,28,0.8161,0.6736
+"+ focal 3, 9, 25",56,0.8362,0.7111
++ all focal,98,0.839,0.7227
+focal 9 only,14,0.7659,0.6482
+pixel mean only,14,0.62,0.5827
+base + pixel mean,28,0.7862,0.6555

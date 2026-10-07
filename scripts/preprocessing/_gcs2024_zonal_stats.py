@@ -1,11 +1,11 @@
 """Helper script (not a notebook) for notebook 10.
 
 Zonal-stats the 6 Banten-clipped Global Crop Suitability 2024 rasters onto the 1 km grid and
-writes the result to a small CSV. Runs as a plain Python process, invoked via subprocess from
-notebook 10, rather than as notebook code directly - the exact same zonal_stats calls reliably
-kill the Jupyter kernel on this machine (reproducible, cause not identified - looks like a
-GDAL/ipykernel interaction, not a memory or logic problem, since this script works fine standalone
-every time). Routing it through a real subprocess avoids the kernel entirely.
+writes the result to a small CSV. Notebook 10 runs it as a plain Python process. It was split out
+when the same zonal_stats calls kept killing the Jupyter kernel; the cause turned out to be a kernel
+started without the conda environment activated (missing Library/bin DLL folders and GDAL_DATA /
+PROJ_LIB), not GDAL. The calls also work as notebook code in an activated environment; the separate
+process is kept because it is harmless and gives the same output.
 """
 import logging
 import sys

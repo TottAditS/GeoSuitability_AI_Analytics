@@ -10,7 +10,11 @@ Output of the ETL pipeline (`scripts/preprocessing/01`-`04`): reprojected, resam
 
 - `processed/grid/grid_1km.gpkg` — the 9,333-cell analysis grid (`grid_id` primary key)
 - `processed/sentinel2/` — mosaicked Sentinel-2 composites per year
-- `processed/features/tabular_features.csv` — the single fact table: one row per grid cell, one column per feature (climate, soil, terrain, land cover, GAEZ suitability), used directly for EDA, modeling, and the Sedona/Spark processing demo (`scripts/preprocessing/06_sedona_processing.ipynb`)
+- `processed/features/sentinel2_cell_stats.csv` — Sentinel-2 statistics per grid cell (2020-2024: band means and
+  standard deviations, NDVI percentiles, year-to-year variability), a 1:1 extension of the fact table on `grid_id`, and
+  `processed/sentinel2_patches/` — one 25 x 25 image patch per cell and year for convolutional models (both written by
+  `scripts/preprocessing/11_sentinel2_cell_features.ipynb`)
+- `processed/features/tabular_features.csv` — the single fact table: one row per grid cell, one column per feature (climate, soil, terrain, land cover, GAEZ suitability at ~9 km and 1 km, GCS 2024), used directly for EDA, modeling, and the Sedona/Spark processing demo (`scripts/preprocessing/06_sedona_processing.ipynb`)
 
 ### Note: GAEZ suitability now covers 10 crops, all on the irrigated scenario
 
@@ -27,6 +31,20 @@ soybean - on GAEZ v5's `HRLM` (rain-fed, high input) scenario. Two follow-up not
   close to winning anywhere (see notebook 07's validation) - the result was really a 2-crop story. With all
   10, cassava, coconut, and oil palm end up as the real competitors.
 
+### Note: GAEZ v5 is also used at 1 km (30 arc-seconds)
+
+The files in `raw/gaez_v5/` are GAEZ v5's 5 arc-minute version (~9 km): only 164 GAEZ pixels cover Banten, so every
+1 km cell inside one of them shares the same values. GAEZ v5 also publishes the suitability index and class at
+30 arc-seconds (`MAPSET/RES05-SXX30AS`, `MAPSET/RES05-SIX30AS`), with the same scenario (HP0120, AgERA5, HIST,
+HILM). `scripts/preprocessing/12_gaez_v5_1km.ipynb` reads only the Banten window of these Cloud-Optimized GeoTIFFs
+over HTTP, keeps the clips in `raw/gaez_v5_30as/` and adds `gaez1k_index_<crop>` / `gaez1k_class_<crop>` to the fact
+table, plus rain-fed audit columns (`*_rainfed`) for the first four crops as at ~9 km. The 1 km class legend differs
+from the ~9 km one: 1-8 are the suitability classes, 9 = no cropland (land GAEZ leaves out for that crop and scenario)
+and 10 = water. Cells left without a value at 1 km stay empty: 204 for most irrigated crops (181 no cropland, mostly
+under tree cover, and 23 open water); coffee, cacao and the rain-fed columns only miss the 23. The dashboard uses the
+1 km version by default and can switch back to ~9 km; the modeling notebooks learn the 1 km target and m13 compares
+it with the ~9 km one.
+
 ### Note: Global Crop Suitability 2024 is now used as an independent cross-validation source
 
 Previously downloaded but never processed (CropSuite, the other suitability dataset, turned out to be
@@ -38,12 +56,13 @@ and `10_gcs2024_zonal_stats_and_compare.ipynb` clip its 6 overlapping crops to B
 rule) plus a Spearman correlation against GAEZ per crop - agreement ranges from strong (sugarcane 0.80, rice
 0.78) to actively negative (soybean -0.17), which is itself a finding, not a bug.
 
-**Engineering note:** on this machine, several GDAL/scipy operations (large windowed raster reads, and
-separately `scipy.stats.spearmanr`/`pandas.corr(method="spearman")`/`np.corrcoef` on several-thousand-element
-arrays) reliably or intermittently kill the Jupyter kernel when run as notebook code directly, while the
-exact same logic runs fine as a plain Python process. Notebooks 09/10 and `_gcs2024_zonal_stats.py` work
-around this (clip via the `gdal_translate` CLI instead of a rasterio windowed read; run zonal statistics in a
-subprocess; compute Spearman's rho from its rank-difference formula by hand instead of calling into scipy).
+**Engineering note:** while notebooks 09/10 were built, several operations (large windowed raster reads,
+Spearman correlations on thousands of points, zonal statistics) kept killing Jupyter kernels. The cause was the
+environment, not the libraries: the notebooks were being executed from a shell where the conda environment was
+not activated, so its DLL folders (`Library/bin`: MKL and friends) and `GDAL_DATA` / `PROJ_LIB` were missing.
+With the environment activated, as PyCharm does, all of these work directly in a notebook. The workarounds left in
+notebooks 09/10 and `_gcs2024_zonal_stats.py` (the `gdal_translate` CLI for clipping, a subprocess for the zonal
+statistics, a hand-written Spearman formula that matches `scipy.stats.spearmanr`) give the same results and were kept.
 
 ## Why this split
 

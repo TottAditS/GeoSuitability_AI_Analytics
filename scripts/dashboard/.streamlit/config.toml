@@ -1,0 +1,45 @@
+# Visual identity of the dashboard: a quiet, natural-green palette (forest, moss, sage) on warm paper white,
+# with earth tones (ochre, clay, bark) for contrast. Read by `streamlit run app.py` from this folder
+# (which is what dashboard.ipynb does).
+
+[client]
+toolbarMode = "minimal"
+
+[theme]
+base = "light"
+primaryColor = "#2F5D3A"
+backgroundColor = "#F7F8F3"
+secondaryBackgroundColor = "#EDF1E6"
+textColor = "#1D2B22"
+linkColor = "#2F5D3A"
+borderColor = "#DCE3D3"
+dataframeBorderColor = "#E3E8DC"
+dataframeHeaderBackgroundColor = "#EEF2E8"
+showWidgetBorder = true
+baseRadius = "0.6rem"
+buttonRadius = "0.6rem"
+font = "Plus Jakarta Sans:https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap, sans-serif"
+headingFont = "Plus Jakarta Sans:https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap, sans-serif"
+headingFontWeights = [700, 600, 600, 600, 600, 600]
+baseFontSize = 15
+metricValueFontWeight = 600
+metricValueFontSize = "1.75rem"
+greenColor = "#2F5D3A"
+greenBackgroundColor = "#E3EDD9"
+greenTextColor = "#23492F"
+yellowColor = "#C49A3A"
+orangeColor = "#B8653F"
+redColor = "#9C3B2A"
+blueColor = "#3E7F7A"
+chartCategoricalColors = ["#2F5D3A", "#7FA35E", "#C49A3A", "#3E7F7A", "#B8653F", "#A9BF92", "#6B4F3A", "#8C9A5B", "#D9B97A", "#5E8C86"]
+chartSequentialColors = ["#14281D", "#1F4D2E", "#2F5D3A", "#4A7D42", "#6E9E5A", "#97BB7E", "#BFD4A7", "#DDE8CF", "#EBF1E3", "#F4F7EF"]
+chartDivergingColors = ["#8E3B24", "#B8653F", "#D99A72", "#EFDCC5", "#F4F1E8", "#C9DDB5", "#8DB474", "#4F8A45", "#23492F", "#14281D"]
+
+[theme.sidebar]
+backgroundColor = "#16301F"
+secondaryBackgroundColor = "#21412C"
+textColor = "#E4ECDD"
+primaryColor = "#A9C98E"
+linkColor = "#CFE3BC"
+borderColor = "#2C4D37"
+codeBackgroundColor = "#21412C"

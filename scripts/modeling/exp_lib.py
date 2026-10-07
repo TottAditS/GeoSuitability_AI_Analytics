@@ -39,6 +39,8 @@ from xgboost import XGBClassifier, XGBRegressor
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 FEATURES_CSV = PROJECT_ROOT / "datasets" / "processed" / "features" / "tabular_features.csv"
+S2_CSV = PROJECT_ROOT / "datasets" / "processed" / "features" / "sentinel2_cell_stats.csv"  # 1:1 with the fact table (notebook 11)
+S2_PATCH_DIR = PROJECT_ROOT / "datasets" / "processed" / "sentinel2_patches"                # 25 x 25 patches per cell and year
 RESULTS_DIR = Path(__file__).resolve().parent / "results"        # small summary tables (tracked)
 FIGURES_DIR = Path(__file__).resolve().parent / "figures"
 OOF_DIR = PROJECT_ROOT / "datasets" / "processed" / "experiments"  # bulky per-cell predictions (ignored)
@@ -48,9 +50,17 @@ GCS_CROPS = ["rice", "maize", "cassava", "soybean", "oilpalm", "sugarcane"]  # c
 
 NOT_RECOMMENDED_THRESHOLD = 5000  # same rule the dashboard applies to the GAEZ index (0-10,000)
 
-GAEZ_CELL_DEG = 1 / 12  # GAEZ v5 native grid: 5 arc-minutes (~9 km)
+GAEZ_CELL_DEG = 1 / 12  # GAEZ v5 5 arc-minute grid (~9 km): its pixels are the blocks of the 'pixel' CV scheme
+
+# The experiments learn GAEZ v5 at 30 arc-seconds (~1 km, scripts/preprocessing/12_gaez_v5_1km.ipynb). Set "9km" to
+# rerun any notebook on the 5 arc-minute product of the first round; m13 compares the two targets directly.
+TARGET_RES = "1km"
 
 N_JOBS = 6  # parallel workers for the grid runners; deliberately not all cores so the machine stays usable
+
+# threadpoolctl warns whenever two OpenMP runtimes are loaded (MKL's libiomp next to the LLVM libomp of other packages);
+# the crash it describes is a Linux issue, and the real clash on this machine (PyTorch) is handled by importing torch first.
+warnings.filterwarnings("ignore", message=r"\s*Found Intel OpenMP", category=RuntimeWarning)
 
 LC_CODES = [10, 30, 40, 50, 60, 80, 90, 95]  # ESA WorldCover classes present in Banten
 
@@ -62,6 +72,10 @@ FEATURE_GROUPS = {
     "terrain": ["elevation_mean_m", "slope_mean_deg"],
     "landcover": ["cropland_pct"] + [f"lc_{c}" for c in LC_CODES],
     "coords": ["lon", "lat"],
+    # Sentinel-2 L2A 2020-2024 (notebook 11): 5-year means of the per-cell band means / std, NDVI percentiles and the
+    # inter-annual variability of NDVI and NDMI. Observed land surface, not a physical driver of suitability.
+    "sentinel2": [f"s2_{b}_{s}" for b in ("B2", "B3", "B4", "B8", "B11", "B12", "NDVI", "EVI", "NDMI") for s in ("mean", "std")]
+                 + ["s2_NDVI_p10", "s2_NDVI_p50", "s2_NDVI_p90", "s2_NDVI_mean_iav", "s2_NDMI_mean_iav"],
 }
 BASE_GROUPS = ("climate", "soil", "terrain")  # the physical drivers GAEZ itself is built from
 
@@ -69,16 +83,24 @@ BASE_GROUPS = ("climate", "soil", "terrain")  # the physical drivers GAEZ itself
 # --------------------------------------------------------------------------------------------
 # Data
 # --------------------------------------------------------------------------------------------
-def load_table() -> pd.DataFrame:
-    """Warehouse fact table plus helper columns (GAEZ pixel ids, land-cover one-hot)."""
+def load_table(complete: bool = True) -> pd.DataFrame:
+    """Warehouse fact table plus helper columns (GAEZ pixel ids, land-cover one-hot).
+
+    complete=True keeps only the cells with a target for every crop: at 1 km GAEZ leaves 204 of the 9,333 cells without
+    a value for some crops (land it marks as no cropland, open water), and every experiment needs the same rows for all
+    ten targets.
+    """
     df = pd.read_csv(FEATURES_CSV)
-    # Which native GAEZ pixel each 1 km cell centroid falls in (the 5' grid is anchored at -180/90).
-    df["pix_row"] = np.floor((90 - df["lat"].to_numpy()) / GAEZ_CELL_DEG).astype(int)
-    df["pix_col"] = np.floor((df["lon"].to_numpy() + 180) / GAEZ_CELL_DEG).astype(int)
-    df["pix"] = df["pix_row"] * 100_000 + df["pix_col"]
-    for code in LC_CODES:
-        df[f"lc_{code}"] = (df["landcover_majority"] == code).astype(float)
-    return df
+    if S2_CSV.exists():   # Sentinel-2 per-cell statistics, kept as a separate 1:1 table keyed by grid_id
+        df = df.merge(pd.read_csv(S2_CSV), on="grid_id", how="left")
+    if complete:
+        df = df[df[gaez_cols()].notna().all(axis=1)].reset_index(drop=True)
+    # Which 5 arc-minute GAEZ pixel each 1 km cell centroid falls in (the 5' grid is anchored at -180/90).
+    pix_row = np.floor((90 - df["lat"].to_numpy()) / GAEZ_CELL_DEG).astype(int)
+    pix_col = np.floor((df["lon"].to_numpy() + 180) / GAEZ_CELL_DEG).astype(int)
+    extra = {"pix_row": pix_row, "pix_col": pix_col, "pix": pix_row * 100_000 + pix_col,
+             **{f"lc_{code}": (df["landcover_majority"] == code).astype(float).to_numpy() for code in LC_CODES}}
+    return pd.concat([df, pd.DataFrame(extra, index=df.index)], axis=1)   # one concat: no fragmented frame
 
 
 def add_focal_features(df: pd.DataFrame, columns: list[str], sizes=(3, 5, 9, 15, 25, 41)) -> pd.DataFrame:
@@ -116,8 +138,13 @@ def feature_columns(groups=BASE_GROUPS) -> list[str]:
     return [c for g in groups for c in FEATURE_GROUPS[g]]
 
 
-def gaez_cols(crops=CROPS) -> list[str]:
-    return [f"gaez_index_{c}" for c in crops]
+def target_col(crop: str, res: str | None = None) -> str:
+    """Warehouse column of one crop's GAEZ index at TARGET_RES, or at res ("1km" / "9km") when given."""
+    return f"gaez1k_index_{crop}" if (res or TARGET_RES) == "1km" else f"gaez_index_{crop}"
+
+
+def gaez_cols(crops=CROPS, res: str | None = None) -> list[str]:
+    return [target_col(c, res) for c in crops]
 
 
 def gcs_cols(crops=GCS_CROPS) -> list[str]:
@@ -146,7 +173,7 @@ def make_splits(df: pd.DataFrame, scheme: str, n_splits: int = 5, seed: int = 0)
 
     random      plain shuffled K-fold over 1 km cells (what a naive tabular workflow does)
     block<k>    square blocks of k x k cells (k km) kept together, e.g. block10
-    pixel       whole native GAEZ pixels kept together (the source's own resolution)
+    pixel       whole ~9 km pixels of the GAEZ 5 arc-minute grid kept together (spatial blocks of ~80 cells)
     <scheme>_buf  any grouped scheme, but training cells in the 8 GAEZ pixels around every test pixel are
                   dropped as well (only sensible with large blocks, e.g. block40_buf; with scattered
                   pixel folds the ring swallows most of the training set)
@@ -239,12 +266,15 @@ def regression_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
 
 
 def classification_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
-    return {
-        "accuracy": accuracy_score(y_true, y_pred),
-        "balanced_acc": balanced_accuracy_score(y_true, y_pred),
-        "macro_f1": f1_score(y_true, y_pred, average="macro", zero_division=0),
-        "weighted_f1": f1_score(y_true, y_pred, average="weighted", zero_division=0),
-    }
+    with warnings.catch_warnings():
+        # A model may predict a crop that never wins among the test cells; balanced accuracy only warns about it.
+        warnings.filterwarnings("ignore", message="y_pred contains classes not in y_true")
+        return {
+            "accuracy": accuracy_score(y_true, y_pred),
+            "balanced_acc": balanced_accuracy_score(y_true, y_pred),
+            "macro_f1": f1_score(y_true, y_pred, average="macro", zero_division=0),
+            "weighted_f1": f1_score(y_true, y_pred, average="weighted", zero_division=0),
+        }
 
 
 # --------------------------------------------------------------------------------------------

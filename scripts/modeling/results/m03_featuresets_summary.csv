@@ -1,17 +1,17 @@
 feature_set,ridge,hgb,n_features
-climate only,0.485,0.783,5
-soil only,0.36,0.622,7
-terrain only,0.468,0.528,2
-land cover only,0.293,0.327,9
-coordinates only,0.25,0.787,2
-climate + soil,0.531,0.798,12
-climate + terrain,0.542,0.797,7
-climate + soil + terrain (base),0.567,0.806,14
-base + land cover,0.643,0.809,23
-base + coordinates,0.598,0.826,16
-everything,0.659,0.828,25
-everything - climate,0.608,0.802,20
-everything - soil,0.648,0.823,18
-everything - terrain,0.641,0.825,23
-everything - landcover,0.598,0.826,16
-everything - coords,0.643,0.809,23
+climate only,0.414,0.712,5
+soil only,0.328,0.607,7
+terrain only,0.534,0.583,2
+land cover only,0.361,0.425,9
+coordinates only,0.208,0.692,2
+climate + soil,0.464,0.731,12
+climate + terrain,0.585,0.81,7
+climate + soil + terrain (base),0.605,0.808,14
+base + land cover,0.724,0.852,23
+base + coordinates,0.62,0.835,16
+everything,0.728,0.87,25
+everything - climate,0.708,0.87,20
+everything - soil,0.715,0.873,18
+everything - terrain,0.644,0.826,23
+everything - landcover,0.62,0.835,16
+everything - coords,0.724,0.852,23

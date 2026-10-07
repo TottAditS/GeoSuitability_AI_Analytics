@@ -1,0 +1,11 @@
+,ExtraTrees: + Sentinel-2 statistics,Network: fusion minus drivers-only MLP
+rice,0.039,0.0718
+maize,0.0417,0.0804
+cassava,0.0426,0.077
+soybean,0.0518,0.0958
+oilpalm,0.0461,0.076
+rubber,0.0604,0.0982
+sugarcane,0.0439,0.0692
+coffee,0.0444,0.0799
+cacao,0.0507,0.0722
+coconut,0.0372,0.0785

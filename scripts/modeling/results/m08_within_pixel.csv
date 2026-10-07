@@ -1,7 +1,7 @@
 crop,best single feature,|rho| best single feature,"within-pixel rho(raw GAEZ, GCS)",hgb: GAEZ-surrogate,hgb: GCS-surrogate,et: GAEZ-surrogate,et: GCS-surrogate,xgb: GAEZ-surrogate,xgb: GCS-surrogate
-rice,elevation_mean_m,0.5569,0.1509,0.3862,0.6644,0.4044,0.6918,0.3936,0.6651
-maize,bio1_temp_mean_c,0.1652,-0.0085,0.0726,0.4855,0.0615,0.5609,0.0734,0.4724
-cassava,bio12_precip_annual_mm,0.168,0.0386,0.1319,0.3928,0.1268,0.46,0.1219,0.3801
-soybean,bio12_precip_annual_mm,0.2036,-0.0739,-0.0803,0.4149,-0.0703,0.4792,-0.0673,0.4109
-oilpalm,elevation_mean_m,0.3146,0.0842,0.2381,0.6331,0.2331,0.687,0.2442,0.6141
-sugarcane,bio12_precip_annual_mm,0.256,0.1315,0.2606,0.4199,0.2901,0.5012,0.2504,0.3864
+rice,elevation_mean_m,0.5474,0.4318,0.451,0.6547,0.461,0.6866,0.4523,0.6595
+maize,bio1_temp_mean_c,0.163,-0.0362,0.0315,0.477,0.0406,0.5609,0.0423,0.4644
+cassava,bio12_precip_annual_mm,0.1602,0.245,0.1227,0.3623,0.1215,0.4446,0.1115,0.355
+soybean,bio12_precip_annual_mm,0.2029,-0.0795,-0.0419,0.4142,-0.035,0.4805,-0.0393,0.4119
+oilpalm,elevation_mean_m,0.3014,0.1574,0.1982,0.643,0.1999,0.691,0.191,0.6217
+sugarcane,bio12_precip_annual_mm,0.2631,0.3195,0.2306,0.4081,0.2575,0.5115,0.2248,0.3959

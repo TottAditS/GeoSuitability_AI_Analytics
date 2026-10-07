@@ -37,11 +37,11 @@ Existing environment, point it at `<conda_install_path>\envs\geoai-suitability\p
 | `download_worldclim.ipynb` | WorldClim (BIO1/12/15) + raster preview | No |
 | `download_chirps.ipynb` | CHIRPS monthly rainfall, 2020-2024 | No |
 | `download_worldcover.ipynb` | ESA WorldCover 10m | No |
-| `download_zenodo.ipynb` | Global Crop Suitability 2024, CropSuite | No |
+| — (manual download) | Global Crop Suitability 2024 (https://zenodo.org/records/17666722) and CropSuite, both from Zenodo, saved by hand into `datasets/raw/global_crop_suitability_2024/` and `datasets/raw/cropsuite/` | No |
 | `download_soilgrids.ipynb` | SoilGrids (pH, SOC, N, clay, sand, CEC, bdod) | No |
 | `download_opentopography_dem.ipynb` | Copernicus DEM 30m | Yes — `OPENTOPOGRAPHY_API_KEY` |
 | `download_sentinel2.ipynb` | Sentinel-2 L2A via Google Earth Engine (annual dry-season composites, 2020-2024, + NDVI/EVI/NDMI) | Yes — a GEE account (interactive browser login on first run) |
-| `download_gaez.ipynb` | GAEZ v5 Suitability Class (rice/maize/cassava/soybean) — straight from a public Google Cloud Storage bucket | No |
+| `download_gaez.ipynb` | GAEZ v5 Suitability Class + Index at ~9 km (5 arc-min) for the first four crops — straight from a public Google Cloud Storage bucket. The irrigated scenario and six more crops are fetched by `scripts/preprocessing/07`/`08`; the 1 km (30 arc-sec) version is read for Banten by `scripts/preprocessing/12_gaez_v5_1km.ipynb` | No |
 
 ## Usage
 
@@ -59,11 +59,11 @@ easy to regenerate from these notebooks, no need to version it.
 bbox, a download-with-progress helper, logging setup) imported by every notebook via
 `from common import ...` — it isn't a download step on its own.
 
-## What isn't automated
+## What isn't used
 
-- **BPS Banten** (crop production statistics) — no clean API, needs a manual Excel/PDF download from
-  banten.bps.go.id. Currently skipped; it's only used for aggregate validation, not as core training
-  data.
+- **National government statistics and portals** (e.g. BPS crop production statistics) are deliberately
+  left out: the project relies only on open international products. GAEZ is cross-checked against the
+  independent Global Crop Suitability 2024 product instead (`scripts/preprocessing/09`/`10`).
 
 ## Sentinel-2 / GEE notes
 

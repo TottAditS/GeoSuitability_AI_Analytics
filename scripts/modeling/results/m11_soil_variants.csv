@@ -1,5 +1,5 @@
 variant,et,hgb,xgb
-gap-filled soil (as used),0.825,0.8065,0.7999
-raw soil with NaN,0.823,0.8015,0.7906
-gap-filled + interpolation flag,0.824,0.8067,0.8004
-no soil,0.8196,0.7965,0.7869
+gap-filled soil (as used),0.82,0.808,0.809
+raw soil with NaN,0.8207,0.8103,0.808
+gap-filled + interpolation flag,0.8227,0.8091,0.8085
+no soil,0.8177,0.8101,0.8063

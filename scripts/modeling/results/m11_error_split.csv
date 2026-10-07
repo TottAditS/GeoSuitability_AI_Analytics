@@ -1,7 +1,7 @@
 model,cells,r2,rmse,mae,spearman
-et,interpolated soil,0.768,989.17,684.65,0.881
-et,observed soil,0.827,687.78,498.74,0.905
-hgb,interpolated soil,0.769,993.21,669.98,0.862
-hgb,observed soil,0.805,730.09,524.12,0.894
-xgb,interpolated soil,0.745,1042.1,702.87,0.854
-xgb,observed soil,0.802,734.8,527.69,0.892
+et,interpolated soil,0.655,1493.3,1059.1,0.797
+et,observed soil,0.862,690.02,449.67,0.933
+hgb,interpolated soil,0.651,1499.6,1026.3,0.782
+hgb,observed soil,0.851,716.85,463.29,0.928
+xgb,interpolated soil,0.647,1508.8,1043.5,0.785
+xgb,observed soil,0.852,715.93,466.04,0.927

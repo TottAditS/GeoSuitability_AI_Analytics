@@ -1,7 +1,7 @@
 ,r2,spearman,rmse
-"MLP base, 1 seed",0.7629,0.872,882.78
-"MLP base, 3-seed average",0.7692,0.8752,870.13
-"MLP wide + regularised, 3-seed average",0.7785,0.8804,851.86
-et (m01),0.825,0.9033,754.56
-hgb (m01),0.8065,0.8932,796.52
-xgb (m01),0.7999,0.8887,809.06
+"MLP base, 1 seed",0.7838,0.8844,958.5
+"MLP base, 3-seed average",0.7882,0.8865,948.22
+"MLP wide + regularised, 3-seed average",0.7876,0.8856,949.39
+et (m01),0.82,0.9019,873.1
+hgb (m01),0.808,0.8975,901.16
+xgb (m01),0.809,0.8965,899.6

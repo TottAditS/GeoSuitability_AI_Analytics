@@ -1,15 +1,15 @@
 section,setting,r2,spearman,rmse,seconds_per_repeat
-base,128-64 (base),0.7629,0.872,882.78,6.7626
-architecture,64,0.7257,0.8504,950.52,4.9932
-architecture,128,0.7335,0.8549,937.13,4.8915
-architecture,64-64,0.7588,0.8686,890.38,6.1678
-architecture,128-128,0.7673,0.8745,872.98,6.0112
-architecture,64-64-64,0.7662,0.8725,875.37,6.7047
-architecture,128-128-128,0.772,0.8758,862.09,6.8333
-regularisation,dropout 0.2,0.7652,0.8731,879.45,6.6657
-regularisation,weight decay 1e-2,0.7627,0.8719,883.1,6.0888
-regularisation,input noise 0.1,0.7606,0.8698,887.52,6.5311
-norm / activation,layer norm + silu,0.7818,0.8805,845.26,6.9586
-norm / activation,relu,0.7782,0.8789,851.88,6.3585
-norm / activation,layer norm + relu,0.7891,0.8835,830.22,6.9417
-loss,huber (delta 1),0.7673,0.8748,874.35,5.8777
+base,128-64 (base),0.7838,0.8844,958.5,8.794
+architecture,64,0.7418,0.8589,1050.2,4.4907
+architecture,128,0.7519,0.8648,1028.5,4.3116
+architecture,64-64,0.7811,0.8826,964.21,7.058
+architecture,128-128,0.7867,0.8862,951,7.1586
+architecture,64-64-64,0.7884,0.8869,948.4,8.1721
+architecture,128-128-128,0.7902,0.8894,942.6,7.8808
+regularisation,dropout 0.2,0.7808,0.8826,965.37,7.1183
+regularisation,weight decay 1e-2,0.7836,0.8843,958.94,6.5456
+regularisation,input noise 0.1,0.7769,0.8796,974.14,7.3961
+norm / activation,layer norm + silu,0.7981,0.8922,923.53,7.9769
+norm / activation,relu,0.7943,0.8898,933.43,7.042
+norm / activation,layer norm + relu,0.7957,0.8918,929.36,8.2432
+loss,huber (delta 1),0.7857,0.8857,954.27,6.8829
