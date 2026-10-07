@@ -43,8 +43,9 @@ of every source are in [datasets/data_dictionary.csv](datasets/data_dictionary.c
 ```
 datasets/                 data lake (raw/) and warehouse (processed/); data are git-ignored, README + data dictionary tracked
 scripts/download/         ingestion, one notebook per source
-scripts/preprocessing/    ETL notebooks 01-13 (validation, mosaics, 1 km grid, zonal statistics, Apache Sedona, GAEZ
-                          scenario and crops, GCS 2024, Sentinel-2 cell features, GAEZ v5 at 1 km, rain-fed audit)
+scripts/preprocessing/    ETL notebooks 01-14 (validation, mosaics, 1 km grid, zonal statistics, Apache Sedona, GAEZ
+                          scenario and crops, GCS 2024, Sentinel-2 cell features, GAEZ v5 at 1 km, rain-fed audit,
+                          EDA of the current warehouse)
 scripts/modeling/         experiments m01-m15, shared libraries exp_lib.py / exp_torch.py, results/ and figures/
 scripts/dashboard/        Streamlit dashboard (app.py, one file per page) and its launcher notebook
 tests/                    automated tests
@@ -68,10 +69,11 @@ Run the notebooks in order, each on its own (they skip work that is already done
 
 1. **Ingestion** - `scripts/download/*.ipynb` into `datasets/raw/` (Global Crop Suitability 2024 and CropSuite are
    downloaded by hand from Zenodo; see [scripts/download/README.md](scripts/download/README.md)).
-2. **Preprocessing** - `scripts/preprocessing/01` ... `13`: validate the raw data, mosaic Sentinel-2, build the 1 km grid,
+2. **Preprocessing** - `scripts/preprocessing/01` ... `14`: validate the raw data, mosaic Sentinel-2, build the 1 km grid,
    zonal statistics into the fact table `datasets/processed/features/tabular_features.csv`, a first EDA (05), the Apache
    Sedona / Spark job (06), the irrigated scenario and ten crops (07, 08), GCS 2024 (09, 10), Sentinel-2 cell features and
-   image patches (11), GAEZ v5 at 1 km (12) and the rain-fed audit columns of every crop (13).
+   image patches (11), GAEZ v5 at 1 km (12), the rain-fed audit columns of every crop (13) and an exploratory analysis of
+   the current warehouse (14, figures in `scripts/preprocessing/eda_figures/`).
 3. **Modeling** - `scripts/modeling/m01` ... `m15`, a few minutes each with at most 6 CPU workers; m09, m10, m14 use the
    GPU when there is one. What each experiment asks is listed in [scripts/modeling/README.md](scripts/modeling/README.md).
 
