@@ -26,6 +26,7 @@ Small result tables go to `results/`, figures to `figures/`, bulky per-cell pred
 | m12 | Learning curves and ensembles. |
 | m13 | GAEZ ~9 km vs 1 km: what does the finer target change, and was the sub-pixel detail of the ~9 km models real? |
 | m14 | Does Sentinel-2 imagery add to the physical drivers (per-cell statistics with trees, image patches with a CNN and a fusion network)? |
+| m15 | How sure are the estimates? Adaptive conformal 90 % intervals, P(suitable) and recommendation probabilities per cell. |
 
 `m09` and `m10` read `results/m01_baselines_raw.csv` and the out-of-fold file written by `m01`, so run `m01` first.
 Every notebook needs the 1 km columns (`gaez1k_index_<crop>`) written by `scripts/preprocessing/12_gaez_v5_1km.ipynb`:

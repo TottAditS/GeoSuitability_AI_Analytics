@@ -1,0 +1,21 @@
+inputs,crop,half_width
+drivers,rice,1401.1
+drivers,maize,684.7
+drivers,cassava,1556.3
+drivers,soybean,800.6
+drivers,oilpalm,1604.9
+drivers,rubber,607.4
+drivers,sugarcane,1015.2
+drivers,coffee,1621.3
+drivers,cacao,1328.8
+drivers,coconut,1872.6
+drivers + Sentinel-2,rice,1265.2
+drivers + Sentinel-2,maize,613
+drivers + Sentinel-2,cassava,1398.7
+drivers + Sentinel-2,soybean,758.8
+drivers + Sentinel-2,oilpalm,1475.5
+drivers + Sentinel-2,rubber,565
+drivers + Sentinel-2,sugarcane,914.9
+drivers + Sentinel-2,coffee,1463.3
+drivers + Sentinel-2,cacao,1197.4
+drivers + Sentinel-2,coconut,1695.3

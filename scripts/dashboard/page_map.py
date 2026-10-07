@@ -43,7 +43,7 @@ RAW_LAYERS = {
 }
 RAW_LAYERS = {src: layers for src, layers in RAW_LAYERS.items() if all(c in df.columns for c in layers.values())}
 
-VIEWS = ["Recommendation", "Every crop", "One crop on the map", "Raw data layers"]
+VIEWS = ["Recommendation", "Every crop", "One crop on the map", "Uncertainty", "Raw data layers"]
 
 C.page_header("Suitability", "Suitability Map",
               "Where each crop fits in Banten. The hue says **which** crop, the depth of the colour says **how suitable**: "
@@ -132,6 +132,46 @@ elif view == "One crop on the map":
                                 hover_data={"grid_id": True, "suitability": ":,.0f", "landcover_label": True})
         show(fig, colorbar_title=f"{C.CROP_LABELS[crop]}<br>0-10,000")
         st.caption(f"{C.CROP_LABELS[crop]} · {C.SOURCE_NOTES[src]} The 'recommended' line is 5,000.")
+
+# ------------------------------------------------------------------------------------------------ uncertainty
+elif view == "Uncertainty":
+    unc = C.load_uncertainty()
+    if unc is None:
+        C.no_results_note("m15_uncertainty.ipynb")
+    else:
+        a, b, c = st.columns([1.4, 1, 1.3])
+        choices = list(C.UNCERTAINTY_INPUTS)
+        inputs = a.segmented_control("Model inputs", choices, default=choices[0], key="unc_inputs") or choices[0]
+        crop = b.selectbox("Crop", C.CROPS, format_func=C.CROP_LABELS.get, key="unc_crop")
+        SHOW = ["Width of the 90 % interval", "P(index >= 5,000)", "Model estimate", "Lower bound of the interval",
+                "Upper bound of the interval"]
+        what = c.selectbox("Show", SHOW, key="unc_show")
+        tag = C.UNCERTAINTY_INPUTS[inputs]
+        lo, hi = unc[f"{tag}__lo__{crop}"], unc[f"{tag}__hi__{crop}"]
+        values, scale, zmax, fmt = {
+            SHOW[0]: (hi - lo, C.SEQ_CLAY, 6000, ",.0f"),
+            SHOW[1]: (unc[f"{tag}__psuit__{crop}"], C.SEQ, 1, ".2f"),
+            SHOW[2]: (unc[f"{tag}__pred__{crop}"], C.crop_scale(crop), 10000, ",.0f"),
+            SHOW[3]: (lo, C.crop_scale(crop), 10000, ",.0f"),
+            SHOW[4]: (hi, C.crop_scale(crop), 10000, ",.0f"),
+        }[what]
+        l, r = st.columns(2)
+        l.plotly_chart(C.grid_map(df, values, f"{C.CROP_LABELS[crop]}: {what[0].lower() + what[1:]}", scale, 0, zmax, 480,
+                                  fmt=fmt), width="stretch")
+        labels, pmax = C.uncertainty_label(unc, inputs)
+        r.plotly_chart(C.category_map(df, labels, C.LABEL_COLORS, "Most likely recommendation (depth = its probability)",
+                                      480, strength=pmax), width="stretch")
+        cov = C.load_result("m15_coverage")
+        m15_name = {"14 drivers + Sentinel-2": "drivers + Sentinel-2", "14 drivers": "drivers"}[inputs]
+        if cov is not None:
+            ad = cov[(cov["inputs"] == m15_name) & (cov["interval"] == "adaptive")]
+            got = ad.set_index("crop").loc[crop]
+            C.note(f"Uncertainty of the **model estimate** from the {inputs.replace('14 ', '')} (ExtraTrees, notebook m15), "
+                   f"not of GAEZ itself. The 90 % intervals are calibrated on errors in held-out ~9 km blocks: for "
+                   f"{C.CROP_LABELS[crop].lower()} they contain the true 1 km GAEZ index in {got['coverage']:.0%} of the cells "
+                   f"(mean width {got['mean width']:,.0f} index points; all crops {ad['coverage'].mean():.0%}). The right "
+                   "map applies the absolute rule (highest index wins, 'Not recommended' below 5,000) to 200 plausible "
+                   "versions of every cell: pale = the recommendation is uncertain, deep = it is almost sure.")
 
 # ------------------------------------------------------------------------------------------------ raw layers
 else:

@@ -17,11 +17,11 @@ def R(name):
     return t
 
 
-C.page_header("AI · evaluation", "ML/DL Experiments", "Results of the fourteen notebooks in `scripts/modeling` (m01-m14). Task: predict each crop's GAEZ v5 "
+C.page_header("AI · evaluation", "ML/DL Experiments", "Results of the fifteen notebooks in `scripts/modeling` (m01-m15). Task: predict each crop's GAEZ v5 "
            "suitability index at 1 km from the 14 physical drivers (climate, soil, terrain). All headline scores use "
            "**pixel-grouped cross-validation**: whole ~9 km blocks (the pixels of GAEZ's 5 arc-minute grid) are held out, "
            "because neighbouring 1 km cells are nearly alike. m13 compares the 1 km target with the ~9 km product of the "
-           "first round; m14 adds Sentinel-2 satellite imagery.")
+           "first round; m14 adds Sentinel-2 satellite imagery, m15 measures the uncertainty.")
 
 if R("m01_leaderboard") is None:
     C.no_results_note("m01_baselines_cv_leakage.ipynb")
@@ -76,6 +76,10 @@ EXPERIMENTS = {
         "Does satellite imagery add to the physical drivers, as per-cell statistics or as image patches?",
         "Trees on the 14 drivers, 23 Sentinel-2 statistics and both; on the GPU an MLP on the drivers, a CNN on the "
         "25 x 25 image patch of each cell and a fusion network with both branches; identical pixel-grouped folds."),
+    "m15 Uncertainty": ("m15_uncertainty.ipynb",
+        "How sure is a model estimate, and the recommendation that follows from it?",
+        "Out-of-fold ExtraTrees, a second model for the size of the error, conformal 90 % intervals checked on held-out "
+        "folds, and label probabilities from 200 plausible versions of every cell."),
 }
 choice = st.selectbox("Experiment", list(EXPERIMENTS))
 
@@ -456,3 +460,27 @@ else:
                    "from space.")
         figures("m14_summary", "m14_error_map")
         table("m14_tabular_raw", "All tree runs (model x crop x feature set)")
+
+    elif choice.startswith("m15"):
+        cov, rel, sc = R("m15_coverage"), R("m15_reliability"), R("m15_probability_scores")
+        if cov is None or rel is None:
+            C.no_results_note(nb)
+            st.stop()
+        l, r = st.columns(2)
+        with l:
+            fig = px.bar(cov, x="crop", y="coverage", color="interval", barmode="group", facet_row="inputs", range_y=(0.6, 1),
+                         color_discrete_map={"adaptive": C.PINE, "constant width": C.SAGE}, title="Coverage of the 90 % intervals")
+            fig.add_hline(y=0.9, line_dash="dash", line_color="grey")
+            chart(fig, 480)
+        with r:
+            fig = px.line(rel, x="predicted", y="observed", color="inputs", facet_row="event", markers=True,
+                          title="Reliability of the probabilities", range_x=(0, 1), range_y=(0, 1))
+            chart(fig, 480)
+        if sc is not None:
+            st.dataframe(sc.round(3), hide_index=True, width="stretch")
+        ad = cov[cov["interval"] == "adaptive"].groupby("inputs")[["coverage", "mean width"]].mean()
+        st.caption("Adaptive intervals: " + "; ".join(f"{k}: coverage {v['coverage']:.0%}, mean width {v['mean width']:,.0f}"
+                                                   for k, v in ad.iterrows())
+                   + ". The maps are on the Suitability Map page, view 'Uncertainty'.")
+        figures("m15_coverage", "m15_reliability", "m15_maps_rice")
+        table("m15_coverage_by_landcover", "Coverage by land cover")

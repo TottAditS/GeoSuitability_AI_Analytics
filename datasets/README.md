@@ -38,7 +38,7 @@ The files in `raw/gaez_v5/` are GAEZ v5's 5 arc-minute version (~9 km): only 164
 30 arc-seconds (`MAPSET/RES05-SXX30AS`, `MAPSET/RES05-SIX30AS`), with the same scenario (HP0120, AgERA5, HIST,
 HILM). `scripts/preprocessing/12_gaez_v5_1km.ipynb` reads only the Banten window of these Cloud-Optimized GeoTIFFs
 over HTTP, keeps the clips in `raw/gaez_v5_30as/` and adds `gaez1k_index_<crop>` / `gaez1k_class_<crop>` to the fact
-table, plus rain-fed audit columns (`*_rainfed`) for the first four crops as at ~9 km. The 1 km class legend differs
+table, plus rain-fed audit columns (`*_rainfed`) for every crop, as at ~9 km (notebooks 07 and 13). The 1 km class legend differs
 from the ~9 km one: 1-8 are the suitability classes, 9 = no cropland (land GAEZ leaves out for that crop and scenario)
 and 10 = water. Cells left without a value at 1 km stay empty: 204 for most irrigated crops (181 no cropland, mostly
 under tree cover, and 23 open water); coffee, cacao and the rain-fed columns only miss the 23. The dashboard uses the

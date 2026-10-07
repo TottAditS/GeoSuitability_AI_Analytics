@@ -1,7 +1,7 @@
 setting,family,r2,spearman,rmse
 "HistGB, Sentinel-2 only","trees, per-cell statistics",0.7081,0.8351,1128.2
 "ExtraTrees, Sentinel-2 only","trees, per-cell statistics",0.723,0.8454,1097.5
-"CNN, image patch","neural networks, image patches",0.7638,0.8677,1012.1
+"CNN, image patch","neural networks, image patches",0.7638,0.8677,1012
 "MLP, 14 drivers","neural networks, image patches",0.7886,0.8866,948.85
 "HistGB, 14 drivers","trees, per-cell statistics",0.8047,0.896,909.72
 "ExtraTrees, 14 drivers","trees, per-cell statistics",0.8191,0.9006,876.43

@@ -1,0 +1,3 @@
+inputs,accuracy of the most likely label,accuracy of the point-estimate label,Brier score (labels),mean probability of the true label,"Brier score (suitable, per crop)"
+drivers,0.8194,0.8142,0.2522,0.7451,0.0475
+drivers + Sentinel-2,0.8279,0.823,0.2447,0.7582,0.0424

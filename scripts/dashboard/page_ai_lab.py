@@ -11,7 +11,9 @@ df = C.load_data()
 CROP_NAMES = [C.CROP_LABELS[c] for c in C.CROPS]
 
 C.page_header("AI · interactive", "AI Lab", "Try the models yourself. Every model here predicts the ten GAEZ suitability indices of a 1 km cell from its "
-           "14 physical drivers (climate, soil, terrain), at the GAEZ resolution chosen in the sidebar; the deep-learning playground trains a neural network live.")
+           "14 physical drivers (climate, soil, terrain), optionally with the Sentinel-2 statistics of the cell, at the GAEZ "
+           "resolution chosen in the sidebar; the deep-learning playground trains a neural network live, including the "
+           "image-patch fusion network of m14.")
 
 SECTIONS = ["Predict a location", "What-if simulator", "Model arena", "Deep learning playground"]
 section = st.segmented_control("Section", SECTIONS, default=SECTIONS[0], key="ai_section") or SECTIONS[0]
@@ -50,6 +52,14 @@ def locator(row, height=330):
     return fig
 
 
+def input_picker(key):
+    options = A.available_inputs()
+    return st.segmented_control("Model inputs", options, default=options[-1], key=key,
+                                help="Sentinel-2 adds the observed land surface (vegetation, moisture, built-up land) of "
+                                     "2020-2024 to the 14 physical drivers; m14 shows it raises the honest R² from 0.82 "
+                                     "to 0.87.") or options[-1]
+
+
 def rule_label(pred_row) -> str:
     """The sidebar recommendation rule applied to one row of predicted indices (percentiles against all of Banten)."""
     group, ranking = C.rule()
@@ -60,8 +70,9 @@ def rule_label(pred_row) -> str:
 # ------------------------------------------------------------------------------------------- predict
 if section == "Predict a location":
     row = cell_picker()
-    bundle = A.get_models(C.gaez_res())
-    x = row[A.FEATURES].to_numpy(float)
+    inputs = input_picker("ai_inputs")
+    bundle = A.get_models(C.gaez_res(), inputs)
+    x = row[bundle["features"]].to_numpy(float)
     preds = A.predict_all(bundle, x)
 
     l, r = st.columns([1, 1.3])
@@ -81,7 +92,8 @@ if section == "Predict a location":
         if honest:
             t = A.E.load_table(complete=False)
             pr = t.loc[t["grid_id"] == row["grid_id"], ["pix_row", "pix_col"]].iloc[0]
-            ho = A.heldout_prediction(int(pr["pix_row"]), int(pr["pix_col"]), tuple(float(v) for v in x), C.gaez_res())
+            ho = A.heldout_prediction(int(pr["pix_row"]), int(pr["pix_col"]), tuple(float(v) for v in x), C.gaez_res(),
+                                      inputs)
             preds["ExtraTrees (held out)"] = ho[None]
             rows += [{"crop": n, "source": "ExtraTrees (held out)", "index": v} for n, v in zip(CROP_NAMES, ho)]
         for c in C.GCS_CROPS:
@@ -100,14 +112,54 @@ if section == "Predict a location":
     st.dataframe(tab.round(0), width="stretch")
     st.dataframe(pd.Series(labels, name="recommendation (the rule applied to each column)").to_frame(), width="stretch")
 
+    C.section("How sure is the model?", "90 % interval and label probabilities from held-out errors (notebook m15)")
+    unc = C.load_uncertainty()
+    if unc is None:
+        C.no_results_note("m15_uncertainty.ipynb")
+    elif C.gaez_res() != "1 km":
+        st.info("The uncertainty estimates (m15) belong to the 1 km target: switch the GAEZ resolution to 1 km in the sidebar.")
+    else:
+        tag = C.UNCERTAINTY_INPUTS.get(inputs, "drivers")
+        u = unc.loc[row.name]
+        if pd.isna(u[f"{tag}__pred__{C.CROPS[0]}"]):
+            st.info("No uncertainty estimate for this cell: GAEZ leaves it without a 1 km value for some crops.")
+        else:
+            est = np.array([u[f"{tag}__pred__{c}"] for c in C.CROPS])
+            lo = np.array([u[f"{tag}__lo__{c}"] for c in C.CROPS])
+            hi = np.array([u[f"{tag}__hi__{c}"] for c in C.CROPS])
+            ul, ur = st.columns([1.3, 1])
+            fig = go.Figure(go.Bar(x=CROP_NAMES, y=est, name="held-out estimate", marker_color=C.SAGE,
+                                   error_y=dict(type="data", symmetric=False, array=hi - est, arrayminus=est - lo,
+                                                color=C.FOREST, thickness=1.2)))
+            fig.add_trace(go.Scatter(x=CROP_NAMES, y=[row[C.gaez_col(c)] for c in C.CROPS], mode="markers", name="GAEZ (truth)",
+                                     marker=dict(symbol="diamond", size=10, color=C.CLAY)))
+            fig.add_hline(y=C.NOT_RECOMMENDED_THRESHOLD, line_dash="dash", line_color="grey")
+            fig.update_layout(height=380, margin=dict(t=10), yaxis_title="suitability index (0-10,000)",
+                              legend=dict(orientation="h", y=1.08))
+            ul.plotly_chart(fig, width="stretch")
+            probs = pd.Series({C.CROP_LABELS.get(lab, lab): u[f"{tag}__plabel__{lab}"] for lab in C.UNCERTAINTY_LABELS})
+            probs = probs[probs >= 0.005].sort_values()
+            fig = px.bar(probs.rename("probability").rename_axis("label").reset_index(), x="probability", y="label", orientation="h",
+                         color="label", color_discrete_map=C.LABEL_COLORS, height=380, range_x=(0, 1),
+                         text=probs.map("{:.0%}".format).to_numpy())
+            fig.update_layout(showlegend=False, margin=dict(t=10), yaxis_title="", xaxis_title="probability of the recommendation")
+            ur.plotly_chart(fig, width="stretch")
+            st.dataframe(pd.DataFrame({"held-out estimate": est.round(0), "90 % interval": [f"{a:,.0f} - {b:,.0f}" for a, b in zip(lo, hi)],
+                                       "P(index >= 5,000)": [round(u[f"{tag}__psuit__{c}"], 2) for c in C.CROPS]},
+                                      index=CROP_NAMES), width="stretch")
+            st.caption("The estimate comes from ExtraTrees that never saw this cell's ~9 km block; the bars span the 90 % "
+                       "interval calibrated on held-out errors, the diamonds are the true GAEZ values. The probabilities apply "
+                       "the absolute rule (highest index wins, 'Not recommended' below 5,000) to 200 plausible versions of the "
+                       "cell's ten indices.")
+
     C.section("Why does the model say that?")
     crop = st.selectbox("Explain the prediction for", C.CROPS, format_func=C.CROP_LABELS.get)
     contrib, base = A.contributions(bundle, x, crop)
     cd = pd.DataFrame({"feature": contrib.index, "contribution": contrib.values,
-                       "value here": x, "province median": df[A.FEATURES].median().values})
+                       "value here": x, "province median": df[bundle["features"]].median().values})
     cd = cd.reindex(cd["contribution"].abs().sort_values().index)
     cd["effect"] = np.where(cd["contribution"] >= 0, "raises the index", "lowers the index")
-    fig = px.bar(cd, x="contribution", y="feature", orientation="h", color="effect", height=460,
+    fig = px.bar(cd, x="contribution", y="feature", orientation="h", color="effect", height=max(460, 20 * len(cd)),
                  color_discrete_map={"raises the index": C.FERN, "lowers the index": C.CLAY},
                  hover_data={"value here": ":.2f", "province median": ":.2f", "effect": False})
     fig.update_yaxes(categoryorder="array", categoryarray=cd["feature"].tolist())   # largest effect on top
@@ -121,7 +173,7 @@ if section == "Predict a location":
 # ------------------------------------------------------------------------------------------- what-if
 elif section == "What-if simulator":
     row = cell_picker()
-    bundle = A.get_models(C.gaez_res())
+    bundle = A.get_models(C.gaez_res(), "14 drivers")   # what-if = physical conditions; imagery is observed, not set
     if st.session_state.get("wi_from") != row["grid_id"]:
         for f in A.FEATURES:
             v = row[f]
@@ -142,11 +194,20 @@ elif section == "What-if simulator":
     badge = {"typical of Banten": "green", "unusual": "orange"}.get(verdict, "red")
     st.badge(f"This combination is {verdict} (distance to the nearest real cell = {ratio:.1f} x the typical spacing)", color=badge)
     long = pd.DataFrame([{"crop": n, "model": m, "index": v} for m, p in preds.items() for n, v in zip(CROP_NAMES, p[0])])
-    fig = px.bar(long, x="crop", y="index", color="model", barmode="group", height=400)
+    q = C.load_result("m15_quantiles")
+    if q is not None and C.gaez_res() == "1 km":   # 90 % half-widths of ExtraTrees from held-out errors (m15)
+        hw = q[q["inputs"] == "drivers"].set_index("crop")["half_width"]
+        long["90 % half-width"] = [hw[c] if m == "ExtraTrees" else np.nan for m in preds for c in C.CROPS]
+    fig = px.bar(long, x="crop", y="index", color="model", barmode="group", height=400,
+                 error_y="90 % half-width" if "90 % half-width" in long else None)
     fig.add_hline(y=C.NOT_RECOMMENDED_THRESHOLD, line_dash="dash", line_color="grey")
     fig.update_layout(margin=dict(t=10), xaxis_title="", yaxis_title="predicted GAEZ index")
     st.plotly_chart(fig, width="stretch")
     st.dataframe(pd.DataFrame({m: [rule_label(p[0])] for m, p in preds.items()}, index=["recommendation"]), width="stretch")
+    st.caption("The simulator varies the 14 physical drivers, so it uses the models without Sentinel-2 (the imagery is an "
+               "observation of the land, not a condition one can set)."
+               + (" Error bar on ExtraTrees: its 90 % interval from held-out errors (m15), valid for conditions typical of "
+                  "Banten." if "90 % half-width" in long else ""))
     if verdict != "typical of Banten":
         st.warning("Tree models cannot extrapolate: outside the conditions seen in Banten they repeat the nearest known "
                    "answer, while ridge extrapolates linearly. Disagreement between models is a sign not to trust any of them.")
@@ -170,16 +231,18 @@ elif section == "Model arena":
     st.caption("Live cross-validation through the same code as the notebooks (5 folds, one repeat, 4 worker processes). "
                "Compare a random K-fold with spatial schemes to see how much random splits flatter a model.")
     with st.form("arena"):
-        a, b, c = st.columns(3)
+        a, b, c, d = st.columns([1, 1.2, 1, 1])
         crops = a.multiselect("Crops", C.CROPS, default=["rice", "coffee"], format_func=C.CROP_LABELS.get)
         models = b.multiselect("Models", list(A.ARENA_MODELS), default=list(A.ARENA_MODELS), format_func=A.ARENA_MODELS.get)
         schemes = c.multiselect("Validation", ["random", "block10", "pixel"], default=["random", "pixel"],
                                 format_func={"random": "random cells", "block10": "10 km blocks", "pixel": "whole ~9 km GAEZ pixels"}.get)
+        arena_inputs = d.selectbox("Inputs", A.available_inputs())
         go_ = st.form_submit_button("Run cross-validation", type="primary")
     if go_ and crops and models and schemes:
-        st.session_state.arena_args = (tuple(crops), tuple(models), tuple(schemes))
+        st.session_state.arena_args = (tuple(crops), tuple(models), tuple(schemes), arena_inputs)
     if "arena_args" in st.session_state:
-        res = A.arena(*st.session_state.arena_args, C.gaez_res())
+        a_crops, a_models, a_schemes, *a_rest = st.session_state.arena_args
+        res = A.arena(a_crops, a_models, a_schemes, C.gaez_res(), a_rest[0] if a_rest else "14 drivers")
         st.success(f"{len(res)} model x crop x scheme runs in {res['seconds_total'].iloc[0]:.0f} s (cached for this session).")
         mean = res.groupby(["model", "scheme"])[["r2", "rmse", "spearman"]].mean().reset_index()
         fig = px.bar(mean, x="model", y="r2", color="scheme", barmode="group", height=400,
@@ -194,9 +257,14 @@ elif section == "Model arena":
 # ------------------------------------------------------------------------------------------- deep learning
 else:
     st.caption(f"Train a multi-output neural network (PyTorch) on the GAEZ {C.gaez_res()} index (switch in the sidebar): "
-               "80 % of the ~9 km GAEZ pixels for training, the other 20 % held out whole for testing. ExtraTrees on the "
-               "same split is the yardstick. Runs on the GPU if one is available.")
+               "80 % of the ~9 km GAEZ pixels for training, the other 20 % held out whole for testing. ExtraTrees with the "
+               "same information on the same split is the yardstick. Runs on the GPU if one is available.")
+    nets = [k for k in A.NETWORKS if k == "mlp" or A.patches_available()]
     with st.form("dl"):
+        arch = st.selectbox("Network", nets, format_func=A.NETWORKS.get,
+                            help="Fusion = the m14 network: a CNN reads the 25 x 25 Sentinel-2 patch of each cell, an MLP the "
+                                 "14 drivers, and a joint head predicts the ten indices. Its architecture is fixed; epochs, "
+                                 "learning rate, batch size and seed apply.")
         a, b, c, d = st.columns(4)
         depth = a.slider("Hidden layers", 1, 4, 2)
         width = b.select_slider("Units per layer", [16, 32, 64, 128, 256, 512], value=128)
@@ -210,18 +278,22 @@ else:
         seed = st.number_input("Split / initialisation seed", 0, 99, 0)
         go_ = st.form_submit_button("Train network", type="primary")
     if go_:
-        st.session_state.dl_args = ((width,) * depth, act, float(dropout), float(wd), int(epochs), float(lr), int(batch), int(seed))
+        st.session_state.dl_args = (arch, (width,) * depth, act, float(dropout), float(wd), int(epochs), float(lr), int(batch),
+                                    int(seed))
     out = None
     if "dl_args" in st.session_state:
         with st.spinner("Training in a separate worker process (first run also loads PyTorch)..."):
             try:
-                out = A.train_mlp(*st.session_state.dl_args, C.gaez_res())
+                args = st.session_state.dl_args
+                if not isinstance(args[0], str):        # settings from before the network choice existed
+                    args = ("mlp", *args)
+                out = A.train_network(*args, C.gaez_res())
             except Exception as exc:  # noqa: BLE001
                 st.error(f"Training failed: {exc}")
     if out is not None:
         k = st.columns(5)
-        k[0].metric("MLP mean R² (held-out pixels)", f"{out['scores']['MLP'].mean():.3f}", border=True)
-        k[1].metric("ExtraTrees, same split", f"{out['scores']['ExtraTrees'].mean():.3f}", border=True)
+        k[0].metric("Network mean R² (held-out pixels)", f"{out['scores']['Network'].mean():.3f}", border=True)
+        k[1].metric(f"{out['yardstick']}, same split", f"{out['scores'][out['yardstick']].mean():.3f}", border=True)
         k[2].metric("Parameters", f"{out['params']:,}", border=True)
         k[3].metric("Training time", f"{out['seconds']:.1f} s", border=True)
         k[4].metric("Device", out["device"].upper(), border=True)
@@ -237,8 +309,8 @@ else:
         crop = st.selectbox("Predicted vs true for", C.CROPS, format_func=C.CROP_LABELS.get, key="dl_crop")
         s = out["sample"]
         l, r = st.columns(2)
-        fig = px.scatter(s, x=f"true_{crop}", y=f"mlp_{crop}", opacity=0.4, height=380,
-                         labels={f"true_{crop}": "GAEZ (truth)", f"mlp_{crop}": "MLP prediction"})
+        fig = px.scatter(s, x=f"true_{crop}", y=f"net_{crop}", opacity=0.4, height=380,
+                         labels={f"true_{crop}": "GAEZ (truth)", f"net_{crop}": "network prediction"})
         fig.add_shape(type="line", x0=0, y0=0, x1=10000, y1=10000, line=dict(dash="dash", color="grey"))
         fig.update_layout(margin=dict(t=10))
         l.plotly_chart(fig, width="stretch")

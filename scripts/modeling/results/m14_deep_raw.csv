@@ -9,23 +9,23 @@ model,crop,r2,rmse,mae,spearman
 "MLP, 14 drivers",coffee,0.80249,1239.3,805.12,0.89538
 "MLP, 14 drivers",cacao,0.79308,956.84,622.12,0.88925
 "MLP, 14 drivers",coconut,0.81372,1405.5,888.79,0.90066
-"CNN, image patch",rice,0.80251,1093.9,769.59,0.88498
-"CNN, image patch",maize,0.7687,484.45,339.79,0.87862
-"CNN, image patch",cassava,0.77696,1295,932.54,0.87584
-"CNN, image patch",soybean,0.74167,698.15,464.65,0.87136
-"CNN, image patch",oilpalm,0.75835,1363.4,990.23,0.86993
-"CNN, image patch",rubber,0.68007,516.56,381.43,0.78892
-"CNN, image patch",sugarcane,0.80021,787.28,572.81,0.88122
-"CNN, image patch",coffee,0.76626,1348.2,976.95,0.87701
-"CNN, image patch",cacao,0.75059,1050.5,769.46,0.86731
-"CNN, image patch",coconut,0.79249,1483.5,1062.5,0.88169
-"Fusion, patch + drivers",rice,0.89298,805.26,499.32,0.93777
+"CNN, image patch",rice,0.80253,1093.8,769.49,0.885
+"CNN, image patch",maize,0.76871,484.44,339.77,0.87862
+"CNN, image patch",cassava,0.77698,1294.9,932.42,0.87586
+"CNN, image patch",soybean,0.74167,698.15,464.61,0.87136
+"CNN, image patch",oilpalm,0.75839,1363.3,990.08,0.86995
+"CNN, image patch",rubber,0.68009,516.55,381.43,0.78894
+"CNN, image patch",sugarcane,0.80026,787.2,572.7,0.88124
+"CNN, image patch",coffee,0.76631,1348,976.77,0.87703
+"CNN, image patch",cacao,0.7506,1050.5,769.4,0.86731
+"CNN, image patch",coconut,0.79254,1483.3,1062.3,0.88173
+"Fusion, patch + drivers",rice,0.89298,805.27,499.32,0.93777
 "Fusion, patch + drivers",maize,0.84577,395.6,246.75,0.92785
-"Fusion, patch + drivers",cassava,0.88667,923.06,604.66,0.93857
-"Fusion, patch + drivers",soybean,0.83411,559.47,330.37,0.92948
-"Fusion, patch + drivers",oilpalm,0.87965,962.21,636.21,0.93552
-"Fusion, patch + drivers",rubber,0.81566,392.11,266.71,0.8799
-"Fusion, patch + drivers",sugarcane,0.89048,582.89,375.91,0.93777
-"Fusion, patch + drivers",coffee,0.88242,956.16,629.43,0.93717
-"Fusion, patch + drivers",cacao,0.86528,772.07,517.42,0.92883
-"Fusion, patch + drivers",coconut,0.8922,1069.2,693.12,0.93975
+"Fusion, patch + drivers",cassava,0.88667,923.07,604.66,0.93856
+"Fusion, patch + drivers",soybean,0.8341,559.48,330.37,0.92948
+"Fusion, patch + drivers",oilpalm,0.87965,962.22,636.22,0.93551
+"Fusion, patch + drivers",rubber,0.81566,392.12,266.71,0.8799
+"Fusion, patch + drivers",sugarcane,0.89048,582.9,375.91,0.93777
+"Fusion, patch + drivers",coffee,0.88242,956.16,629.42,0.93717
+"Fusion, patch + drivers",cacao,0.86528,772.06,517.42,0.92883
+"Fusion, patch + drivers",coconut,0.89219,1069.2,693.13,0.93975

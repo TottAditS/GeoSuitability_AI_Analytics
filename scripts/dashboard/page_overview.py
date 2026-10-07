@@ -14,7 +14,7 @@ C.page_header(
     "GeoSuitability AI",
     "Which crop fits which piece of land? Ten open geodata sources flow through a local **data lake** and "
     "**warehouse** into one table of 9,333 one-kilometre cells, scored for ten crops with GAEZ v5 at 1 km and described by "
-    "Sentinel-2 imagery, and fourteen machine-learning / deep-learning experiments test how far those suitability maps can "
+    "Sentinel-2 imagery, and fifteen machine-learning / deep-learning experiments test how far those suitability maps can "
     "be trusted.",
 )
 
@@ -25,7 +25,7 @@ n_s2 = sum(c.startswith("s2_") for c in df.columns)
 k[2].metric("Table columns", f"{len(C.fact_columns())}", border=True,
             help="tabular_features.csv, one row per cell" + (f" (+ {n_s2} Sentinel-2 columns in a 1:1 table)" if n_s2 else ""))
 k[3].metric("Crops scored", "10 + 6", help="10 crops from GAEZ v5, 6 of them also from GCS 2024", border=True)
-k[4].metric("Experiment tables", f"{len(results)}", help="Result tables written by scripts/modeling m01-m14", border=True)
+k[4].metric("Experiment tables", f"{len(results)}", help="Result tables written by scripts/modeling m01-m15", border=True)
 
 C.section("Crop recommendation", f"{group} · {ranking.lower()} ranking · GAEZ {C.gaez_res()} · colour depth = how suitable the winning crop is")
 left, right = st.columns([1.35, 1])
@@ -93,7 +93,7 @@ guide = [
     ("page_lake.py", "Data Lake & Warehouse", ":material/database:", "Architecture, lake inventory, warehouse schema, table relations, lineage, Spark output, data quality."),
     ("page_eda.py", "Exploratory Analysis", ":material/query_stats:", "Every column profiled: distributions, correlations, relationships, spatial patterns, PCA."),
     ("page_explorer.py", "Data Explorer", ":material/table_view:", "Filter the warehouse table and download exactly what you see."),
-    ("page_experiments.py", "ML/DL Experiments", ":material/science:", "Fourteen modeling notebooks, scored with honest spatial validation."),
+    ("page_experiments.py", "ML/DL Experiments", ":material/science:", "Fifteen modeling notebooks, scored with honest spatial validation."),
     ("page_ai_lab.py", "AI Lab", ":material/smart_toy:", "Predict any cell, what-if sliders, a live model arena and a deep-learning playground."),
 ]
 cols = st.columns(2)

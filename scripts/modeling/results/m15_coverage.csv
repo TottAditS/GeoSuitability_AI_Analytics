@@ -1,0 +1,41 @@
+inputs,interval,crop,coverage,mean width,median width
+drivers,adaptive,rice,0.9,2170.8,1827.3
+drivers,constant width,rice,0.8977,2598,2713.3
+drivers,adaptive,maize,0.8971,1023.8,897.69
+drivers,constant width,maize,0.898,1280.7,1326.6
+drivers,adaptive,cassava,0.8983,2545,2201.2
+drivers,constant width,cassava,0.8979,2970.4,3083
+drivers,adaptive,soybean,0.8997,1341.7,957.14
+drivers,constant width,soybean,0.8977,1530.5,1611.6
+drivers,adaptive,oilpalm,0.8996,2729.9,2430.6
+drivers,constant width,oilpalm,0.8992,3084.6,3194.8
+drivers,adaptive,rubber,0.8982,1117.7,975.11
+drivers,constant width,rubber,0.8985,1209,1248.3
+drivers,adaptive,sugarcane,0.8997,1640.1,1530.7
+drivers,constant width,sugarcane,0.8971,1904.8,1950
+drivers,adaptive,coffee,0.8991,2666,2459.4
+drivers,constant width,coffee,0.8992,3040.9,3228.2
+drivers,adaptive,cacao,0.9005,2235,2066
+drivers,constant width,cacao,0.8992,2529,2644.7
+drivers,adaptive,coconut,0.8988,2783,2563.6
+drivers,constant width,coconut,0.8979,3273.5,3499
+drivers + Sentinel-2,adaptive,rice,0.8994,1958,1679.9
+drivers + Sentinel-2,constant width,rice,0.8994,2348.7,2482.9
+drivers + Sentinel-2,adaptive,maize,0.8982,932.7,828.49
+drivers + Sentinel-2,constant width,maize,0.8982,1146.9,1205
+drivers + Sentinel-2,adaptive,cassava,0.8992,2377.9,2150.3
+drivers + Sentinel-2,constant width,cassava,0.8991,2676.1,2798.3
+drivers + Sentinel-2,adaptive,soybean,0.8986,1233.6,914.24
+drivers + Sentinel-2,constant width,soybean,0.8982,1419.6,1498.7
+drivers + Sentinel-2,adaptive,oilpalm,0.8997,2501.2,2298.1
+drivers + Sentinel-2,constant width,oilpalm,0.898,2821,2939.8
+drivers + Sentinel-2,adaptive,rubber,0.8999,1019.5,895.54
+drivers + Sentinel-2,constant width,rubber,0.8985,1121.2,1144.9
+drivers + Sentinel-2,adaptive,sugarcane,0.9005,1474.3,1385
+drivers + Sentinel-2,constant width,sugarcane,0.8989,1711.4,1743.8
+drivers + Sentinel-2,adaptive,coffee,0.8993,2424.6,2298.7
+drivers + Sentinel-2,constant width,coffee,0.8992,2753.4,2915.7
+drivers + Sentinel-2,adaptive,cacao,0.9004,2029.9,1925.2
+drivers + Sentinel-2,constant width,cacao,0.8991,2283.8,2388.3
+drivers + Sentinel-2,adaptive,coconut,0.8994,2572,2410.5
+drivers + Sentinel-2,constant width,coconut,0.8988,2963.4,3268.7

@@ -233,21 +233,21 @@ elif section == "Categories":
 
 # ----------------------------------------------------------------------------------------------------------
 elif section == "Irrigated vs rain-fed":
-    st.caption("The warehouse keeps GAEZ's rain-fed scenario (HRLM) for the first four crops as audit columns at both "
+    st.caption("The warehouse keeps GAEZ's rain-fed scenario (HRLM) of every crop as audit columns at both "
                "resolutions; the dashboard and all models use the irrigated high-input scenario (HILM). Shown at GAEZ "
                f"{C.gaez_res()} (switch in the sidebar).")
-    four = ["rice", "maize", "cassava", "soybean"]
-    irr = {c: C.gaez_col(c) for c in four}
-    rf = {c: f"{C.gaez_col(c)}_rainfed" for c in four}
-    means = pd.DataFrame({"irrigated (used)": [df[irr[c]].mean() for c in four],
-                          "rain-fed (audit)": [df[rf[c]].mean() for c in four]},
-                         index=[C.CROP_LABELS[c] for c in four])
+    rf_crops = [c for c in C.CROPS if f"{C.gaez_col(c)}_rainfed" in df.columns]   # crops with a rain-fed audit column
+    irr = {c: C.gaez_col(c) for c in rf_crops}
+    rf = {c: f"{C.gaez_col(c)}_rainfed" for c in rf_crops}
+    means = pd.DataFrame({"irrigated (used)": [df[irr[c]].mean() for c in rf_crops],
+                          "rain-fed (audit)": [df[rf[c]].mean() for c in rf_crops]},
+                         index=[C.CROP_LABELS[c] for c in rf_crops])
     l, r = st.columns(2)
     fig = px.bar(means.reset_index(names="crop").melt(id_vars="crop", var_name="scenario", value_name="mean index"),
                  x="crop", y="mean index", color="scenario", barmode="group", height=380)
     fig.update_layout(margin=dict(t=10), xaxis_title="")
     l.plotly_chart(fig, width="stretch")
-    crop = r.selectbox("Crop", four, format_func=C.CROP_LABELS.get)
+    crop = r.selectbox("Crop", rf_crops, format_func=C.CROP_LABELS.get)
     fig = px.density_heatmap(df, x=rf[crop], y=irr[crop], nbinsx=40, nbinsy=40, height=330,
                              color_continuous_scale=C.SEQ, labels={rf[crop]: "rain-fed", irr[crop]: "irrigated"})
     fig.update_layout(margin=dict(t=10))
@@ -257,14 +257,14 @@ elif section == "Irrigated vs rain-fed":
                     width="stretch")
     win = {}
     for scen, cols in [("irrigated", irr), ("rain-fed", rf)]:
-        sc = df[[cols[c] for c in four]].to_numpy(float)
+        sc = df[[cols[c] for c in rf_crops]].to_numpy(float)
         empty = np.isnan(sc).all(axis=1)
         sc = np.nan_to_num(sc, nan=-1.0)  # a crop without a value cannot win the cell
-        lab = np.array([C.CROP_LABELS[four[i]] for i in sc.argmax(axis=1)], dtype=object)
+        lab = np.array([C.CROP_LABELS[rf_crops[i]] for i in sc.argmax(axis=1)], dtype=object)
         lab[sc.max(axis=1) < C.NOT_RECOMMENDED_THRESHOLD] = "Not recommended"
         lab[empty] = "No cropland / water"
         win[scen] = pd.Series(lab).value_counts()
-    st.markdown("**Four-crop recommendation under each scenario** (cells)")
+    st.markdown(f"**Recommendation among these {len(rf_crops)} crops under each scenario** (cells, absolute rule)")
     st.dataframe(pd.DataFrame(win).fillna(0).astype(int), width="stretch")
 
 # ----------------------------------------------------------------------------------------------------------

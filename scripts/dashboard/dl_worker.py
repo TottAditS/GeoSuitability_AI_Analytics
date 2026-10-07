@@ -1,11 +1,14 @@
-"""Deep-learning playground worker: trains one MLP in its own process and prints the result as JSON.
+"""Deep-learning playground worker: trains one network in its own process and prints the result as JSON.
+
+Two networks: an MLP on the 14 physical drivers (architecture from the playground sliders) or the m14 fusion network
+(exp_torch.FusionNet: a CNN on the Sentinel-2 image patch of each cell joined with the drivers).
 
 Why a separate process: PyTorch ships its own OpenMP runtime (libiomp5md.dll) while numpy's multithreaded BLAS in this
 environment uses another one (libomp.dll). In a single long-lived process (the dashboard runs correlations, PCA and
 regressions) whichever loads second fails - "WinError 127 ... shm.dll" or "OMP: Error #15". Here torch is the first
 import and nothing in the worker uses multithreaded BLAS, so the two never meet.
 
-Usage (called by ai_models.train_mlp):  python dl_worker.py '<json arguments>'
+Usage (called by ai_models.train_network):  python dl_worker.py '<json arguments>'
 """
 import torch  # noqa: I001  - must stay the first import (see above)
 
@@ -33,6 +36,8 @@ def main(args: dict) -> dict:
     t = t[t[targets].notna().all(axis=1)].reset_index(drop=True)   # 1 km: GAEZ leaves no-cropland cells empty
     tr, te = E.make_splits(t, "pixel", 5, seed=seed)[0]
     X, Y = t[features].to_numpy(float), t[targets].to_numpy(float)
+    if args.get("arch") == "fusion":
+        return fusion(args, t, X, Y, tr, te, crops, seed)
     med = np.nanmedian(X[tr], axis=0)
     X = np.where(np.isnan(X), med, X)
     mu, sd = X[tr].mean(0), X[tr].std(0) + 1e-9
@@ -78,19 +83,45 @@ def main(args: dict) -> dict:
     et.fit(X[tr], (Y[tr] - ymu) / ysd)
     et_pred = np.clip(et.predict(X[te]) * ysd + ymu, 0, 10000)
 
-    def r2(a, b):
-        return (1 - ((a - b) ** 2).sum(0) / ((a - a.mean(0)) ** 2).sum(0)).tolist()
+    return package(hist, pred, et_pred, Y, t, te, crops, secs, int(sum(p.numel() for p in net.parameters())), len(tr),
+                   "ExtraTrees, 14 drivers")
 
+
+def fusion(args, t, X, Y, tr, te, crops, seed):
+    """The m14 fusion network on one pixel-grouped fold; the yardstick is ExtraTrees on the drivers plus the Sentinel-2
+    cell statistics, i.e. the same information in tabular form."""
+    P = T.load_patch_composite(t["grid_id"])
+    t0 = time.perf_counter()
+    pred, hist = T.fit_predict_fusion(P, X, Y, tr, te, seed=seed, epochs=args["epochs"], batch=args["batch"], lr=args["lr"],
+                                      track=True)
+    secs = time.perf_counter() - t0
+    params = int(sum(p.numel() for p in T.FusionNet(n_drivers=X.shape[1], n_out=Y.shape[1]).parameters()))
+
+    from sklearn.ensemble import ExtraTreesRegressor
+    Xs2 = t[E.feature_columns() + E.FEATURE_GROUPS["sentinel2"]].to_numpy(float)
+    med = np.nanmedian(Xs2[tr], axis=0)
+    Xs2 = np.where(np.isnan(Xs2), med, Xs2)
+    ymu, ysd = Y[tr].mean(0), Y[tr].std(0) + 1e-9
+    et = ExtraTreesRegressor(100, min_samples_leaf=3, max_features=0.7, n_jobs=args.get("n_threads", 4), random_state=0)
+    et.fit(Xs2[tr], (Y[tr] - ymu) / ysd)
+    et_pred = np.clip(et.predict(Xs2[te]) * ysd + ymu, 0, 10000)
+    return package(hist, pred, et_pred, Y, t, te, crops, secs, params, len(tr), "ExtraTrees, drivers + Sentinel-2")
+
+
+def r2(a, b):
+    return (1 - ((a - b) ** 2).sum(0) / ((a - a.mean(0)) ** 2).sum(0)).tolist()
+
+
+def package(hist, pred, et_pred, Y, t, te, crops, secs, params, n_train, yardstick):
     rng = np.random.default_rng(0)
     pick = rng.choice(len(te), size=min(1500, len(te)), replace=False)
     sample = {"grid_id": t["grid_id"].to_numpy()[te][pick].tolist()}
     for j, c in enumerate(crops):
         sample[f"true_{c}"] = Y[te][pick, j].tolist()
-        sample[f"mlp_{c}"] = pred[pick, j].tolist()
-    return {"history": hist, "scores": {"crop": crops, "MLP": r2(Y[te], pred), "ExtraTrees": r2(Y[te], et_pred)},
-            "seconds": secs, "device": str(dev), "params": int(sum(p.numel() for p in net.parameters())),
-            "n_train": int(len(tr)), "n_test": int(len(te)), "test_ids": t["grid_id"].to_numpy()[te].tolist(),
-            "sample": sample}
+        sample[f"net_{c}"] = pred[pick, j].tolist()
+    return {"history": hist, "scores": {"crop": crops, "Network": r2(Y[te], pred), yardstick: r2(Y[te], et_pred)},
+            "yardstick": yardstick, "seconds": secs, "device": str(T.DEVICE), "params": params, "n_train": int(n_train),
+            "n_test": int(len(te)), "test_ids": t["grid_id"].to_numpy()[te].tolist(), "sample": sample}
 
 
 if __name__ == "__main__":

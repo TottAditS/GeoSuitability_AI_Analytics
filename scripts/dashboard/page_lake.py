@@ -51,7 +51,7 @@ digraph G {
     gcs [label="gcs2024_zonal_stats.csv"]; s2m [label="Sentinel-2 mosaics\\n(2020-2024)"]; spark [label="spark_output\\n(Parquet)"];
     s2c [label="sentinel2_cell_stats.csv\\n(1:1 with the fact table)"]; s2p [label="sentinel2_patches/*.npy\\n(25 x 25 px per cell)"]; }
   subgraph cluster_use { label="Consumers"; style=dashed; color=grey; node [fillcolor="#F5F2E6"];
-    dash [label="Streamlit dashboard"]; ml [label="ML / DL experiments\\nscripts/modeling m01-m14"]; oof [label="experiments/*.parquet\\n(out-of-fold predictions)"]; }
+    dash [label="Streamlit dashboard"]; ml [label="ML / DL experiments\\nscripts/modeling m01-m15"]; oof [label="experiments/*.parquet\\n(out-of-fold predictions)"]; }
   {s1 s2 s3 s4 s5 s6 s7 s8 s9 s10} -> ing -> lake;
   lake -> p1; lake -> p2 -> s2m; lake -> p3 -> grid; lake -> p4; grid -> p4 -> fact;
   lake -> p7 -> fact; lake -> p12 -> fact; lake -> p9 -> gcs -> fact; fact -> p6 -> spark; grid -> p6; s2m -> p11;
@@ -163,7 +163,7 @@ digraph ER {{
     <tr><td align="left">PK grid_id</td></tr><tr><td align="left">row, col</td></tr><tr><td align="left">lon, lat</td></tr><tr><td align="left">geometry (EPSG:32748)</td></tr></table>>];
   fact [label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="#B5D19F"><b>tabular_features.csv</b> (fact)</td></tr>
     <tr><td align="left">PK/FK grid_id</td></tr><tr><td align="left">climate (5), soil (7 + 7 raw), terrain (2)</td></tr>
-    <tr><td align="left">land cover (2), soil flag</td></tr><tr><td align="left">GAEZ ~9 km index + class (20 + 8 rain-fed)</td></tr><tr><td align="left">GAEZ 1 km index + class (20 + 8 rain-fed)</td></tr><tr><td align="left">GCS 2024 (6)</td></tr></table>>];
+    <tr><td align="left">land cover (2), soil flag</td></tr><tr><td align="left">GAEZ ~9 km index + class (20 + 20 rain-fed)</td></tr><tr><td align="left">GAEZ 1 km index + class (20 + 20 rain-fed)</td></tr><tr><td align="left">GCS 2024 (6)</td></tr></table>>];
   gcs [label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="#EEF2E8"><b>gcs2024_zonal_stats.csv</b></td></tr>
     <tr><td align="left">FK grid_id</td></tr><tr><td align="left">gcs2024_* (6 crops)</td></tr></table>>];
   g1k [label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="#EEF2E8"><b>gaez1k_zonal_stats.csv</b></td></tr>

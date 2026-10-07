@@ -1,4 +1,5 @@
-"""PyTorch models for the surrogate experiments (tabular MLP, grid CNN). Runs on the GPU when there is one.
+"""PyTorch models for the surrogate experiments (tabular MLP, grid CNN, Sentinel-2 patch CNN and fusion network).
+Runs on the GPU when there is one.
 
 `import torch` stays first: on Windows, importing shap before torch breaks torch's DLL loading.
 """
@@ -273,3 +274,104 @@ def cv_grid(df, targets: dict[str, np.ndarray], cfg: dict | None = None, scheme:
     out = pd.DataFrame(rows)
     out["fit_seconds"] = (time.perf_counter() - t0) / max(n_repeats, 1)
     return out, np.stack(oofs)
+
+
+# ----------------------------------------------------------------------------------------------------------------
+# Sentinel-2 image patches: CNN branch and fusion with the drivers (m14, the AI Lab deep-learning playground)
+# ----------------------------------------------------------------------------------------------------------------
+def load_patch_composite(grid_ids, years=range(2020, 2025)) -> np.ndarray:
+    """Five-year Sentinel-2 composite patch per cell, (n, 10, 25, 25): the 9 band means of every 4 x 4 block weighted by
+    the share of cloud-free pixels behind it, plus that share averaged over the years. Rows follow `grid_ids`; notebook 11
+    wrote the yearly arrays in the row order of tabular_features.csv."""
+    import pandas as pd
+
+    order = pd.read_csv(E.FEATURES_CSV, usecols=["grid_id"])["grid_id"]
+    pos = pd.Series(np.arange(len(order)), index=order).loc[list(grid_ids)].to_numpy()
+    num = den = None
+    for y in years:
+        a = np.load(E.S2_PATCH_DIR / f"patches_{y}.npy", mmap_mode="r")[pos].astype(np.float32)
+        w = a[:, 9:10]
+        num = a[:, :9] * w if num is None else num + a[:, :9] * w
+        den = w if den is None else den + w
+    return np.concatenate([num / np.maximum(den, 1e-6), den / len(years)], axis=1)
+
+
+class PatchCNN(nn.Module):
+    """Three 3 x 3 convolution blocks (25 -> 13 -> 7 px) and global average pooling: one 64-d vector per patch."""
+
+    def __init__(self, c_in=10, width=32, d_out=64):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(c_in, width, 3, padding=1), nn.BatchNorm2d(width), nn.SiLU(),
+            nn.Conv2d(width, 2 * width, 3, stride=2, padding=1), nn.BatchNorm2d(2 * width), nn.SiLU(),
+            nn.Conv2d(2 * width, d_out, 3, stride=2, padding=1), nn.BatchNorm2d(d_out), nn.SiLU(),
+            nn.AdaptiveAvgPool2d(1), nn.Flatten())
+
+    def forward(self, p):
+        return self.net(p)
+
+
+class FusionNet(nn.Module):
+    """Patch branch, driver branch or both, joined before a small multi-output head (the ten GAEZ indices)."""
+
+    def __init__(self, use_patch=True, use_drivers=True, n_drivers=14, n_out=10):
+        super().__init__()
+        self.cnn = PatchCNN() if use_patch else None
+        self.mlp = nn.Sequential(nn.Linear(n_drivers, 128), nn.SiLU(), nn.Linear(128, 64), nn.SiLU()) if use_drivers else None
+        self.head = nn.Sequential(nn.Dropout(0.1), nn.Linear(64 * (use_patch + use_drivers), 64), nn.SiLU(), nn.Linear(64, n_out))
+
+    def forward(self, p, x):
+        parts = ([self.cnn(p)] if self.cnn is not None else []) + ([self.mlp(x)] if self.mlp is not None else [])
+        return self.head(torch.cat(parts, dim=1))
+
+
+def fit_predict_fusion(P, X, Y, tr, te, use_patch=True, use_drivers=True, seed=0, epochs=40, batch=256, lr=2e-3,
+                       track=False):
+    """Train a FusionNet on the rows `tr` and predict the rows `te` (0-10,000 scale). P: patches (n, 10, 25, 25), X: drivers
+    (n, d), Y: targets (n, k). Inputs, patches and targets are standardised with training statistics only; patches are
+    flipped at random during training (orientation does not matter for suitability). track=True also returns the
+    per-epoch training and validation loss (MSE on z-scored targets)."""
+    import torch.nn.functional as F
+
+    torch.manual_seed(seed)
+    med = np.nanmedian(X[tr], axis=0)
+    Xf = np.where(np.isnan(X), med, X)
+    Xs = (Xf - Xf[tr].mean(0)) / (Xf[tr].std(0) + 1e-9)
+    Ps = (P - P[tr].mean(axis=(0, 2, 3), keepdims=True)) / (P[tr].std(axis=(0, 2, 3), keepdims=True) + 1e-6)
+    ym, ys = Y[tr].mean(0), Y[tr].std(0) + 1e-9
+    to = lambda a: torch.as_tensor(np.ascontiguousarray(a), dtype=torch.float32, device=DEVICE)  # noqa: E731
+    xt, pt, yt = to(Xs[tr]), to(Ps[tr]), to((Y[tr] - ym) / ys)
+    net = FusionNet(use_patch, use_drivers, n_drivers=X.shape[1], n_out=Y.shape[1]).to(DEVICE)
+    opt = torch.optim.AdamW(net.parameters(), lr=lr, weight_decay=1e-4)
+    steps = epochs * int(np.ceil(len(tr) / batch))
+    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=lr, total_steps=steps, pct_start=0.1)
+    gen = torch.Generator(device=DEVICE).manual_seed(seed)
+
+    def predict(rows):
+        net.eval()
+        with torch.no_grad():
+            return torch.cat([net(to(Ps[rows[i:i + 2048]]), to(Xs[rows[i:i + 2048]])) for i in range(0, len(rows), 2048)])
+
+    hist = []
+    for ep in range(epochs):
+        net.train()
+        perm = torch.randperm(len(tr), device=DEVICE, generator=gen)
+        total = 0.0
+        for i in range(0, len(tr), batch):
+            b = perm[i:i + batch]
+            pb = pt[b]
+            if use_patch and torch.rand(1, device=DEVICE, generator=gen).item() < 0.5:
+                pb = pb.flip(-1)
+            if use_patch and torch.rand(1, device=DEVICE, generator=gen).item() < 0.5:
+                pb = pb.flip(-2)
+            loss = F.mse_loss(net(pb, xt[b]), yt[b])
+            opt.zero_grad(set_to_none=True)
+            loss.backward()
+            opt.step()
+            sched.step()
+            total += loss.item() * len(b)
+        if track:
+            val = F.mse_loss(predict(te), to((Y[te] - ym) / ys)).item()
+            hist.append({"epoch": ep + 1, "train loss": total / len(tr), "validation loss": val})
+    pred = np.clip(predict(te).cpu().numpy() * ys + ym, 0, 10000)
+    return (pred, hist) if track else pred

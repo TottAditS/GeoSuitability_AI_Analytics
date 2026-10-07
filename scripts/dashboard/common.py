@@ -567,6 +567,32 @@ def load_oof() -> pd.DataFrame | None:
     return _load_base()[["grid_id"]].merge(pd.read_parquet(path), on="grid_id", how="left")
 
 
+UNCERTAINTY_INPUTS = {"14 drivers + Sentinel-2": "s2", "14 drivers": "drivers"}   # m15 column prefixes
+UNCERTAINTY_LABELS = CROPS + ["Not recommended"]
+
+
+@st.cache_data(show_spinner=False)
+def load_uncertainty() -> pd.DataFrame | None:
+    """Per-cell 90 % prediction intervals, P(suitable) and recommendation-label probabilities of notebook m15, aligned
+    with the warehouse rows (NaN where m15 has no value, i.e. cells without a 1 km target). None if m15 was not run."""
+    path = OOF_DIR / "m15_uncertainty.parquet"
+    if not path.exists():
+        return None
+    return _load_base()[["grid_id"]].merge(pd.read_parquet(path), on="grid_id", how="left")
+
+
+def uncertainty_label(unc: pd.DataFrame, inputs: str) -> tuple[pd.Series, pd.Series]:
+    """Most probable recommendation label per cell (display names) and its probability, under the absolute rule."""
+    tag = UNCERTAINTY_INPUTS[inputs]
+    probs = unc[[f"{tag}__plabel__{lab}" for lab in UNCERTAINTY_LABELS]].to_numpy(float)
+    known = ~np.isnan(probs).any(axis=1)
+    best = np.where(known, np.nan_to_num(probs, nan=-1).argmax(axis=1), 0)
+    names = np.array([CROP_LABELS.get(lab, lab) for lab in UNCERTAINTY_LABELS], dtype=object)[best]
+    names = np.where(known, names, "No cropland / water")
+    pmax = np.where(known, np.nan_to_num(probs, nan=0.0).max(axis=1), np.nan)
+    return pd.Series(names, index=unc.index), pd.Series(pmax, index=unc.index)
+
+
 def crop_values(df: pd.DataFrame, crop: str, source: str) -> pd.Series | None:
     """One crop's suitability (0-10,000 scale) for the rows of df from the chosen source; None if not available."""
     base_index = _load_base().index
