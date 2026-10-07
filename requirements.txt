@@ -9,3 +9,4 @@ rasterstats>=0.21
 seaborn>=0.13
 pyspark>=3.5,<3.6
 apache-sedona[spark]>=1.9,<1.10
+streamlit>=1.38

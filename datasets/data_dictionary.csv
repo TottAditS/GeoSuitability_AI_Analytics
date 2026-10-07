@@ -1,14 +1,14 @@
 dataset,provider,format,structure_type,native_resolution,crs,approx_size,license_notes,local_path
 Administrative boundaries,geoBoundaries / BIG,GeoJSON,semi-structured,vector (admin polygons),EPSG:4326,16 MB,Open,datasets/raw/boundaries/
 CHIRPS precipitation,UCSB Climate Hazards Center,GeoTIFF,semi-structured,~5 km,EPSG:4326,3.3 GB,Public domain (cite CHC),datasets/raw/chirps/
-CropSuite suitability,Zenodo (CropSuite model),GeoTIFF,semi-structured,variable by crop,EPSG:4326,1.2 GB,Open (CC),datasets/raw/cropsuite/
+CropSuite suitability,Zenodo (CropSuite model),PNG (rendered maps - no georeferencing; not GeoTIFF despite original plan),unstructured,variable by crop,none (not georeferenced),1.2 GB,"Open (CC); qualitative comparison only - confirmed not usable for zonal statistics (0 of 2820 files are rasters)",datasets/raw/cropsuite/
 Copernicus DEM,Copernicus / ESA,GeoTIFF,semi-structured,30 m,EPSG:4326,57 MB,Open,datasets/raw/dem/
-GAEZ v5 suitability (class + index),FAO / IIASA,GeoTIFF,semi-structured,~9 km,EPSG:4326,14 MB,Open (FAO terms),datasets/raw/gaez_v5/
-Global Crop Suitability 2024,Zenodo,GeoTIFF,semi-structured,~1 km,EPSG:4326,3.2 GB,Open (CC),datasets/raw/global_crop_suitability_2024/
+GAEZ v5 suitability (class + index),FAO / IIASA,GeoTIFF,semi-structured,~9 km,EPSG:4326,39 MB,"Open (FAO terms); 10 crops (rice/maize/cassava/soybean/oilpalm/rubber/sugarcane/coffee/cacao/coconut), all HILM (irrigated, high input) - originally 4 crops on HRLM (rain-fed), see scripts/preprocessing/07_fix_gaez_irrigated_scenario.ipynb and 08_expand_gaez_crops.ipynb",datasets/raw/gaez_v5/
+Global Crop Suitability 2024,Zenodo,GeoTIFF,semi-structured,~1 km,EPSG:4326,3.2 GB,"Open (CC); 6 crops (rice/maize/cassava/soybean/oilpalm/sugarcane) clipped to Banten and zonal-statted as an independent cross-validation source for GAEZ - see scripts/preprocessing/09_crossvalidate_global_crop_suitability.ipynb and 10_gcs2024_zonal_stats_and_compare.ipynb",datasets/raw/global_crop_suitability_2024/
 Sentinel-2 L2A imagery,Copernicus (via Google Earth Engine export),GeoTIFF (raw spectral bands),unstructured,10 m,EPSG:32748,16 GB,Open (Copernicus terms),datasets/raw/sentinel2gee/
 SoilGrids 2.0,ISRIC,GeoTIFF,semi-structured,250 m,Homolosine (reprojected on clip),1.3 MB (clipped to AOI),Open Database License (ODbL),datasets/raw/soilgrids/
 WorldClim v2.1 bioclimatic variables,WorldClim,GeoTIFF,semi-structured,~1 km (30 arc-sec),EPSG:4326,1.3 GB,Open (cite),datasets/raw/worldclim/
 ESA WorldCover land cover,ESA,GeoTIFF,semi-structured,10 m,EPSG:4326,69 MB,CC BY 4.0,datasets/raw/worldcover/
 1km analysis grid (derived),This project (ETL output),GeoPackage,semi-structured,1 km,EPSG:32748,2.4 MB,Derived/internal,datasets/processed/grid/grid_1km.gpkg
 Sentinel-2 annual mosaics (derived),This project (ETL output),GeoTIFF,unstructured (pixel content),10 m,EPSG:32748,9.9 GB,Derived/internal,datasets/processed/sentinel2/
-Tabular feature table (derived),This project (ETL output),CSV,structured,1 km grid cell,EPSG:32748 (grid) / EPSG:4326 (lon/lat cols),3.3 MB,Derived/internal,datasets/processed/features/tabular_features.csv
+Tabular feature table (derived),This project (ETL output),CSV,structured,1 km grid cell,EPSG:32748 (grid) / EPSG:4326 (lon/lat cols),"5.4 MB (63 cols: original 29 + 8 gaez_*_rainfed audit cols + 20 gaez_* cols for 6 new crops + 6 gcs2024_* cross-validation cols)",Derived/internal,datasets/processed/features/tabular_features.csv
