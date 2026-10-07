@@ -1,0 +1,5 @@
+algorithm,silhouette,calinski_harabasz,davies_bouldin,neighbour_agreement,connected_patches,ARI_vs_label,NMI_vs_label,NMI_vs_top_crop
+kmeans,0.3033,4378.6,1.1835,0.9537,52,0.1566,0.223,0.3945
+gmm,0.1916,2875.5,1.6633,0.9601,49,0.2106,0.262,0.3544
+ward,0.2798,4048.6,1.3209,0.9638,36,0.1433,0.2107,0.402
+ward + spatial,0.2732,3798.7,1.1976,0.973,15,0.1775,0.2472,0.4253

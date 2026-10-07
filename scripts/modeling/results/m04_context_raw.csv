@@ -1,0 +1,321 @@
+target,model,scheme,repeat,fit_seconds,n_train_mean,r2,rmse,mae,spearman,feature_set
+rice,ridge,pixel,0,0.11673,7466.4,0.62362,1413.6,1051.4,0.78005,point (base)
+rice,ridge,pixel,1,0.09764,7466.4,0.63228,1397.3,1043.7,0.78331,point (base)
+rice,hgb,pixel,0,0.79426,7466.4,0.83354,940.1,632.6,0.91101,point (base)
+rice,hgb,pixel,1,0.79898,7466.4,0.84694,901.48,612.01,0.91225,point (base)
+maize,ridge,pixel,0,0.10574,7466.4,0.59549,577.84,437.49,0.76767,point (base)
+maize,ridge,pixel,1,0.12571,7466.4,0.59425,578.72,440.26,0.76466,point (base)
+maize,hgb,pixel,0,0.84084,7466.4,0.80294,403.31,269.5,0.90067,point (base)
+maize,hgb,pixel,1,0.84594,7466.4,0.81413,391.69,265.33,0.89659,point (base)
+cassava,ridge,pixel,0,0.092615,7466.4,0.56164,1628.9,1226.1,0.74406,point (base)
+cassava,ridge,pixel,1,0.087091,7466.4,0.57643,1601.2,1199.5,0.75204,point (base)
+cassava,hgb,pixel,0,0.85679,7466.4,0.8189,1047,725.53,0.90286,point (base)
+cassava,hgb,pixel,1,0.81628,7466.4,0.84067,982.05,701.79,0.90838,point (base)
+soybean,ridge,pixel,0,0.098457,7466.4,0.57846,781.22,559.7,0.78629,point (base)
+soybean,ridge,pixel,1,0.090248,7466.4,0.56137,796.89,564.05,0.78066,point (base)
+soybean,hgb,pixel,0,0.82884,7466.4,0.81704,514.68,343.61,0.89783,point (base)
+soybean,hgb,pixel,1,0.82867,7466.4,0.81587,516.32,347.36,0.8938,point (base)
+oilpalm,ridge,pixel,0,0.10882,7466.4,0.54535,1634,1247.4,0.72669,point (base)
+oilpalm,ridge,pixel,1,0.10867,7466.4,0.56074,1606.2,1215.7,0.73693,point (base)
+oilpalm,hgb,pixel,0,0.8284,7466.4,0.80194,1078.5,761.42,0.8931,point (base)
+oilpalm,hgb,pixel,1,0.79037,7466.4,0.82049,1026.8,739.89,0.90165,point (base)
+rubber,ridge,pixel,0,0.12975,7466.4,0.35936,613.96,460.65,0.58488,point (base)
+rubber,ridge,pixel,1,0.1205,7466.4,0.37262,607.57,456.29,0.60049,point (base)
+rubber,hgb,pixel,0,0.82971,7466.4,0.72841,399.75,285.51,0.8466,point (base)
+rubber,hgb,pixel,1,0.81618,7466.4,0.72332,403.48,295.43,0.84392,point (base)
+sugarcane,ridge,pixel,0,0.085501,7466.4,0.61421,992.12,751.77,0.77823,point (base)
+sugarcane,ridge,pixel,1,0.10146,7466.4,0.63725,962.03,727.54,0.78958,point (base)
+sugarcane,hgb,pixel,0,0.82956,7466.4,0.81418,688.55,484.19,0.89558,point (base)
+sugarcane,hgb,pixel,1,0.82941,7466.4,0.8224,673.14,478.72,0.89409,point (base)
+coffee,ridge,pixel,0,0.09782,7466.4,0.53787,1526.3,1150.3,0.74301,point (base)
+coffee,ridge,pixel,1,0.093903,7466.4,0.53994,1522.9,1144.8,0.74177,point (base)
+coffee,hgb,pixel,0,0.84141,7466.4,0.80348,995.31,711.05,0.89839,point (base)
+coffee,hgb,pixel,1,0.82377,7466.4,0.81677,961.06,691.12,0.90016,point (base)
+cacao,ridge,pixel,0,0.10099,7466.4,0.58331,1065.8,815.77,0.75564,point (base)
+cacao,ridge,pixel,1,0.10798,7466.4,0.5837,1065.3,807.32,0.7556,point (base)
+cacao,hgb,pixel,0,0.8274,7466.4,0.76639,798,571.39,0.877,point (base)
+cacao,hgb,pixel,1,0.81787,7466.4,0.76976,792.23,566.67,0.87809,point (base)
+coconut,ridge,pixel,0,0.090406,7466.4,0.63672,1798.9,1331.3,0.78757,point (base)
+coconut,ridge,pixel,1,0.11466,7466.4,0.64493,1778.4,1327.7,0.7876,point (base)
+coconut,hgb,pixel,0,0.74712,7466.4,0.83069,1228.1,858.36,0.90558,point (base)
+coconut,hgb,pixel,1,0.73183,7466.4,0.84133,1188.8,833.11,0.90585,point (base)
+rice,ridge,pixel,0,0.20642,7466.4,0.64959,1364,1015.2,0.79468,+ focal 3
+rice,ridge,pixel,1,0.18848,7466.4,0.66147,1340.7,1001.7,0.79891,+ focal 3
+rice,hgb,pixel,0,1.1301,7466.4,0.82748,957.06,631.48,0.91037,+ focal 3
+rice,hgb,pixel,1,1.1538,7466.4,0.8452,906.56,606.88,0.91695,+ focal 3
+maize,ridge,pixel,0,0.2191,7466.4,0.61737,561.99,425.41,0.78273,+ focal 3
+maize,ridge,pixel,1,0.21225,7466.4,0.61984,560.17,425.92,0.78101,+ focal 3
+maize,hgb,pixel,0,1.1566,7466.4,0.79448,411.88,270.44,0.8987,+ focal 3
+maize,hgb,pixel,1,1.1443,7466.4,0.81939,386.11,258.34,0.9038,+ focal 3
+cassava,ridge,pixel,0,0.20187,7466.4,0.59382,1568,1178.6,0.76694,+ focal 3
+cassava,ridge,pixel,1,0.1798,7466.4,0.61056,1535.4,1148.6,0.77585,+ focal 3
+cassava,hgb,pixel,0,1.1688,7466.4,0.82576,1027,710.34,0.9086,+ focal 3
+cassava,hgb,pixel,1,1.1596,7466.4,0.84272,975.71,689.38,0.91276,+ focal 3
+soybean,ridge,pixel,0,0.2006,7466.4,0.59913,761.83,544.19,0.80129,+ focal 3
+soybean,ridge,pixel,1,0.20142,7466.4,0.58105,778.81,547.83,0.79719,+ focal 3
+soybean,hgb,pixel,0,1.276,7466.4,0.81921,511.62,335.49,0.90328,+ focal 3
+soybean,hgb,pixel,1,1.2761,7466.4,0.82073,509.45,334.67,0.90218,+ focal 3
+oilpalm,ridge,pixel,0,0.18399,7466.4,0.58108,1568.5,1194.3,0.75835,+ focal 3
+oilpalm,ridge,pixel,1,0.18399,7466.4,0.59877,1535.1,1159.9,0.76859,+ focal 3
+oilpalm,hgb,pixel,0,1.2768,7466.4,0.80544,1068.9,746.55,0.89609,+ focal 3
+oilpalm,hgb,pixel,1,1.2849,7466.4,0.82875,1002.9,717.54,0.90684,+ focal 3
+rubber,ridge,pixel,0,0.23298,7466.4,0.40065,593.84,446.48,0.6389,+ focal 3
+rubber,ridge,pixel,1,0.23095,7466.4,0.41138,588.51,443.38,0.65523,+ focal 3
+rubber,hgb,pixel,0,1.1969,7466.4,0.73223,396.93,280.4,0.84761,+ focal 3
+rubber,hgb,pixel,1,1.193,7466.4,0.72981,398.72,285.41,0.85136,+ focal 3
+sugarcane,ridge,pixel,0,0.18442,7466.4,0.64546,951.09,724.11,0.79711,+ focal 3
+sugarcane,ridge,pixel,1,0.19166,7466.4,0.6702,917.3,698.58,0.80831,+ focal 3
+sugarcane,hgb,pixel,0,1.1309,7466.4,0.81739,682.56,479.46,0.89833,+ focal 3
+sugarcane,hgb,pixel,1,1.1213,7466.4,0.83026,658.08,463.09,0.90166,+ focal 3
+coffee,ridge,pixel,0,0.19092,7466.4,0.56956,1473,1116.7,0.76885,+ focal 3
+coffee,ridge,pixel,1,0.19295,7466.4,0.57754,1459.3,1102.3,0.77142,+ focal 3
+coffee,hgb,pixel,0,1.1532,7466.4,0.80802,983.75,690.7,0.90261,+ focal 3
+coffee,hgb,pixel,1,1.1764,7466.4,0.82476,939.88,675.99,0.90503,+ focal 3
+cacao,ridge,pixel,0,0.19092,7466.4,0.60847,1033.1,789.89,0.78061,+ focal 3
+cacao,ridge,pixel,1,0.21105,7466.4,0.61094,1029.8,780.44,0.77969,+ focal 3
+cacao,hgb,pixel,0,1.113,7466.4,0.77557,782.16,557.47,0.88196,+ focal 3
+cacao,hgb,pixel,1,1.1371,7466.4,0.78474,766.02,544.88,0.88727,+ focal 3
+coconut,ridge,pixel,0,0.20102,7466.4,0.66199,1735.2,1289.5,0.80463,+ focal 3
+coconut,ridge,pixel,1,0.1999,7466.4,0.67387,1704.4,1278.3,0.80587,+ focal 3
+coconut,hgb,pixel,0,1.0137,7466.4,0.82839,1236.4,859.12,0.90763,+ focal 3
+coconut,hgb,pixel,1,0.95558,7466.4,0.84015,1193.3,826.53,0.90923,+ focal 3
+rice,ridge,pixel,0,0.22683,7466.4,0.70803,1245,915.51,0.83035,+ focal 9
+rice,ridge,pixel,1,0.22456,7466.4,0.72027,1218.7,904.43,0.83553,+ focal 9
+rice,hgb,pixel,0,1.2826,7466.4,0.81973,978.33,639.7,0.90691,+ focal 9
+rice,hgb,pixel,1,1.2492,7466.4,0.85135,888.39,588.65,0.92064,+ focal 9
+maize,ridge,pixel,0,0.22623,7466.4,0.663,527.42,398.59,0.81502,+ focal 9
+maize,ridge,pixel,1,0.21809,7466.4,0.66864,522.98,398.23,0.81663,+ focal 9
+maize,hgb,pixel,0,1.2449,7466.4,0.78798,418.33,265.57,0.89595,+ focal 9
+maize,hgb,pixel,1,1.2584,7466.4,0.81842,387.14,249.27,0.90647,+ focal 9
+cassava,ridge,pixel,0,0.21086,7466.4,0.68411,1382.8,1029.6,0.83371,+ focal 9
+cassava,ridge,pixel,1,0.21108,7466.4,0.69845,1351,1007.6,0.84154,+ focal 9
+cassava,hgb,pixel,0,1.1988,7466.4,0.82679,1023.9,697.01,0.91033,+ focal 9
+cassava,hgb,pixel,1,1.215,7466.4,0.84425,970.97,662.03,0.9153,+ focal 9
+soybean,ridge,pixel,0,0.20007,7466.4,0.64602,715.89,506.62,0.83074,+ focal 9
+soybean,ridge,pixel,1,0.19267,7466.4,0.62699,734.87,517.33,0.82697,+ focal 9
+soybean,hgb,pixel,0,1.1179,7466.4,0.79877,539.76,343.46,0.89354,+ focal 9
+soybean,hgb,pixel,1,1.1245,7466.4,0.82328,505.82,326.25,0.90838,+ focal 9
+oilpalm,ridge,pixel,0,0.17779,7466.4,0.68488,1360.4,1010.1,0.84426,+ focal 9
+oilpalm,ridge,pixel,1,0.18935,7466.4,0.69767,1332.5,995.68,0.85099,+ focal 9
+oilpalm,hgb,pixel,0,1.1283,7466.4,0.81638,1038.4,700.71,0.90405,+ focal 9
+oilpalm,hgb,pixel,1,1.1047,7466.4,0.83485,984.86,680.19,0.91109,+ focal 9
+rubber,ridge,pixel,0,0.17701,7466.4,0.55302,512.84,378.28,0.75643,+ focal 9
+rubber,ridge,pixel,1,0.17997,7466.4,0.54582,516.95,386.26,0.75832,+ focal 9
+rubber,hgb,pixel,0,1.1412,7466.4,0.76604,371.02,263.13,0.85722,+ focal 9
+rubber,hgb,pixel,1,1.1123,7466.4,0.7501,383.46,262.14,0.8664,+ focal 9
+sugarcane,ridge,pixel,0,0.17538,7466.4,0.72063,844.25,637.71,0.84501,+ focal 9
+sugarcane,ridge,pixel,1,0.18342,7466.4,0.73845,816.89,619.03,0.85254,+ focal 9
+sugarcane,hgb,pixel,0,1.1185,7466.4,0.80935,697.44,484.64,0.89771,+ focal 9
+sugarcane,hgb,pixel,1,1.1236,7466.4,0.83121,656.23,461.72,0.90264,+ focal 9
+coffee,ridge,pixel,0,0.18156,7466.4,0.65136,1325.7,1010.9,0.82414,+ focal 9
+coffee,ridge,pixel,1,0.18728,7466.4,0.66188,1305.5,1004.6,0.82776,+ focal 9
+coffee,hgb,pixel,0,1.0764,7466.4,0.80201,999.02,696.91,0.90136,+ focal 9
+coffee,hgb,pixel,1,1.1303,7466.4,0.8263,935.73,664.7,0.90705,+ focal 9
+cacao,ridge,pixel,0,0.18208,7466.4,0.67428,942.29,703.67,0.83871,+ focal 9
+cacao,ridge,pixel,1,0.18214,7466.4,0.67383,942.93,701.9,0.83482,+ focal 9
+cacao,hgb,pixel,0,1.0986,7466.4,0.78943,757.62,528.63,0.88969,+ focal 9
+cacao,hgb,pixel,1,1.0485,7466.4,0.79519,747.2,520.41,0.89178,+ focal 9
+coconut,ridge,pixel,0,0.19232,7466.4,0.72294,1570.9,1165.5,0.84225,+ focal 9
+coconut,ridge,pixel,1,0.19401,7466.4,0.73376,1540,1158.8,0.8437,+ focal 9
+coconut,hgb,pixel,0,0.90631,7466.4,0.82592,1245.2,844.8,0.90502,+ focal 9
+coconut,hgb,pixel,1,0.90182,7466.4,0.84997,1156,796.57,0.91291,+ focal 9
+rice,ridge,pixel,0,0.40914,7466.4,0.75594,1138.3,818.5,0.85882,"+ focal 3, 9, 25"
+rice,ridge,pixel,1,0.41218,7466.4,0.7704,1104.1,798.53,0.86691,"+ focal 3, 9, 25"
+rice,hgb,pixel,0,1.8393,7466.4,0.84536,906.12,598.22,0.91564,"+ focal 3, 9, 25"
+rice,hgb,pixel,1,1.8611,7466.4,0.85255,884.78,583.03,0.92266,"+ focal 3, 9, 25"
+maize,ridge,pixel,0,0.41652,7466.4,0.71535,484.72,353.75,0.85018,"+ focal 3, 9, 25"
+maize,ridge,pixel,1,0.40574,7466.4,0.72745,474.31,347.09,0.85899,"+ focal 3, 9, 25"
+maize,hgb,pixel,0,1.8465,7466.4,0.80777,398.34,257.44,0.90463,"+ focal 3, 9, 25"
+maize,hgb,pixel,1,1.8659,7466.4,0.82127,384.1,246.59,0.90925,"+ focal 3, 9, 25"
+cassava,ridge,pixel,0,0.40838,7466.4,0.74311,1247,891.33,0.86768,"+ focal 3, 9, 25"
+cassava,ridge,pixel,1,0.37308,7466.4,0.75285,1223.1,890.53,0.8727,"+ focal 3, 9, 25"
+cassava,hgb,pixel,0,1.8633,7466.4,0.85383,940.64,653.26,0.92166,"+ focal 3, 9, 25"
+cassava,hgb,pixel,1,1.8861,7466.4,0.85387,940.51,642.32,0.92142,"+ focal 3, 9, 25"
+soybean,ridge,pixel,0,0.38876,7466.4,0.68006,680.6,487.83,0.8407,"+ focal 3, 9, 25"
+soybean,ridge,pixel,1,0.39497,7466.4,0.64839,713.49,507.82,0.83297,"+ focal 3, 9, 25"
+soybean,hgb,pixel,0,1.8155,7466.4,0.83138,494.09,321.37,0.90915,"+ focal 3, 9, 25"
+soybean,hgb,pixel,1,1.8377,7466.4,0.83446,489.55,307.76,0.91428,"+ focal 3, 9, 25"
+oilpalm,ridge,pixel,0,0.38164,7466.4,0.73354,1250.9,889.12,0.87134,"+ focal 3, 9, 25"
+oilpalm,ridge,pixel,1,0.39368,7466.4,0.74074,1233.9,897.02,0.87247,"+ focal 3, 9, 25"
+oilpalm,hgb,pixel,0,1.8707,7466.4,0.84286,960.66,672.09,0.91652,"+ focal 3, 9, 25"
+oilpalm,hgb,pixel,1,1.7742,7466.4,0.85091,935.72,648.07,0.92019,"+ focal 3, 9, 25"
+rubber,ridge,pixel,0,0.38601,7466.4,0.64556,456.67,323.33,0.81379,"+ focal 3, 9, 25"
+rubber,ridge,pixel,1,0.37733,7466.4,0.65613,449.81,325.51,0.81736,"+ focal 3, 9, 25"
+rubber,hgb,pixel,0,1.8247,7466.4,0.78953,351.91,249.96,0.87011,"+ focal 3, 9, 25"
+rubber,hgb,pixel,1,1.774,7466.4,0.78507,355.62,245.4,0.87678,"+ focal 3, 9, 25"
+sugarcane,ridge,pixel,0,0.38791,7466.4,0.7485,801.04,594.15,0.85904,"+ focal 3, 9, 25"
+sugarcane,ridge,pixel,1,0.38158,7466.4,0.76279,777.95,575.73,0.86621,"+ focal 3, 9, 25"
+sugarcane,hgb,pixel,0,1.8792,7466.4,0.81231,692.01,482.39,0.89733,"+ focal 3, 9, 25"
+sugarcane,hgb,pixel,1,1.8184,7466.4,0.83518,648.47,447.51,0.90568,"+ focal 3, 9, 25"
+coffee,ridge,pixel,0,0.37499,7466.4,0.69844,1232.9,911.25,0.84739,"+ focal 3, 9, 25"
+coffee,ridge,pixel,1,0.36922,7466.4,0.70921,1210.7,907.22,0.85013,"+ focal 3, 9, 25"
+coffee,hgb,pixel,0,1.8537,7466.4,0.83839,902.59,646.85,0.91261,"+ focal 3, 9, 25"
+coffee,hgb,pixel,1,1.7835,7466.4,0.83512,911.66,639.73,0.90998,"+ focal 3, 9, 25"
+cacao,ridge,pixel,0,0.39002,7466.4,0.69679,909.13,657.19,0.85002,"+ focal 3, 9, 25"
+cacao,ridge,pixel,1,0.37048,7466.4,0.69198,916.31,662.67,0.84478,"+ focal 3, 9, 25"
+cacao,hgb,pixel,0,1.8694,7466.4,0.80309,732.64,520.15,0.89544,"+ focal 3, 9, 25"
+cacao,hgb,pixel,1,1.7105,7466.4,0.80424,730.5,506.75,0.89508,"+ focal 3, 9, 25"
+coconut,ridge,pixel,0,0.3831,7466.4,0.76938,1433.2,1044.6,0.87025,"+ focal 3, 9, 25"
+coconut,ridge,pixel,1,0.35709,7466.4,0.78388,1387.5,1004.1,0.87469,"+ focal 3, 9, 25"
+coconut,hgb,pixel,0,1.4615,7466.4,0.85089,1152.5,790.34,0.91637,"+ focal 3, 9, 25"
+coconut,hgb,pixel,1,1.4417,7466.4,0.84881,1160.5,786.94,0.91533,"+ focal 3, 9, 25"
+rice,ridge,pixel,0,0.81453,7466.4,0.7603,1128.1,823.97,0.85864,+ all focal
+rice,ridge,pixel,1,0.79932,7466.4,0.7695,1106.3,809.05,0.86251,+ all focal
+rice,hgb,pixel,0,3.1602,7466.4,0.83504,935.85,607.24,0.91447,+ all focal
+rice,hgb,pixel,1,3.1837,7466.4,0.85354,881.81,584.78,0.92288,+ all focal
+maize,ridge,pixel,0,0.80721,7466.4,0.73303,469.43,342.47,0.86392,+ all focal
+maize,ridge,pixel,1,0.79785,7466.4,0.73302,469.44,339.74,0.86249,+ all focal
+maize,hgb,pixel,0,3.041,7466.4,0.81447,391.33,252.1,0.90785,+ all focal
+maize,hgb,pixel,1,3.0471,7466.4,0.82051,384.91,245.42,0.90871,+ all focal
+cassava,ridge,pixel,0,0.74353,7466.4,0.7397,1255.2,930.53,0.86104,+ all focal
+cassava,ridge,pixel,1,0.75726,7466.4,0.73904,1256.8,938.76,0.86185,+ all focal
+cassava,hgb,pixel,0,2.9919,7466.4,0.86189,914.34,643.32,0.92478,+ all focal
+cassava,hgb,pixel,1,3.0297,7466.4,0.86078,917.98,629.07,0.92451,+ all focal
+soybean,ridge,pixel,0,0.80598,7466.4,0.67708,683.76,501.35,0.83093,+ all focal
+soybean,ridge,pixel,1,0.7271,7466.4,0.6315,730.42,516.26,0.82235,+ all focal
+soybean,hgb,pixel,0,2.6713,7466.4,0.83399,490.25,320.18,0.90902,+ all focal
+soybean,hgb,pixel,1,2.6462,7466.4,0.84014,481.09,305.73,0.91643,+ all focal
+oilpalm,ridge,pixel,0,0.76342,7466.4,0.72824,1263.3,937.76,0.86557,+ all focal
+oilpalm,ridge,pixel,1,0.77438,7466.4,0.72142,1279.1,955.23,0.85865,+ all focal
+oilpalm,hgb,pixel,0,2.7079,7466.4,0.84999,938.6,660.08,0.91993,+ all focal
+oilpalm,hgb,pixel,1,2.7344,7466.4,0.85486,923.25,641.51,0.92223,+ all focal
+rubber,ridge,pixel,0,0.73329,7466.4,0.67818,435.15,304.87,0.82615,+ all focal
+rubber,ridge,pixel,1,0.75034,7466.4,0.6564,449.63,313.76,0.81879,+ all focal
+rubber,hgb,pixel,0,2.8023,7466.4,0.79126,350.46,246.94,0.87486,+ all focal
+rubber,hgb,pixel,1,2.7232,7466.4,0.77973,360.01,250.39,0.87729,+ all focal
+sugarcane,ridge,pixel,0,0.72897,7466.4,0.74478,806.94,602.78,0.8564,+ all focal
+sugarcane,ridge,pixel,1,0.75797,7466.4,0.74918,799.95,599.84,0.85345,+ all focal
+sugarcane,hgb,pixel,0,2.8069,7466.4,0.81619,684.81,476.75,0.90094,+ all focal
+sugarcane,hgb,pixel,1,2.7873,7466.4,0.83526,648.32,452.89,0.90696,+ all focal
+coffee,ridge,pixel,0,0.78358,7466.4,0.69658,1236.7,921.67,0.84294,+ all focal
+coffee,ridge,pixel,1,0.72245,7466.4,0.69584,1238.2,925.29,0.84101,+ all focal
+coffee,hgb,pixel,0,2.8353,7466.4,0.85521,854.32,616.7,0.92011,+ all focal
+coffee,hgb,pixel,1,2.7925,7466.4,0.83854,902.18,641.5,0.91163,+ all focal
+cacao,ridge,pixel,0,0.78902,7466.4,0.71176,886.41,648.36,0.85378,+ all focal
+cacao,ridge,pixel,1,0.78613,7466.4,0.68226,930.66,670.79,0.83614,+ all focal
+cacao,hgb,pixel,0,2.6947,7466.4,0.79358,750.12,533.35,0.89055,+ all focal
+cacao,hgb,pixel,1,2.8133,7466.4,0.80021,737.97,515.31,0.89288,+ all focal
+coconut,ridge,pixel,0,0.8071,7466.4,0.78233,1392.5,995.33,0.87894,+ all focal
+coconut,ridge,pixel,1,0.77408,7466.4,0.78714,1377,985.23,0.87339,+ all focal
+coconut,hgb,pixel,0,2.0168,7466.4,0.86517,1095.9,746.15,0.92475,+ all focal
+coconut,hgb,pixel,1,1.9963,7466.4,0.85834,1123.3,748.58,0.92161,+ all focal
+rice,ridge,pixel,0,0.080838,7466.4,0.70774,1245.7,915.9,0.83055,focal 9 only
+rice,ridge,pixel,1,0.073138,7466.4,0.71964,1220.1,907.89,0.83463,focal 9 only
+rice,hgb,pixel,0,0.84528,7466.4,0.79337,1047.4,681.05,0.89869,focal 9 only
+rice,hgb,pixel,1,0.83224,7466.4,0.8276,956.73,636.06,0.90783,focal 9 only
+maize,ridge,pixel,0,0.074667,7466.4,0.6641,526.56,396.65,0.81565,focal 9 only
+maize,ridge,pixel,1,0.080379,7466.4,0.67055,521.47,397.31,0.81745,focal 9 only
+maize,hgb,pixel,0,0.82295,7466.4,0.76128,443.9,282.32,0.8872,focal 9 only
+maize,hgb,pixel,1,0.82523,7466.4,0.78502,421.24,272.05,0.89049,focal 9 only
+cassava,ridge,pixel,0,0.082992,7466.4,0.68065,1390.3,1032.8,0.8308,focal 9 only
+cassava,ridge,pixel,1,0.077456,7466.4,0.69472,1359.4,1012.3,0.83824,focal 9 only
+cassava,hgb,pixel,0,0.85452,7466.4,0.80389,1089.5,733.25,0.89778,focal 9 only
+cassava,hgb,pixel,1,0.85335,7466.4,0.82053,1042.3,707.63,0.90374,focal 9 only
+soybean,ridge,pixel,0,0.096731,7466.4,0.647,714.89,502.34,0.8314,focal 9 only
+soybean,ridge,pixel,1,0.082788,7466.4,0.62914,732.76,514.25,0.82928,focal 9 only
+soybean,hgb,pixel,0,0.73913,7466.4,0.7843,558.83,360.11,0.89242,focal 9 only
+soybean,hgb,pixel,1,0.75707,7466.4,0.79212,548.61,345.98,0.89631,focal 9 only
+oilpalm,ridge,pixel,0,0.081635,7466.4,0.68204,1366.5,1018.6,0.84266,focal 9 only
+oilpalm,ridge,pixel,1,0.085679,7466.4,0.6949,1338.6,1003.8,0.84967,focal 9 only
+oilpalm,hgb,pixel,0,0.78732,7466.4,0.79265,1103.5,738.41,0.89149,focal 9 only
+oilpalm,hgb,pixel,1,0.75471,7466.4,0.8147,1043.2,718.27,0.89935,focal 9 only
+rubber,ridge,pixel,0,0.10076,7466.4,0.53842,521.14,384.79,0.75391,focal 9 only
+rubber,ridge,pixel,1,0.083909,7466.4,0.53155,525.01,393.05,0.75494,focal 9 only
+rubber,hgb,pixel,0,0.78532,7466.4,0.73471,395.09,279.11,0.8413,focal 9 only
+rubber,hgb,pixel,1,0.80456,7466.4,0.72805,400.02,272.28,0.85422,focal 9 only
+sugarcane,ridge,pixel,0,0.087802,7466.4,0.72177,842.54,638.06,0.84613,focal 9 only
+sugarcane,ridge,pixel,1,0.08995,7466.4,0.7393,815.56,621.52,0.85336,focal 9 only
+sugarcane,hgb,pixel,0,0.79772,7466.4,0.78946,732.91,507.87,0.88461,focal 9 only
+sugarcane,hgb,pixel,1,0.81357,7466.4,0.8072,701.36,489.47,0.889,focal 9 only
+coffee,ridge,pixel,0,0.10038,7466.4,0.65052,1327.3,1007.2,0.82336,focal 9 only
+coffee,ridge,pixel,1,0.093937,7466.4,0.66077,1307.7,1003.7,0.82773,focal 9 only
+coffee,hgb,pixel,0,0.78516,7466.4,0.77858,1056.5,720.33,0.88984,focal 9 only
+coffee,hgb,pixel,1,0.7699,7466.4,0.80156,1000.2,704.19,0.89207,focal 9 only
+cacao,ridge,pixel,0,0.10017,7466.4,0.67578,940.1,706.03,0.83994,focal 9 only
+cacao,ridge,pixel,1,0.096767,7466.4,0.67584,940.03,704.4,0.83583,focal 9 only
+cacao,hgb,pixel,0,0.81127,7466.4,0.75587,815.77,560.26,0.87328,focal 9 only
+cacao,hgb,pixel,1,0.77559,7466.4,0.75698,813.91,560.54,0.86887,focal 9 only
+coconut,ridge,pixel,0,0.10244,7466.4,0.72276,1571.5,1166,0.84264,focal 9 only
+coconut,ridge,pixel,1,0.086098,7466.4,0.73398,1539.4,1162.1,0.84431,focal 9 only
+coconut,hgb,pixel,0,0.60327,7466.4,0.81471,1284.7,868.05,0.89989,focal 9 only
+coconut,hgb,pixel,1,0.60617,7466.4,0.82255,1257.2,864.54,0.89652,focal 9 only
+rice,ridge,pixel,0,0.079075,7466.4,0.73086,1195.4,882.11,0.85026,pixel mean only
+rice,ridge,pixel,1,0.079589,7466.4,0.7381,1179.2,880.53,0.85292,pixel mean only
+rice,hgb,pixel,0,0.7932,7466.4,0.7758,1091,683.35,0.88884,pixel mean only
+rice,hgb,pixel,1,0.79812,7466.4,0.79528,1042.5,657.7,0.89963,pixel mean only
+maize,ridge,pixel,0,0.08228,7466.4,0.68789,507.57,384.07,0.83778,pixel mean only
+maize,ridge,pixel,1,0.072221,7466.4,0.69195,504.25,386.22,0.83632,pixel mean only
+maize,hgb,pixel,0,0.81178,7466.4,0.72974,472.31,317.62,0.86077,pixel mean only
+maize,hgb,pixel,1,0.77846,7466.4,0.74221,461.29,307.57,0.86828,pixel mean only
+cassava,ridge,pixel,0,0.074532,7466.4,0.71743,1307.8,956.86,0.85399,pixel mean only
+cassava,ridge,pixel,1,0.072559,7466.4,0.72607,1287.7,956.29,0.86273,pixel mean only
+cassava,hgb,pixel,0,0.8365,7466.4,0.7711,1177.1,801.73,0.88147,pixel mean only
+cassava,hgb,pixel,1,0.83668,7466.4,0.76727,1186.9,764.84,0.88036,pixel mean only
+soybean,ridge,pixel,0,0.10696,7466.4,0.66843,692.86,484.41,0.85295,pixel mean only
+soybean,ridge,pixel,1,0.1097,7466.4,0.65375,708.03,493.06,0.84985,pixel mean only
+soybean,hgb,pixel,0,0.82803,7466.4,0.76297,585.81,377.78,0.87164,pixel mean only
+soybean,hgb,pixel,1,0.79224,7466.4,0.70921,648.85,385.63,0.88468,pixel mean only
+oilpalm,ridge,pixel,0,0.0872,7466.4,0.73545,1246.5,894.13,0.87232,pixel mean only
+oilpalm,ridge,pixel,1,0.08259,7466.4,0.74037,1234.8,902.38,0.87507,pixel mean only
+oilpalm,hgb,pixel,0,0.80426,7466.4,0.79307,1102.4,795.82,0.89111,pixel mean only
+oilpalm,hgb,pixel,1,0.8021,7466.4,0.77931,1138.5,766.53,0.88366,pixel mean only
+rubber,ridge,pixel,0,0.093446,7466.4,0.58638,493.32,353.01,0.80255,pixel mean only
+rubber,ridge,pixel,1,0.10072,7466.4,0.56674,504.9,369.79,0.79468,pixel mean only
+rubber,hgb,pixel,0,0.83824,7466.4,0.76671,370.5,258.78,0.85485,pixel mean only
+rubber,hgb,pixel,1,0.84049,7466.4,0.75983,375.92,264.37,0.85039,pixel mean only
+sugarcane,ridge,pixel,0,0.089943,7466.4,0.77269,761.54,561.74,0.88006,pixel mean only
+sugarcane,ridge,pixel,1,0.099284,7466.4,0.77777,752.99,563.67,0.88181,pixel mean only
+sugarcane,hgb,pixel,0,0.81987,7466.4,0.78719,736.86,524.39,0.88284,pixel mean only
+sugarcane,hgb,pixel,1,0.82714,7466.4,0.79767,718.48,485.76,0.89344,pixel mean only
+coffee,ridge,pixel,0,0.099868,7466.4,0.68069,1268.7,970.81,0.84419,pixel mean only
+coffee,ridge,pixel,1,0.11049,7466.4,0.69839,1233,945.45,0.85539,pixel mean only
+coffee,hgb,pixel,0,0.79013,7466.4,0.75212,1117.8,809.72,0.87243,pixel mean only
+coffee,hgb,pixel,1,0.78034,7466.4,0.73473,1156.4,793.94,0.86704,pixel mean only
+cacao,ridge,pixel,0,0.10085,7466.4,0.73458,850.6,623.26,0.87012,pixel mean only
+cacao,ridge,pixel,1,0.10036,7466.4,0.72634,863.71,636.19,0.86542,pixel mean only
+cacao,hgb,pixel,0,0.75052,7466.4,0.76644,797.92,551.5,0.87925,pixel mean only
+cacao,hgb,pixel,1,0.78746,7466.4,0.76601,798.65,567.41,0.87643,pixel mean only
+coconut,ridge,pixel,0,0.096999,7466.4,0.74962,1493.4,1105.2,0.86267,pixel mean only
+coconut,ridge,pixel,1,0.098334,7466.4,0.75923,1464.5,1094.4,0.86143,pixel mean only
+coconut,hgb,pixel,0,0.58467,7466.4,0.74823,1497.6,1023.8,0.87597,pixel mean only
+coconut,hgb,pixel,1,0.57428,7466.4,0.77849,1404.7,954.09,0.87874,pixel mean only
+rice,ridge,pixel,0,0.17277,7466.4,0.73196,1192.9,879.1,0.85145,base + pixel mean
+rice,ridge,pixel,1,0.18198,7466.4,0.7393,1176.5,878.79,0.85375,base + pixel mean
+rice,hgb,pixel,0,1.0392,7466.4,0.82233,971.25,611.51,0.912,base + pixel mean
+rice,hgb,pixel,1,1.0312,7466.4,0.81961,978.64,628.22,0.90945,base + pixel mean
+maize,ridge,pixel,0,0.17757,7466.4,0.68919,506.51,382.89,0.83814,base + pixel mean
+maize,ridge,pixel,1,0.17249,7466.4,0.69312,503.3,385.35,0.83727,base + pixel mean
+maize,hgb,pixel,0,1.0758,7466.4,0.76526,440.19,295.3,0.87559,base + pixel mean
+maize,hgb,pixel,1,1.0287,7466.4,0.78978,416.56,280.58,0.89701,base + pixel mean
+cassava,ridge,pixel,0,0.17072,7466.4,0.7188,1304.7,956.37,0.85526,base + pixel mean
+cassava,ridge,pixel,1,0.2014,7466.4,0.72763,1284,954.26,0.8634,base + pixel mean
+cassava,hgb,pixel,0,1.0694,7466.4,0.81619,1054.8,723.27,0.90801,base + pixel mean
+cassava,hgb,pixel,1,1.0636,7466.4,0.82331,1034.2,676.86,0.91403,base + pixel mean
+soybean,ridge,pixel,0,0.20439,7466.4,0.66945,691.78,483.69,0.8545,base + pixel mean
+soybean,ridge,pixel,1,0.22459,7466.4,0.65504,706.7,492.29,0.85205,base + pixel mean
+soybean,hgb,pixel,0,1.0538,7466.4,0.8042,532.43,339.12,0.89556,base + pixel mean
+soybean,hgb,pixel,1,1.0301,7466.4,0.76234,586.58,357.34,0.90381,base + pixel mean
+oilpalm,ridge,pixel,0,0.19028,7466.4,0.73688,1243.1,895.28,0.87329,base + pixel mean
+oilpalm,ridge,pixel,1,0.17816,7466.4,0.74204,1230.9,901.1,0.87658,base + pixel mean
+oilpalm,hgb,pixel,0,1.0559,7466.4,0.83118,995.72,712.28,0.91253,base + pixel mean
+oilpalm,hgb,pixel,1,1.0651,7466.4,0.83506,984.21,675,0.91535,base + pixel mean
+rubber,ridge,pixel,0,0.20628,7466.4,0.58715,492.87,352.81,0.80403,base + pixel mean
+rubber,ridge,pixel,1,0.21452,7466.4,0.56798,504.18,369.03,0.79623,base + pixel mean
+rubber,hgb,pixel,0,1.0541,7466.4,0.79691,345.68,242.04,0.87687,base + pixel mean
+rubber,hgb,pixel,1,1.0528,7466.4,0.79903,343.88,242.68,0.88223,base + pixel mean
+sugarcane,ridge,pixel,0,0.19758,7466.4,0.77459,758.35,559.69,0.88091,base + pixel mean
+sugarcane,ridge,pixel,1,0.20481,7466.4,0.77993,749.32,559.32,0.88271,base + pixel mean
+sugarcane,hgb,pixel,0,1.0734,7466.4,0.81332,690.14,500.9,0.90059,base + pixel mean
+sugarcane,hgb,pixel,1,1.0815,7466.4,0.8268,664.75,449.43,0.90977,base + pixel mean
+coffee,ridge,pixel,0,0.19781,7466.4,0.68244,1265.2,968.01,0.84754,base + pixel mean
+coffee,ridge,pixel,1,0.21287,7466.4,0.70007,1229.6,942.55,0.85639,base + pixel mean
+coffee,hgb,pixel,0,1.0594,7466.4,0.80503,991.37,719.72,0.90126,base + pixel mean
+coffee,hgb,pixel,1,1.0768,7466.4,0.77017,1076.4,743.97,0.88852,base + pixel mean
+cacao,ridge,pixel,0,0.22003,7466.4,0.73675,847.11,623.55,0.87177,base + pixel mean
+cacao,ridge,pixel,1,0.19294,7466.4,0.72864,860.07,634.3,0.8673,base + pixel mean
+cacao,hgb,pixel,0,1.0407,7466.4,0.79039,755.89,515.17,0.89212,base + pixel mean
+cacao,hgb,pixel,1,1.0479,7466.4,0.78528,765.05,538.62,0.88709,base + pixel mean
+coconut,ridge,pixel,0,0.21671,7466.4,0.751,1489.3,1101.6,0.86378,base + pixel mean
+coconut,ridge,pixel,1,0.2046,7466.4,0.76053,1460.5,1092.9,0.86243,base + pixel mean
+coconut,hgb,pixel,0,0.81609,7466.4,0.77412,1418.4,975.45,0.89261,base + pixel mean
+coconut,hgb,pixel,1,0.7736,7466.4,0.8107,1298.5,891.17,0.89664,base + pixel mean

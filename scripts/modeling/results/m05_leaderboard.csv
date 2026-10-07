@@ -1,0 +1,33 @@
+target,scheme,model,accuracy,balanced_acc,macro_f1
+thresh,pixel,dummy,0.547,0.25,0.177
+thresh,pixel,et,0.82,0.594,0.593
+thresh,pixel,hgb,0.827,0.604,0.601
+thresh,pixel,hgb + rule,0.785,0.545,0.411
+thresh,pixel,knn,0.772,0.545,0.547
+thresh,pixel,logreg,0.707,0.655,0.536
+thresh,pixel,xgb,0.83,0.599,0.601
+thresh,pixel,xgb + rule,0.79,0.551,0.452
+thresh,random,dummy,0.547,0.25,0.177
+thresh,random,et,0.973,0.77,0.789
+thresh,random,hgb,0.979,0.776,0.774
+thresh,random,hgb + rule,0.899,0.651,0.41
+thresh,random,knn,0.922,0.679,0.681
+thresh,random,logreg,0.741,0.814,0.591
+thresh,random,xgb,0.958,0.712,0.714
+thresh,random,xgb + rule,0.884,0.637,0.476
+top,pixel,dummy,0.516,0.125,0.085
+top,pixel,et,0.826,0.344,0.36
+top,pixel,hgb,0.841,0.339,0.355
+top,pixel,hgb + rule,0.755,0.302,0.281
+top,pixel,knn,0.79,0.32,0.328
+top,pixel,logreg,0.717,0.413,0.351
+top,pixel,xgb,0.833,0.32,0.333
+top,pixel,xgb + rule,0.752,0.32,0.303
+top,random,dummy,0.516,0.125,0.085
+top,random,et,0.976,0.957,0.953
+top,random,hgb,0.983,0.972,0.967
+top,random,hgb + rule,0.851,0.461,0.427
+top,random,knn,0.93,0.659,0.698
+top,random,logreg,0.776,0.898,0.615
+top,random,xgb,0.974,0.848,0.888
+top,random,xgb + rule,0.839,0.434,0.395

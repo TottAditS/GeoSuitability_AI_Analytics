@@ -1,0 +1,13 @@
+model,crop,raw GAEZ vs GCS,GAEZ-surrogate vs GAEZ,GAEZ-surrogate vs GCS,GCS-surrogate vs GCS,GCS-surrogate vs GAEZ
+hgb,rice,0.7806,0.916,0.8441,0.9528,0.806
+hgb,maize,0.4348,0.9042,0.488,0.8372,0.5283
+hgb,cassava,0.3585,0.9134,0.3643,0.7814,0.445
+hgb,soybean,-0.1743,0.9041,-0.1851,0.8027,-0.2451
+hgb,oilpalm,0.5911,0.9092,0.607,0.898,0.6182
+hgb,sugarcane,0.7959,0.9008,0.8153,0.8958,0.8477
+et,rice,0.7806,0.9211,0.862,0.9559,0.8142
+et,maize,0.4348,0.9114,0.4999,0.8597,0.546
+et,cassava,0.3585,0.9208,0.3483,0.8087,0.4764
+et,soybean,-0.1743,0.9113,-0.1694,0.8259,-0.2726
+et,oilpalm,0.5911,0.9156,0.6131,0.9094,0.639
+et,sugarcane,0.7959,0.9059,0.8245,0.9121,0.855

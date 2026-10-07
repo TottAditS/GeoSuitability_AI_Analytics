@@ -1,0 +1,7 @@
+crop,spearman_cell,pearson_cell,spearman_pixel_mean,gaez_mean,gcs_mean,gcs_within_pixel_share_of_variance
+rice,0.7806,0.7612,0.6865,3003.8,6291.1,0.1346
+maize,0.4348,0.4285,0.3787,1301.5,2980,0.2471
+cassava,0.3585,0.4846,0.3489,3932.9,8424.2,0.1831
+soybean,-0.1743,-0.1035,-0.223,1724.9,1485.3,0.3768
+oilpalm,0.5911,0.622,0.566,4374.2,6616.8,0.1622
+sugarcane,0.7959,0.7156,0.5923,2320.7,7322.3,0.0899

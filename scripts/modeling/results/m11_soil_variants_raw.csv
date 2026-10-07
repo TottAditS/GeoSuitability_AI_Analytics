@@ -1,0 +1,241 @@
+target,model,scheme,repeat,fit_seconds,n_train_mean,r2,rmse,mae,spearman,variant
+rice,et,pixel,0,3.5897,7466.4,0.85503,877.31,605.56,0.91816,gap-filled soil (as used)
+rice,et,pixel,1,3.4533,7466.4,0.8647,847.57,586.82,0.91928,gap-filled soil (as used)
+rice,hgb,pixel,0,0.65758,7466.4,0.83354,940.1,632.6,0.91101,gap-filled soil (as used)
+rice,hgb,pixel,1,0.65534,7466.4,0.84694,901.48,612.01,0.91225,gap-filled soil (as used)
+rice,xgb,pixel,0,0.72551,7466.4,0.83217,943.96,631.08,0.90881,gap-filled soil (as used)
+rice,xgb,pixel,1,0.74754,7466.4,0.84568,905.17,615.54,0.91085,gap-filled soil (as used)
+maize,et,pixel,0,3.4009,7466.4,0.81611,389.6,266.1,0.9027,gap-filled soil (as used)
+maize,et,pixel,1,3.4867,7466.4,0.83273,371.57,253.83,0.90725,gap-filled soil (as used)
+maize,hgb,pixel,0,0.66112,7466.4,0.80294,403.31,269.5,0.90067,gap-filled soil (as used)
+maize,hgb,pixel,1,0.68023,7466.4,0.81413,391.69,265.33,0.89659,gap-filled soil (as used)
+maize,xgb,pixel,0,0.66814,7466.4,0.78805,418.27,279.25,0.89258,gap-filled soil (as used)
+maize,xgb,pixel,1,0.67287,7466.4,0.80922,396.83,268.32,0.89544,gap-filled soil (as used)
+cassava,et,pixel,0,3.4942,7466.4,0.84355,973.13,699.22,0.9137,gap-filled soil (as used)
+cassava,et,pixel,1,3.5083,7466.4,0.85835,925.97,660.59,0.92029,gap-filled soil (as used)
+cassava,hgb,pixel,0,0.68168,7466.4,0.8189,1047,725.53,0.90286,gap-filled soil (as used)
+cassava,hgb,pixel,1,0.64418,7466.4,0.84067,982.05,701.79,0.90838,gap-filled soil (as used)
+cassava,xgb,pixel,0,0.6666,7466.4,0.82144,1039.6,722.37,0.90387,gap-filled soil (as used)
+cassava,xgb,pixel,1,0.69367,7466.4,0.83335,1004.4,706.13,0.90585,gap-filled soil (as used)
+soybean,et,pixel,0,3.4654,7466.4,0.8285,498.3,337.69,0.90361,gap-filled soil (as used)
+soybean,et,pixel,1,3.4594,7466.4,0.82421,504.5,330.44,0.90499,gap-filled soil (as used)
+soybean,hgb,pixel,0,0.65129,7466.4,0.81704,514.68,343.61,0.89783,gap-filled soil (as used)
+soybean,hgb,pixel,1,0.64264,7466.4,0.81587,516.32,347.36,0.8938,gap-filled soil (as used)
+soybean,xgb,pixel,0,0.6667,7466.4,0.80421,532.41,355.04,0.88596,gap-filled soil (as used)
+soybean,xgb,pixel,1,0.65354,7466.4,0.80666,529.07,352.45,0.88864,gap-filled soil (as used)
+oilpalm,et,pixel,0,3.4406,7466.4,0.82268,1020.5,731.83,0.90668,gap-filled soil (as used)
+oilpalm,et,pixel,1,3.4452,7466.4,0.83709,978.14,698.74,0.91351,gap-filled soil (as used)
+oilpalm,hgb,pixel,0,0.6422,7466.4,0.80194,1078.5,761.42,0.8931,gap-filled soil (as used)
+oilpalm,hgb,pixel,1,0.64888,7466.4,0.82049,1026.8,739.89,0.90165,gap-filled soil (as used)
+oilpalm,xgb,pixel,0,0.70148,7466.4,0.80544,1068.9,745.5,0.89671,gap-filled soil (as used)
+oilpalm,xgb,pixel,1,0.66615,7466.4,0.80524,1069.5,763.01,0.89463,gap-filled soil (as used)
+rubber,et,pixel,0,3.6706,7466.4,0.75101,382.76,277.73,0.86291,gap-filled soil (as used)
+rubber,et,pixel,1,3.6276,7466.4,0.75643,378.57,274.4,0.86815,gap-filled soil (as used)
+rubber,hgb,pixel,0,0.65647,7466.4,0.72841,399.75,285.51,0.8466,gap-filled soil (as used)
+rubber,hgb,pixel,1,0.63861,7466.4,0.72332,403.48,295.43,0.84392,gap-filled soil (as used)
+rubber,xgb,pixel,0,0.67033,7466.4,0.71844,407.02,293.57,0.83357,gap-filled soil (as used)
+rubber,xgb,pixel,1,0.66802,7466.4,0.70733,414.98,301.65,0.82929,gap-filled soil (as used)
+sugarcane,et,pixel,0,3.43,7466.4,0.82758,663.25,475.59,0.89956,gap-filled soil (as used)
+sugarcane,et,pixel,1,3.4084,7466.4,0.84195,635.01,452.21,0.9038,gap-filled soil (as used)
+sugarcane,hgb,pixel,0,0.65028,7466.4,0.81418,688.55,484.19,0.89558,gap-filled soil (as used)
+sugarcane,hgb,pixel,1,0.6719,7466.4,0.8224,673.14,478.72,0.89409,gap-filled soil (as used)
+sugarcane,xgb,pixel,0,0.68532,7466.4,0.80917,697.77,492.58,0.89231,gap-filled soil (as used)
+sugarcane,xgb,pixel,1,0.67581,7466.4,0.82354,670.98,472.42,0.89664,gap-filled soil (as used)
+coffee,et,pixel,0,3.4186,7466.4,0.82397,941.99,687.04,0.90665,gap-filled soil (as used)
+coffee,et,pixel,1,3.3945,7466.4,0.83313,917.15,658.95,0.90963,gap-filled soil (as used)
+coffee,hgb,pixel,0,0.67539,7466.4,0.80348,995.31,711.05,0.89839,gap-filled soil (as used)
+coffee,hgb,pixel,1,0.6705,7466.4,0.81677,961.06,691.12,0.90016,gap-filled soil (as used)
+coffee,xgb,pixel,0,0.68178,7466.4,0.79816,1008.7,724.99,0.89284,gap-filled soil (as used)
+coffee,xgb,pixel,1,0.68423,7466.4,0.80405,993.86,719.91,0.89328,gap-filled soil (as used)
+cacao,et,pixel,0,3.4728,7466.4,0.77956,775.18,560.29,0.88539,gap-filled soil (as used)
+cacao,et,pixel,1,3.4384,7466.4,0.78861,759.1,540.81,0.88914,gap-filled soil (as used)
+cacao,hgb,pixel,0,0.68591,7466.4,0.76639,798,571.39,0.877,gap-filled soil (as used)
+cacao,hgb,pixel,1,0.62922,7466.4,0.76976,792.23,566.67,0.87809,gap-filled soil (as used)
+cacao,xgb,pixel,0,0.68178,7466.4,0.76507,800.26,565.14,0.87629,gap-filled soil (as used)
+cacao,xgb,pixel,1,0.67085,7466.4,0.7647,800.88,569.88,0.8748,gap-filled soil (as used)
+coconut,et,pixel,0,3.1718,7466.4,0.85325,1143.3,808.93,0.91509,gap-filled soil (as used)
+coconut,et,pixel,1,3.1241,7466.4,0.8621,1108.3,783.35,0.9152,gap-filled soil (as used)
+coconut,hgb,pixel,0,0.64325,7466.4,0.83069,1228.1,858.36,0.90558,gap-filled soil (as used)
+coconut,hgb,pixel,1,0.66909,7466.4,0.84133,1188.8,833.11,0.90585,gap-filled soil (as used)
+coconut,xgb,pixel,0,0.68306,7466.4,0.82239,1257.8,873.77,0.90159,gap-filled soil (as used)
+coconut,xgb,pixel,1,0.67647,7466.4,0.8327,1220.8,852.14,0.89998,gap-filled soil (as used)
+rice,et,pixel,0,3.4127,7466.4,0.85559,875.61,602.61,0.91475,raw soil with NaN
+rice,et,pixel,1,3.2914,7466.4,0.8615,857.52,590.31,0.91608,raw soil with NaN
+rice,hgb,pixel,0,0.73846,7466.4,0.8317,945.29,627.08,0.90653,raw soil with NaN
+rice,hgb,pixel,1,0.75642,7466.4,0.84009,921.41,615.47,0.90927,raw soil with NaN
+rice,xgb,pixel,0,0.81055,7466.4,0.82629,960.35,639.77,0.90316,raw soil with NaN
+rice,xgb,pixel,1,0.81501,7466.4,0.83188,944.79,627.01,0.90241,raw soil with NaN
+maize,et,pixel,0,3.3599,7466.4,0.81595,389.77,263.88,0.90295,raw soil with NaN
+maize,et,pixel,1,3.3475,7466.4,0.82943,375.22,254.18,0.90536,raw soil with NaN
+maize,hgb,pixel,0,0.73236,7466.4,0.79529,411.06,274.67,0.89536,raw soil with NaN
+maize,hgb,pixel,1,0.73601,7466.4,0.80884,397.23,264.42,0.896,raw soil with NaN
+maize,xgb,pixel,0,0.75293,7466.4,0.78258,423.64,280.83,0.88786,raw soil with NaN
+maize,xgb,pixel,1,0.77836,7466.4,0.79711,409.23,273.17,0.8861,raw soil with NaN
+cassava,et,pixel,0,3.3768,7466.4,0.84279,975.5,696.5,0.91302,raw soil with NaN
+cassava,et,pixel,1,3.3104,7466.4,0.85302,943.22,668.27,0.91656,raw soil with NaN
+cassava,hgb,pixel,0,0.74112,7466.4,0.81927,1045.9,725.53,0.90148,raw soil with NaN
+cassava,hgb,pixel,1,0.72917,7466.4,0.83534,998.35,704,0.90605,raw soil with NaN
+cassava,xgb,pixel,0,0.73031,7466.4,0.81894,1046.9,723.84,0.901,raw soil with NaN
+cassava,xgb,pixel,1,0.77425,7466.4,0.82314,1034.7,717.11,0.89865,raw soil with NaN
+soybean,et,pixel,0,3.3305,7466.4,0.83225,492.81,337.66,0.90385,raw soil with NaN
+soybean,et,pixel,1,3.3222,7466.4,0.81817,513.09,334.41,0.90118,raw soil with NaN
+soybean,hgb,pixel,0,0.72039,7466.4,0.81244,521.11,346.77,0.89162,raw soil with NaN
+soybean,hgb,pixel,1,0.7203,7466.4,0.80553,530.62,354.12,0.88891,raw soil with NaN
+soybean,xgb,pixel,0,0.73435,7466.4,0.79502,544.76,361.86,0.88074,raw soil with NaN
+soybean,xgb,pixel,1,0.755,7466.4,0.79181,549.01,358.75,0.88135,raw soil with NaN
+oilpalm,et,pixel,0,3.4753,7466.4,0.82163,1023.5,730.44,0.90579,raw soil with NaN
+oilpalm,et,pixel,1,3.4259,7466.4,0.83255,991.68,701.27,0.91036,raw soil with NaN
+oilpalm,hgb,pixel,0,0.71994,7466.4,0.79858,1087.6,761.84,0.89212,raw soil with NaN
+oilpalm,hgb,pixel,1,0.70569,7466.4,0.81536,1041.3,740.76,0.89921,raw soil with NaN
+oilpalm,xgb,pixel,0,0.76123,7466.4,0.79623,1094,756.3,0.89215,raw soil with NaN
+oilpalm,xgb,pixel,1,0.74515,7466.4,0.79682,1092.4,763.29,0.88964,raw soil with NaN
+rubber,et,pixel,0,3.4708,7466.4,0.7507,382.99,278.6,0.86096,raw soil with NaN
+rubber,et,pixel,1,3.4026,7466.4,0.75156,382.33,275.49,0.86635,raw soil with NaN
+rubber,hgb,pixel,0,0.69671,7466.4,0.72708,400.73,284.93,0.84904,raw soil with NaN
+rubber,hgb,pixel,1,0.73692,7466.4,0.71692,408.12,294.49,0.83978,raw soil with NaN
+rubber,xgb,pixel,0,0.75658,7466.4,0.7063,415.71,295.06,0.83796,raw soil with NaN
+rubber,xgb,pixel,1,0.76045,7466.4,0.69151,426.04,302.14,0.83087,raw soil with NaN
+sugarcane,et,pixel,0,3.3529,7466.4,0.82487,668.45,475.33,0.89814,raw soil with NaN
+sugarcane,et,pixel,1,3.3224,7466.4,0.83799,642.91,455.62,0.90118,raw soil with NaN
+sugarcane,hgb,pixel,0,0.75548,7466.4,0.80714,701.47,490.55,0.89248,raw soil with NaN
+sugarcane,hgb,pixel,1,0.7457,7466.4,0.81495,687.11,483.99,0.89079,raw soil with NaN
+sugarcane,xgb,pixel,0,0.78679,7466.4,0.79721,719.31,502.06,0.88485,raw soil with NaN
+sugarcane,xgb,pixel,1,0.73907,7466.4,0.81685,683.58,475.95,0.89166,raw soil with NaN
+coffee,et,pixel,0,3.3649,7466.4,0.82499,939.27,684.85,0.90611,raw soil with NaN
+coffee,et,pixel,1,3.3043,7466.4,0.82858,929.59,664.46,0.905,raw soil with NaN
+coffee,hgb,pixel,0,0.74652,7466.4,0.79805,1009,722.22,0.89508,raw soil with NaN
+coffee,hgb,pixel,1,0.74597,7466.4,0.8131,970.64,703.91,0.89676,raw soil with NaN
+coffee,xgb,pixel,0,0.74484,7466.4,0.79203,1023.9,734.25,0.88983,raw soil with NaN
+coffee,xgb,pixel,1,0.74481,7466.4,0.79576,1014.7,728.6,0.88564,raw soil with NaN
+cacao,et,pixel,0,3.3006,7466.4,0.78049,773.54,557.8,0.88575,raw soil with NaN
+cacao,et,pixel,1,3.4255,7466.4,0.78429,766.81,541.76,0.8862,raw soil with NaN
+cacao,hgb,pixel,0,0.74576,7466.4,0.75905,810.43,575.52,0.87305,raw soil with NaN
+cacao,hgb,pixel,1,0.73009,7466.4,0.76467,800.93,569.92,0.8745,raw soil with NaN
+cacao,xgb,pixel,0,0.75594,7466.4,0.75449,818.07,573.65,0.87139,raw soil with NaN
+cacao,xgb,pixel,1,0.73924,7466.4,0.75024,825.12,580.52,0.86626,raw soil with NaN
+coconut,et,pixel,0,3.1262,7466.4,0.85309,1143.9,806.1,0.91439,raw soil with NaN
+coconut,et,pixel,1,3.1063,7466.4,0.86054,1114.6,783.25,0.91361,raw soil with NaN
+coconut,hgb,pixel,0,0.73454,7466.4,0.8262,1244.2,857.84,0.90307,raw soil with NaN
+coconut,hgb,pixel,1,0.70639,7466.4,0.83951,1195.7,827.18,0.90562,raw soil with NaN
+coconut,xgb,pixel,0,0.76597,7466.4,0.82063,1264,866.76,0.89886,raw soil with NaN
+coconut,xgb,pixel,1,0.75647,7466.4,0.82722,1240.6,858.99,0.89596,raw soil with NaN
+rice,et,pixel,0,3.6589,7466.4,0.85144,888.11,612.18,0.9159,gap-filled + interpolation flag
+rice,et,pixel,1,3.6218,7466.4,0.86103,858.98,592.21,0.91791,gap-filled + interpolation flag
+rice,hgb,pixel,0,0.65135,7466.4,0.83216,943.98,637.4,0.90882,gap-filled + interpolation flag
+rice,hgb,pixel,1,0.64359,7466.4,0.84551,905.68,615,0.91112,gap-filled + interpolation flag
+rice,xgb,pixel,0,0.71432,7466.4,0.83242,943.27,634.29,0.90909,gap-filled + interpolation flag
+rice,xgb,pixel,1,0.72553,7466.4,0.84496,907.29,612.33,0.90994,gap-filled + interpolation flag
+maize,et,pixel,0,3.6154,7466.4,0.81846,387.1,265.24,0.90431,gap-filled + interpolation flag
+maize,et,pixel,1,3.5859,7466.4,0.83158,372.86,254.12,0.90739,gap-filled + interpolation flag
+maize,hgb,pixel,0,0.6262,7466.4,0.80276,403.49,269.95,0.90007,gap-filled + interpolation flag
+maize,hgb,pixel,1,0.65903,7466.4,0.81502,390.75,264.61,0.89688,gap-filled + interpolation flag
+maize,xgb,pixel,0,0.67042,7466.4,0.79083,415.51,277.83,0.89397,gap-filled + interpolation flag
+maize,xgb,pixel,1,0.67878,7466.4,0.8087,397.37,268.26,0.89487,gap-filled + interpolation flag
+cassava,et,pixel,0,3.6562,7466.4,0.84382,972.31,698.19,0.91419,gap-filled + interpolation flag
+cassava,et,pixel,1,3.6732,7466.4,0.85424,939.29,669.41,0.91828,gap-filled + interpolation flag
+cassava,hgb,pixel,0,0.65532,7466.4,0.81751,1051,727.04,0.90219,gap-filled + interpolation flag
+cassava,hgb,pixel,1,0.65106,7466.4,0.84016,983.61,701.28,0.90805,gap-filled + interpolation flag
+cassava,xgb,pixel,0,0.6829,7466.4,0.8222,1037.4,724.91,0.90361,gap-filled + interpolation flag
+cassava,xgb,pixel,1,0.69867,7466.4,0.83453,1000.8,699.47,0.90695,gap-filled + interpolation flag
+soybean,et,pixel,0,3.6103,7466.4,0.83188,493.36,335.83,0.9058,gap-filled + interpolation flag
+soybean,et,pixel,1,3.6076,7466.4,0.81614,515.93,334.39,0.90295,gap-filled + interpolation flag
+soybean,hgb,pixel,0,0.65124,7466.4,0.81563,516.66,345.06,0.89605,gap-filled + interpolation flag
+soybean,hgb,pixel,1,0.61575,7466.4,0.81763,513.84,344.31,0.89585,gap-filled + interpolation flag
+soybean,xgb,pixel,0,0.67803,7466.4,0.80238,534.9,355.85,0.889,gap-filled + interpolation flag
+soybean,xgb,pixel,1,0.66232,7466.4,0.80425,532.36,353.07,0.89096,gap-filled + interpolation flag
+oilpalm,et,pixel,0,3.6419,7466.4,0.82207,1022.2,731.99,0.90571,gap-filled + interpolation flag
+oilpalm,et,pixel,1,3.6413,7466.4,0.83347,988.96,704.17,0.91154,gap-filled + interpolation flag
+oilpalm,hgb,pixel,0,0.67391,7466.4,0.80331,1074.8,757.12,0.89385,gap-filled + interpolation flag
+oilpalm,hgb,pixel,1,0.64701,7466.4,0.82145,1024,737.37,0.90259,gap-filled + interpolation flag
+oilpalm,xgb,pixel,0,0.66533,7466.4,0.79823,1088.6,766.61,0.8923,gap-filled + interpolation flag
+oilpalm,xgb,pixel,1,0.65643,7466.4,0.80912,1058.8,754.87,0.89749,gap-filled + interpolation flag
+rubber,et,pixel,0,3.6965,7466.4,0.75359,380.77,277.01,0.86272,gap-filled + interpolation flag
+rubber,et,pixel,1,3.5969,7466.4,0.75369,380.69,274.74,0.8658,gap-filled + interpolation flag
+rubber,hgb,pixel,0,0.65727,7466.4,0.7324,396.8,283.72,0.8484,gap-filled + interpolation flag
+rubber,hgb,pixel,1,0.65798,7466.4,0.72123,405,296.16,0.84345,gap-filled + interpolation flag
+rubber,xgb,pixel,0,0.69202,7466.4,0.71711,407.98,295.27,0.83572,gap-filled + interpolation flag
+rubber,xgb,pixel,1,0.66572,7466.4,0.71656,408.38,298.14,0.83934,gap-filled + interpolation flag
+sugarcane,et,pixel,0,3.5721,7466.4,0.82612,666.06,476.67,0.89916,gap-filled + interpolation flag
+sugarcane,et,pixel,1,3.6683,7466.4,0.83887,641.17,457.44,0.90255,gap-filled + interpolation flag
+sugarcane,hgb,pixel,0,0.67489,7466.4,0.81502,686.98,484.8,0.89519,gap-filled + interpolation flag
+sugarcane,hgb,pixel,1,0.6724,7466.4,0.82232,673.29,478.73,0.89385,gap-filled + interpolation flag
+sugarcane,xgb,pixel,0,0.67418,7466.4,0.80322,708.56,499.22,0.88858,gap-filled + interpolation flag
+sugarcane,xgb,pixel,1,0.68692,7466.4,0.82321,671.6,476.87,0.89554,gap-filled + interpolation flag
+coffee,et,pixel,0,3.557,7466.4,0.82695,933.97,680.31,0.90834,gap-filled + interpolation flag
+coffee,et,pixel,1,3.5846,7466.4,0.83085,923.41,663.31,0.90755,gap-filled + interpolation flag
+coffee,hgb,pixel,0,0.66963,7466.4,0.80441,992.94,710.63,0.89843,gap-filled + interpolation flag
+coffee,hgb,pixel,1,0.68271,7466.4,0.81652,961.71,691.27,0.90033,gap-filled + interpolation flag
+coffee,xgb,pixel,0,0.67767,7466.4,0.79921,1006.1,722.72,0.89538,gap-filled + interpolation flag
+coffee,xgb,pixel,1,0.68998,7466.4,0.8083,983.03,709.21,0.89614,gap-filled + interpolation flag
+cacao,et,pixel,0,3.544,7466.4,0.78158,771.62,553.85,0.88637,gap-filled + interpolation flag
+cacao,et,pixel,1,3.5954,7466.4,0.78642,763.03,545.46,0.88813,gap-filled + interpolation flag
+cacao,hgb,pixel,0,0.648,7466.4,0.76783,795.53,569.8,0.87773,gap-filled + interpolation flag
+cacao,hgb,pixel,1,0.66652,7466.4,0.76911,793.35,569.27,0.87766,gap-filled + interpolation flag
+cacao,xgb,pixel,0,0.69581,7466.4,0.76092,807.29,572.92,0.87426,gap-filled + interpolation flag
+cacao,xgb,pixel,1,0.68725,7466.4,0.77007,791.68,566.99,0.8788,gap-filled + interpolation flag
+coconut,et,pixel,0,3.3163,7466.4,0.85303,1144.2,810.99,0.91551,gap-filled + interpolation flag
+coconut,et,pixel,1,3.2829,7466.4,0.86423,1099.7,776.66,0.91711,gap-filled + interpolation flag
+coconut,hgb,pixel,0,0.63252,7466.4,0.82999,1230.6,859.19,0.90517,gap-filled + interpolation flag
+coconut,hgb,pixel,1,0.64097,7466.4,0.84302,1182.5,828.18,0.90648,gap-filled + interpolation flag
+coconut,xgb,pixel,0,0.69598,7466.4,0.82754,1239.4,856.66,0.90363,gap-filled + interpolation flag
+coconut,xgb,pixel,1,0.6737,7466.4,0.83518,1211.7,842.55,0.90121,gap-filled + interpolation flag
+rice,et,pixel,0,1.7846,7466.4,0.85064,890.52,612.25,0.91287,no soil
+rice,et,pixel,1,1.8141,7466.4,0.85928,864.36,596.56,0.91685,no soil
+rice,hgb,pixel,0,0.54961,7466.4,0.82815,955.21,641.19,0.9025,no soil
+rice,hgb,pixel,1,0.50905,7466.4,0.83557,934.34,624.55,0.90775,no soil
+rice,xgb,pixel,0,0.48523,7466.4,0.82705,958.26,641.77,0.90176,no soil
+rice,xgb,pixel,1,0.51991,7466.4,0.82235,971.19,644.78,0.89602,no soil
+maize,et,pixel,0,1.7138,7466.4,0.81101,394.96,269.44,0.8994,no soil
+maize,et,pixel,1,1.7468,7466.4,0.82874,375.98,256.91,0.90393,no soil
+maize,hgb,pixel,0,0.54086,7466.4,0.78866,417.66,276.13,0.89439,no soil
+maize,hgb,pixel,1,0.55321,7466.4,0.80492,401.28,268.13,0.89345,no soil
+maize,xgb,pixel,0,0.47542,7466.4,0.78544,420.84,281.89,0.88733,no soil
+maize,xgb,pixel,1,0.47243,7466.4,0.78904,417.29,279.44,0.87931,no soil
+cassava,et,pixel,0,1.9907,7466.4,0.84095,981.2,694.95,0.91219,no soil
+cassava,et,pixel,1,2.0228,7466.4,0.84968,953.87,669,0.91533,no soil
+cassava,hgb,pixel,0,0.58247,7466.4,0.8197,1044.7,725.95,0.9004,no soil
+cassava,hgb,pixel,1,0.58636,7466.4,0.83303,1005.3,707.81,0.9062,no soil
+cassava,xgb,pixel,0,0.48945,7466.4,0.81694,1052.7,730.78,0.89939,no soil
+cassava,xgb,pixel,1,0.48547,7466.4,0.82198,1038.1,715.19,0.89819,no soil
+soybean,et,pixel,0,2.1614,7466.4,0.82769,499.47,337.44,0.89881,no soil
+soybean,et,pixel,1,2.1785,7466.4,0.81498,517.56,336.13,0.90082,no soil
+soybean,hgb,pixel,0,0.61244,7466.4,0.8127,520.74,349.34,0.89015,no soil
+soybean,hgb,pixel,1,0.61138,7466.4,0.80531,530.92,356.69,0.88987,no soil
+soybean,xgb,pixel,0,0.54356,7466.4,0.79588,543.62,362.26,0.87908,no soil
+soybean,xgb,pixel,1,0.57807,7466.4,0.79486,544.98,357.78,0.88104,no soil
+oilpalm,et,pixel,0,2.1517,7466.4,0.81759,1035,734.06,0.90256,no soil
+oilpalm,et,pixel,1,2.2341,7466.4,0.82912,1001.8,699.58,0.90787,no soil
+oilpalm,hgb,pixel,0,0.56993,7466.4,0.79661,1092.9,760.9,0.89085,no soil
+oilpalm,hgb,pixel,1,0.62509,7466.4,0.81034,1055.4,742.63,0.89616,no soil
+oilpalm,xgb,pixel,0,0.57318,7466.4,0.79636,1093.6,751.22,0.89119,no soil
+oilpalm,xgb,pixel,1,0.59089,7466.4,0.80063,1082.1,754.96,0.89139,no soil
+rubber,et,pixel,0,2.0606,7466.4,0.74655,386.17,278.17,0.85835,no soil
+rubber,et,pixel,1,2.3174,7466.4,0.75259,381.54,274.44,0.86422,no soil
+rubber,hgb,pixel,0,0.62569,7466.4,0.71599,408.79,289.64,0.84216,no soil
+rubber,hgb,pixel,1,0.6211,7466.4,0.71112,412.28,296.48,0.83481,no soil
+rubber,xgb,pixel,0,0.61594,7466.4,0.70652,415.55,295.17,0.83342,no soil
+rubber,xgb,pixel,1,0.47947,7466.4,0.68061,433.5,308.26,0.81819,no soil
+sugarcane,et,pixel,0,2.0963,7466.4,0.81854,680.41,486.7,0.89444,no soil
+sugarcane,et,pixel,1,2.0786,7466.4,0.83812,642.67,456.05,0.90214,no soil
+sugarcane,hgb,pixel,0,0.67803,7466.4,0.80237,710.09,500.68,0.88823,no soil
+sugarcane,hgb,pixel,1,0.65462,7466.4,0.81218,692.23,483.76,0.88893,no soil
+sugarcane,xgb,pixel,0,0.65947,7466.4,0.79113,730,512.61,0.87959,no soil
+sugarcane,xgb,pixel,1,0.59965,7466.4,0.80457,706.13,493.85,0.8836,no soil
+coffee,et,pixel,0,2.2111,7466.4,0.81849,956.54,693.94,0.90184,no soil
+coffee,et,pixel,1,2.2687,7466.4,0.82585,936.95,669.09,0.90347,no soil
+coffee,hgb,pixel,0,0.65963,7466.4,0.79314,1021.2,732.67,0.89039,no soil
+coffee,hgb,pixel,1,0.64191,7466.4,0.79839,1008.1,725.89,0.88921,no soil
+coffee,xgb,pixel,0,0.54149,7466.4,0.78503,1041,741.57,0.88741,no soil
+coffee,xgb,pixel,1,0.53621,7466.4,0.78595,1038.8,742.17,0.8804,no soil
+cacao,et,pixel,0,2.2564,7466.4,0.77523,782.75,559.61,0.88133,no soil
+cacao,et,pixel,1,2.167,7466.4,0.77892,776.31,547.4,0.88186,no soil
+cacao,hgb,pixel,0,0.66301,7466.4,0.75298,820.59,579.96,0.86957,no soil
+cacao,hgb,pixel,1,0.6664,7466.4,0.75856,811.27,571.42,0.8713,no soil
+cacao,xgb,pixel,0,0.63626,7466.4,0.75106,823.78,573.62,0.86964,no soil
+cacao,xgb,pixel,1,0.49223,7466.4,0.74493,833.85,587.51,0.86257,no soil
+coconut,et,pixel,0,2.0096,7466.4,0.85024,1155,816.57,0.91254,no soil
+coconut,et,pixel,1,1.9348,7466.4,0.85859,1122.3,786.27,0.91231,no soil
+coconut,hgb,pixel,0,0.61137,7466.4,0.82243,1257.6,867.22,0.90096,no soil
+coconut,hgb,pixel,1,0.65471,7466.4,0.82876,1235,858.05,0.89994,no soil
+coconut,xgb,pixel,0,0.5311,7466.4,0.81569,1281.3,877.56,0.89551,no soil
+coconut,xgb,pixel,1,0.48203,7466.4,0.82177,1260,863.31,0.89049,no soil

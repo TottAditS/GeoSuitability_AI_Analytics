@@ -1,0 +1,17 @@
+target,model,scheme,repeat,accuracy,balanced_acc,macro_f1,weighted_f1
+thresh,hgb + rule,random,0,0.89896,0.65072,0.37805,0.90383
+top,hgb + rule,random,0,0.84882,0.45317,0.4199,0.85701
+thresh,hgb + rule,random,1,0.89939,0.65168,0.44156,0.90441
+top,hgb + rule,random,1,0.85235,0.46862,0.43366,0.86036
+thresh,hgb + rule,pixel,0,0.77842,0.5387,0.44384,0.78749
+top,hgb + rule,pixel,0,0.74981,0.29816,0.29708,0.76365
+thresh,hgb + rule,pixel,1,0.79246,0.55198,0.37896,0.79964
+top,hgb + rule,pixel,1,0.75967,0.30505,0.26416,0.77075
+thresh,xgb + rule,random,0,0.88867,0.64088,0.5221,0.89381
+top,xgb + rule,random,0,0.83842,0.4355,0.4019,0.84588
+thresh,xgb + rule,random,1,0.88021,0.6331,0.42953,0.88509
+top,xgb + rule,random,1,0.83874,0.43339,0.38777,0.84571
+thresh,xgb + rule,pixel,0,0.77992,0.54204,0.44425,0.78866
+top,xgb + rule,pixel,0,0.74842,0.31071,0.2998,0.75468
+thresh,xgb + rule,pixel,1,0.79985,0.55984,0.45882,0.80651
+top,xgb + rule,pixel,1,0.75571,0.32996,0.30685,0.76358

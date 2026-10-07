@@ -1,0 +1,17 @@
+feature_set,ridge,hgb,n_features
+climate only,0.485,0.783,5
+soil only,0.36,0.622,7
+terrain only,0.468,0.528,2
+land cover only,0.293,0.327,9
+coordinates only,0.25,0.787,2
+climate + soil,0.531,0.798,12
+climate + terrain,0.542,0.797,7
+climate + soil + terrain (base),0.567,0.806,14
+base + land cover,0.643,0.809,23
+base + coordinates,0.598,0.826,16
+everything,0.659,0.828,25
+everything - climate,0.608,0.802,20
+everything - soil,0.648,0.823,18
+everything - terrain,0.641,0.825,23
+everything - landcover,0.598,0.826,16
+everything - coords,0.643,0.809,23
