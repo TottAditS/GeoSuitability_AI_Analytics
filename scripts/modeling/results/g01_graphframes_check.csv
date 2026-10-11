@@ -1,0 +1,14 @@
+check,NetworkX,GraphFrames,equal
+node degrees (sum),36312,36312,True
+land masses,10,10,True
+Rice: patches / largest km2,48 / 1828,48 / 1828,True
+Maize: patches / largest km2,4 / 3,4 / 3,True
+Cassava: patches / largest km2,68 / 2015,68 / 2015,True
+Soybean: patches / largest km2,25 / 112,25 / 112,True
+Oil palm: patches / largest km2,64 / 3443,64 / 3443,True
+Rubber: patches / largest km2,0 / 0,0 / 0,True
+Sugarcane: patches / largest km2,35 / 1005,35 / 1005,True
+Coffee: patches / largest km2,67 / 2126,67 / 2126,True
+Cacao: patches / largest km2,65 / 1834,65 / 1834,True
+Coconut: patches / largest km2,60 / 2006,60 / 2006,True
+"communities (Louvain / label propagation, 20 rounds; different methods)",77,1687,

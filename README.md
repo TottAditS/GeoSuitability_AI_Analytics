@@ -2,9 +2,10 @@
 
 Which crop fits which piece of land in Banten Province, Indonesia? This project brings open geodata into a local data lake
 and warehouse on a 1 km analysis grid (9,333 cells), scores ten crops with the FAO/IIASA GAEZ v5 suitability index at 1 km,
-describes every cell with Sentinel-2 imagery, and tests with fifteen machine-learning / deep-learning experiments how far
-those suitability maps can be reproduced, explained and trusted. A Streamlit dashboard shows all of it: recommendation
-maps, per-crop suitability, uncertainty, the data lake and warehouse, exploratory analysis and an interactive AI lab.
+describes every cell with Sentinel-2 imagery, and tests with sixteen machine-learning / deep-learning experiments how far
+those suitability maps can be reproduced, explained and trusted; a graph analysis then shows how the suitable land is laid
+out. A Streamlit dashboard shows all of it: recommendation maps, per-crop suitability, uncertainty, the data lake and
+warehouse, exploratory analysis, graph analytics and an interactive AI lab.
 
 ## Highlights
 
@@ -20,6 +21,13 @@ maps, per-crop suitability, uncertainty, the data lake and warehouse, explorator
 - **Uncertainty and class probabilities.** Locally adaptive conformal 90 % prediction intervals, P(suitable) per crop and
   the probability of every recommendation label for every cell, calibrated on spatially held-out errors (m15).
 - **Explainability.** SHAP contributions, feature-group ablations and response curves (m03, AI Lab).
+- **With and without a Big Data framework.** Spark MLlib pipelines reproduce the scikit-learn models on identical folds
+  (random forest R² 0.806 vs 0.808, ridge identical, boosting 0.760 vs 0.797); on one machine Spark is 21-54 times slower,
+  the fixed cost of a framework built to scale out (m16). Apache Sedona runs the spatial ETL (notebook 06).
+- **Graph analytics.** The grid as a graph of 9,333 cells and 18,156 shared sides: for the main crops 66-87 % of the
+  suitable land is one contiguous patch, held together by a few dozen bottleneck cells; Louvain finds 77 agro-ecological
+  communities; and the crops' suitable lands are nested (oil palm's contains that of all eight other crops with suitable
+  land), so the crops compete for one core of good land. GraphFrames on Spark reproduces every NetworkX count (g01).
 
 ## Data sources
 
@@ -46,7 +54,8 @@ scripts/download/         ingestion, one notebook per source
 scripts/preprocessing/    ETL notebooks 01-14 (validation, mosaics, 1 km grid, zonal statistics, Apache Sedona, GAEZ
                           scenario and crops, GCS 2024, Sentinel-2 cell features, GAEZ v5 at 1 km, rain-fed audit,
                           EDA of the current warehouse)
-scripts/modeling/         experiments m01-m15, shared libraries exp_lib.py / exp_torch.py, results/ and figures/
+scripts/modeling/         experiments m01-m16 and graph analytics g01, shared libraries exp_lib.py / exp_torch.py /
+                          exp_spark.py, results/ and figures/
 scripts/dashboard/        Streamlit dashboard (app.py, one file per page) and its launcher notebook
 tests/                    automated tests
 tools/                    winutils binaries for Spark on Windows (local mode, no Hadoop install)
@@ -61,7 +70,8 @@ cp .env.example .env                         # add OPENTOPOGRAPHY_API_KEY (Coper
 ```
 
 `requirements.txt` lists the same packages for pip. Sentinel-2 export needs a Google Earth Engine account (interactive
-login in `scripts/download/download_sentinel2.ipynb`); Apache Sedona needs Java 17 (JDK) and fetches its JARs once.
+login in `scripts/download/download_sentinel2.ipynb`); Apache Sedona and GraphFrames need Java 17 (JDK) and fetch
+their JARs once.
 
 ## Pipeline
 
@@ -74,8 +84,9 @@ Run the notebooks in order, each on its own (they skip work that is already done
    Sedona / Spark job (06), the irrigated scenario and ten crops (07, 08), GCS 2024 (09, 10), Sentinel-2 cell features and
    image patches (11), GAEZ v5 at 1 km (12), the rain-fed audit columns of every crop (13) and an exploratory analysis of
    the current warehouse (14, figures in `scripts/preprocessing/eda_figures/`).
-3. **Modeling** - `scripts/modeling/m01` ... `m15`, a few minutes each with at most 6 CPU workers; m09, m10, m14 use the
-   GPU when there is one. What each experiment asks is listed in [scripts/modeling/README.md](scripts/modeling/README.md).
+3. **Modeling** - `scripts/modeling/m01` ... `m16` and `g01`, a few minutes each with at most 6 CPU workers; m09, m10,
+   m14 use the GPU when there is one, m16 and g01 run on local Spark. What each notebook asks is listed in
+   [scripts/modeling/README.md](scripts/modeling/README.md).
 
 ## Dashboard
 
@@ -87,8 +98,10 @@ streamlit run app.py
 ```
 
 Pages: Overview, Suitability Map (recommendation, every crop, uncertainty, raw layers), GAEZ x GCS 2024, Data Lake &
-Warehouse, Exploratory Analysis, Data Explorer, ML/DL Experiments and the AI Lab (predict any cell with intervals and label
-probabilities, what-if sliders, a live model arena and a deep-learning playground with the fusion network). The sidebar sets
+Warehouse, Exploratory Analysis, Data Explorer, ML/DL Experiments, the AI Lab (predict any cell with intervals and label
+probabilities, what-if sliders, a live model arena and a deep-learning playground with the fusion network) and Graph
+Analytics (contiguous suitable land and its bottlenecks, recommendation blocks, communities, crop competition and the
+GraphFrames check). The sidebar sets
 the recommendation rule (crops considered, relative or absolute ranking) and the GAEZ resolution (1 km or ~9 km).
 
 ## Tests

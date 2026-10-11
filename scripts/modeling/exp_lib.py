@@ -100,7 +100,8 @@ def load_table(complete: bool = True) -> pd.DataFrame:
     pix_col = np.floor((df["lon"].to_numpy() + 180) / GAEZ_CELL_DEG).astype(int)
     extra = {"pix_row": pix_row, "pix_col": pix_col, "pix": pix_row * 100_000 + pix_col,
              **{f"lc_{code}": (df["landcover_majority"] == code).astype(float).to_numpy() for code in LC_CODES}}
-    return pd.concat([df, pd.DataFrame(extra, index=df.index)], axis=1)   # one concat: no fragmented frame
+    # One concat, then copy(): a consolidated frame, so notebooks can add columns without fragmentation warnings.
+    return pd.concat([df, pd.DataFrame(extra, index=df.index)], axis=1).copy()
 
 
 def add_focal_features(df: pd.DataFrame, columns: list[str], sizes=(3, 5, 9, 15, 25, 41)) -> pd.DataFrame:

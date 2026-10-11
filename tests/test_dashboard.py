@@ -10,7 +10,7 @@ from streamlit.testing.v1 import AppTest
 
 APP = str(ROOT / "scripts" / "dashboard" / "app.py")
 PAGES = ["page_overview.py", "page_map.py", "page_gaez_gcs.py", "page_lake.py", "page_eda.py", "page_explorer.py",
-         "page_experiments.py", "page_ai_lab.py"]
+         "page_experiments.py", "page_graph.py", "page_ai_lab.py"]
 
 
 @unittest.skipUnless(DATA_READY, SKIP_REASON)
@@ -52,6 +52,14 @@ class DashboardSmoke(unittest.TestCase):
                         "Categories", "Irrigated vs rain-fed", "PCA"]:
             with self.subTest(section=section):
                 self.show("page_eda.py", eda_section=section)
+
+    def test_graph_views_and_extreme_thresholds(self):
+        cases = [dict(graph_patch_view="Largest patch and bottlenecks"), dict(graph_matrix="Jaccard overlap"),
+                 dict(graph_comm=1), dict(graph_crop="rubber"),
+                 dict(graph_threshold=0), dict(graph_threshold=10000)]   # everything suitable / nothing suitable
+        for state in cases:
+            with self.subTest(**state):
+                self.show("page_graph.py", **state)
 
     def test_every_experiment(self):
         self.show("page_experiments.py")

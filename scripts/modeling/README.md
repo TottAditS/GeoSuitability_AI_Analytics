@@ -27,11 +27,17 @@ Small result tables go to `results/`, figures to `figures/`, bulky per-cell pred
 | m13 | GAEZ ~9 km vs 1 km: what does the finer target change, and was the sub-pixel detail of the ~9 km models real? |
 | m14 | Does Sentinel-2 imagery add to the physical drivers (per-cell statistics with trees, image patches with a CNN and a fusion network)? |
 | m15 | How sure are the estimates? Adaptive conformal 90 % intervals, P(suitable) and recommendation probabilities per cell. |
+| m16 | The same models with and without a Big Data framework: Spark MLlib pipelines vs scikit-learn (ridge, random forest, gradient boosting) on identical folds, plus training time against data size. |
+| g01 | Graph analytics on the 1 km grid graph: contiguous suitable land and its bottleneck cells, recommendation blocks, Louvain communities, the crop competition and nesting graph, and the same graph on Spark with GraphFrames. |
 
 `m09` and `m10` read `results/m01_baselines_raw.csv` and the out-of-fold file written by `m01`, so run `m01` first.
 Every notebook needs the 1 km columns (`gaez1k_index_<crop>`) written by `scripts/preprocessing/12_gaez_v5_1km.ipynb`:
 m01-m12 and m14 learn them on the 9,129 cells with a value for all ten crops, and `m13` compares them with the ~9 km columns
 (`gaez_index_<crop>`). `m14` also needs the Sentinel-2 cell statistics and patches from
 `scripts/preprocessing/11_sentinel2_cell_features.ipynb`.
-Models: `exp_lib.py` (scikit-learn / XGBoost) and `exp_torch.py` (PyTorch). Always `import torch` before `shap`
-(see the docstring of `exp_lib.py`).
+`m16` and `g01` start a local Spark session through `exp_spark.py` (local mode, 6 cores, the Windows settings of the
+Sedona notebook); `g01` fetches the GraphFrames package (`graphframes:graphframes:0.8.4-spark3.5-s_2.12`) from the
+Spark Packages repository the first time, so it needs internet once. `g01` writes the per-cell graph attributes to
+`datasets/processed/experiments/g01_nodes.parquet`, read by the dashboard's Graph Analytics page.
+Models: `exp_lib.py` (scikit-learn / XGBoost), `exp_torch.py` (PyTorch) and `exp_spark.py` (Spark MLlib, GraphFrames).
+Always `import torch` before `shap` (see the docstring of `exp_lib.py`).

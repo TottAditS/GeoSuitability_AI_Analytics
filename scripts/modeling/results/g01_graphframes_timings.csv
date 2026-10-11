@@ -1,0 +1,6 @@
+step,NetworkX (s),GraphFrames (s)
+"start, build the graph",0.029,8.577
+node degrees,0.007,1.972
+"connected components, whole grid",0.006,39.092
+"connected components, suitable land of 10 crops",0.053,196.06
+"communities (Louvain / label propagation, 20 rounds)",0.773,2.469

@@ -1,0 +1,11 @@
+crop,suitable km2,patches,largest patch km2,share in largest patch,share in patches >= 25 km2,single-cell patches,share of cells on a patch edge,bottleneck cells in largest patch
+Rice,2181,48,1828,0.8381,0.939,16,0.2306,38
+Maize,8,4,3,0.375,0,1,0.875,1
+Cassava,3060,68,2015,0.6585,0.917,22,0.2794,25
+Soybean,256,25,112,0.4375,0.6797,9,0.6289,14
+Oil palm,3938,64,3443,0.8743,0.9307,17,0.2623,73
+Rubber,0,0,0,,,0,0,0
+Sugarcane,1186,35,1005,0.8474,0.8938,17,0.3094,35
+Coffee,3110,67,2126,0.6836,0.899,17,0.2865,28
+Cacao,2508,65,1834,0.7313,0.9167,24,0.3154,51
+Coconut,2890,60,2006,0.6941,0.9083,20,0.2574,18

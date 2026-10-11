@@ -1,0 +1,14 @@
+inner crop,lies within,share of inner land
+Cassava,Oil palm,0.999
+Coffee,Oil palm,0.99
+Coconut,Oil palm,0.9723
+Rice,Cassava,0.9954
+Rice,Coffee,0.9963
+Rice,Coconut,1
+Cacao,Cassava,0.9553
+Soybean,Rice,1
+Soybean,Cacao,1
+Sugarcane,Rice,0.9933
+Sugarcane,Cacao,0.9992
+Maize,Soybean,1
+Maize,Sugarcane,1

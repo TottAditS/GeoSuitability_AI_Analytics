@@ -1,0 +1,8 @@
+framework,model,r2,rmse,spearman,wall seconds (10 crops x 5 folds)
+scikit-learn,Linear (ridge),0.6038,1313,0.7746,1.2229
+scikit-learn,Random forest,0.8077,902.6,0.8943,11.207
+scikit-learn,Gradient boosting,0.7971,929.21,0.8909,2.8922
+scikit-learn,ExtraTrees (reference),0.8191,876.43,0.9006,11.919
+Spark MLlib,Linear (ridge),0.6038,1312.9,0.7746,28.274
+Spark MLlib,Random forest,0.8062,907.12,0.8942,240.57
+Spark MLlib,Gradient boosting,0.7604,1010.9,0.873,155.46

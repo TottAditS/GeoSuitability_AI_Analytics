@@ -51,7 +51,7 @@ digraph G {
     gcs [label="gcs2024_zonal_stats.csv"]; s2m [label="Sentinel-2 mosaics\\n(2020-2024)"]; spark [label="spark_output\\n(Parquet)"];
     s2c [label="sentinel2_cell_stats.csv\\n(1:1 with the fact table)"]; s2p [label="sentinel2_patches/*.npy\\n(25 x 25 px per cell)"]; }
   subgraph cluster_use { label="Consumers"; style=dashed; color=grey; node [fillcolor="#F5F2E6"];
-    dash [label="Streamlit dashboard"]; ml [label="ML / DL experiments\\nscripts/modeling m01-m15"]; oof [label="experiments/*.parquet\\n(out-of-fold predictions)"]; }
+    dash [label="Streamlit dashboard"]; ml [label="ML / DL and graph analytics\\nscripts/modeling m01-m16, g01"]; oof [label="experiments/*.parquet\\n(out-of-fold predictions)"]; }
   {s1 s2 s3 s4 s5 s6 s7 s8 s9 s10} -> ing -> lake;
   lake -> p1; lake -> p2 -> s2m; lake -> p3 -> grid; lake -> p4; grid -> p4 -> fact;
   lake -> p7 -> fact; lake -> p12 -> fact; lake -> p9 -> gcs -> fact; fact -> p6 -> spark; grid -> p6; s2m -> p11;

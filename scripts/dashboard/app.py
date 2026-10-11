@@ -37,6 +37,9 @@ pages = {
         st.Page("page_experiments.py", title="ML/DL Experiments", icon=":material/science:"),
         st.Page("page_ai_lab.py", title="AI Lab", icon=":material/smart_toy:"),
     ],
+    "Analytics": [
+        st.Page("page_graph.py", title="Graph Analytics", icon=":material/hub:"),
+    ],
 }
 
 nav = st.navigation(pages)

@@ -1,0 +1,16 @@
+measure,value
+nodes (1 km cells),9333
+edges (shared cell sides),18156
+mean degree,3.890710382513661
+connected components (land masses),10
+cells on the largest land mass,9171
+cells on the other land masses,162
+Louvain communities,77
+modularity,0.9457506774986386
+NMI community vs recommended crop,0.26561638294084244
+NMI community vs land cover,0.18295799330515458
+crop overlap groups (Louvain),3
+nesting links (95 %),29
+direct nestings (Hasse edges),13
+GraphFrames checks passed,12 / 12
+NMI label propagation vs Louvain,0.6681609817451137

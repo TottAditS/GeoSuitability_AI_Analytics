@@ -1,0 +1,78 @@
+community,cells,elevation_m,rainfall_mm,temperature_c,cropland_pct,most frequent recommendation,its share,main land cover
+1,284,191.83,3451,24.608,4.216,Not recommended,0.782,Tree cover
+2,253,490.12,4145.2,22.478,2.101,Not recommended,0.996,Tree cover
+3,239,72.822,3166.2,25.674,17.832,Not recommended,0.54,Tree cover
+4,237,244.05,3685.7,24.415,6.616,Not recommended,0.941,Tree cover
+5,235,85.326,3293.9,25.45,6.831,Not recommended,0.711,Tree cover
+6,231,143.97,3121.1,24.996,14.612,Not recommended,0.411,Tree cover
+7,231,97.539,2405.4,25.693,17.007,Coffee,0.433,Tree cover
+8,228,117.52,2121.3,25.745,5.062,Not recommended,0.746,Tree cover
+9,219,314.27,2652.9,24.176,7.811,Not recommended,0.785,Tree cover
+10,217,39.502,3152,25.418,0.066,Not recommended,0.581,Tree cover
+11,214,58.653,2696.6,25.895,10.843,Not recommended,0.715,Tree cover
+12,214,128.69,3220.3,25.338,7.334,Not recommended,0.995,Tree cover
+13,213,440.35,4051,22.709,7.85,Not recommended,1,Tree cover
+14,209,141.77,2520.5,25.133,6.407,Not recommended,0.756,Tree cover
+15,202,94.363,2911.4,25.561,14.746,Not recommended,0.51,Tree cover
+16,197,37.206,2371.2,26.731,9.134,Soybean,0.472,Built-up
+17,194,8.776,3094.6,26.141,60.654,Cassava,0.402,Cropland
+18,193,42.349,2431.4,26.334,22.275,Coffee,0.772,Tree cover
+19,191,156.92,3398,24.856,6.781,Not recommended,0.759,Tree cover
+20,190,448.92,3283.6,23.037,15.091,Not recommended,0.726,Tree cover
+21,188,104.09,3095.7,25.667,8.364,Not recommended,0.878,Tree cover
+22,185,464.21,4101.8,22.951,6.16,Not recommended,1,Tree cover
+23,182,183.46,3473,24.833,4.189,Not recommended,0.995,Tree cover
+24,182,4.164,1776.5,26.617,72.994,Coconut,0.478,Cropland
+25,180,15.984,1858.6,26.618,46.202,Rice,0.261,Cropland
+26,174,14.449,3184,25.964,45.36,Cassava,0.529,Tree cover
+27,174,392.32,4030.8,23.37,2.834,Not recommended,1,Tree cover
+28,172,27.223,2261.2,27.085,0.677,Not recommended,0.884,Built-up
+29,169,18.453,2095,26.712,21.79,Not recommended,0.237,Built-up
+30,166,73.204,3297,25.553,6.389,Not recommended,0.506,Tree cover
+31,160,44.35,3268.3,25.685,5.222,Coconut,0.6,Tree cover
+32,158,5.836,1835.3,26.727,50.519,Coconut,0.829,Cropland
+33,147,126.46,3443.9,24.98,8.806,Not recommended,0.891,Tree cover
+34,147,1123.7,4190.6,18.066,3.941,Not recommended,1,Tree cover
+35,144,37.021,2387.7,26.521,18.298,Coffee,0.653,Tree cover
+36,137,81.321,3207.3,25.444,4.46,Not recommended,0.708,Tree cover
+37,133,6.19,1848.8,26.642,57.008,Rice,0.526,Cropland
+38,132,19.168,2103.3,26.621,32.009,Coffee,0.5,Tree cover
+39,129,15.472,2060.5,27.132,10.094,Not recommended,0.806,Built-up
+40,117,46.934,3027.6,25.514,0.026,Not recommended,0.692,Tree cover
+41,116,9.649,1803.1,26.563,35.516,Rice,0.431,Cropland
+42,115,209.34,3541.3,24.575,3.508,Not recommended,0.983,Tree cover
+43,113,53.437,3229.8,25.698,14.874,Not recommended,0.584,Tree cover
+44,107,23.435,3178.9,25.923,35.587,Coconut,0.364,Tree cover
+45,107,4.622,1821.3,26.928,15.299,Not recommended,0.523,Built-up
+46,93,130.57,2541.6,24.994,38.823,Cacao,0.624,Tree cover
+47,91,2.958,1822.3,26.693,47.044,Coconut,0.429,Cropland
+48,87,781.15,4349.2,20.402,11.97,Not recommended,1,Tree cover
+49,87,147.76,3199.7,25.083,9.819,Oil palm,0.494,Tree cover
+50,86,144.82,1954.1,25.649,1.899,Not recommended,0.86,Tree cover
+51,85,672.62,4277.3,21.118,4.597,Not recommended,1,Tree cover
+52,79,47.271,1950.8,26.159,6.89,Coffee,0.443,Tree cover
+53,77,35.169,3272.7,25.077,13.728,Coffee,0.403,Tree cover
+54,76,22.965,3167.3,25.962,40.613,Cassava,0.421,Tree cover
+55,65,15.883,2053.9,26.524,39.619,Coffee,0.492,Tree cover
+56,56,53.793,2558.9,26.726,0.46,Not recommended,0.75,Built-up
+57,54,24.142,2280.2,26.281,33.814,Coffee,0.407,Tree cover
+58,51,173.18,3303,24.547,0.004,Not recommended,0.98,Tree cover
+59,34,1.132,1692.4,26.577,7.872,Coconut,0.618,Permanent water bodies
+60,31,892.93,4204.7,20.137,5.6,Not recommended,1,Tree cover
+61,24,1256.7,4090.9,17.339,9.742,Not recommended,1,Tree cover
+62,23,178.37,3563.1,24.747,6.922,Not recommended,1,Tree cover
+63,23,0.763,1695,26.575,5.461,Coconut,0.826,Permanent water bodies
+64,21,733.85,3386.5,22.394,0.162,Not recommended,1,Tree cover
+65,12,817.99,3532.5,22.057,0.105,Not recommended,1,Tree cover
+66,11,12.23,3203.4,25.764,0.002,Not recommended,0.727,Tree cover
+67,8,11.903,1987,26.001,0.043,Not recommended,0.875,Tree cover
+68,6,2.844,1739,26.556,25.351,Coconut,1,Permanent water bodies
+69,6,5.67,1672,26.3,2.203,Rice,0.5,Tree cover
+70,5,24.069,3098.3,25.409,0.013,Not recommended,0.6,Tree cover
+71,4,2.758,1627,26.714,0.627,Not recommended,1,Tree cover
+72,3,16.497,3185.6,25.53,0.075,Not recommended,1,Tree cover
+73,3,8.12,2988,25.819,0.559,Coffee,1,Permanent water bodies
+74,2,16.913,3204.1,25.757,0,Not recommended,1,Tree cover
+75,2,12.762,3187,25.527,0.253,Not recommended,1,Tree cover
+76,2,9.534,3227.8,25.503,27.716,Cassava,0.5,Tree cover
+77,1,18.462,3187,25.532,0.033,Not recommended,1,Tree cover

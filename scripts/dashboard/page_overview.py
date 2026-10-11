@@ -7,14 +7,14 @@ df = C.load_data()
 options = C.recommendation_options(df)
 group, ranking = C.rule()
 lake = C.lake_inventory()
-results = sorted(C.RESULTS_DIR.glob("m*_*.csv")) if C.RESULTS_DIR.exists() else []
+results = sorted([*C.RESULTS_DIR.glob("m*_*.csv"), *C.RESULTS_DIR.glob("g*_*.csv")]) if C.RESULTS_DIR.exists() else []
 
 C.page_header(
     "Banten Province · 1 km analysis grid",
     "GeoSuitability AI",
     "Which crop fits which piece of land? Ten open geodata sources flow through a local **data lake** and "
     "**warehouse** into one table of 9,333 one-kilometre cells, scored for ten crops with GAEZ v5 at 1 km and described by "
-    "Sentinel-2 imagery, and fifteen machine-learning / deep-learning experiments test how far those suitability maps can "
+    "Sentinel-2 imagery, and sixteen machine-learning / deep-learning experiments plus a graph analysis test how far those suitability maps can "
     "be trusted.",
 )
 
@@ -25,7 +25,7 @@ n_s2 = sum(c.startswith("s2_") for c in df.columns)
 k[2].metric("Table columns", f"{len(C.fact_columns())}", border=True,
             help="tabular_features.csv, one row per cell" + (f" (+ {n_s2} Sentinel-2 columns in a 1:1 table)" if n_s2 else ""))
 k[3].metric("Crops scored", "10 + 6", help="10 crops from GAEZ v5, 6 of them also from GCS 2024", border=True)
-k[4].metric("Experiment tables", f"{len(results)}", help="Result tables written by scripts/modeling m01-m15", border=True)
+k[4].metric("Experiment tables", f"{len(results)}", help="Result tables written by scripts/modeling m01-m16 and g01", border=True)
 
 C.section("Crop recommendation", f"{group} · {ranking.lower()} ranking · GAEZ {C.gaez_res()} · colour depth = how suitable the winning crop is")
 left, right = st.columns([1.35, 1])
@@ -79,6 +79,23 @@ if summ is not None and lead is not None:
         low = f"{'negative' if a.iloc[0] < 0 else 'weak'} for {C.CROP_LABELS[a.index[0]].lower()}"
         cards.append((f"ρ {a.min():.2f} to {a.max():.2f}",
                       f"Agreement between GAEZ and the independent GCS 2024 product: strongest for {strong}, {low}."))
+    ml = C.load_result("m16_summary")
+    if ml is not None:
+        rf = ml[ml["model"] == "Random forest"].set_index("framework")
+        if {"scikit-learn", "Spark MLlib"} <= set(rf.index):
+            secs = "wall seconds (10 crops x 5 folds)"
+            cards.append((f"R² {rf.loc['Spark MLlib', 'r2']:.2f} = {rf.loc['scikit-learn', 'r2']:.2f}",
+                          f"The same random forest in Spark MLlib and in scikit-learn (m16); on one machine Spark takes "
+                          f"{rf.loc['Spark MLlib', secs] / rf.loc['scikit-learn', secs]:.0f} times longer, the price of a "
+                          "framework built to scale out."))
+    nodes = C.load_result("g01_crop_nodes")
+    if nodes is not None and "crops nested inside it" in nodes:
+        with_land = nodes[nodes["suitable km2"] > 0]
+        widest = with_land.sort_values(["crops nested inside it", "suitable km2"]).iloc[-1]
+        k, n = int(widest["crops nested inside it"]), len(with_land) - 1
+        cards.append((f"{k} of {n}", f"crops have their suitable land (95 % or more) inside that of {widest['crop'].lower()} "
+                                     "(g01)" + (": the crops compete for one core of good land rather than dividing the "
+                                                "province." if k >= n / 2 else ".")))
     for start in range(0, len(cards), 3):   # rows of three cards
         for col, (big, text) in zip(st.columns(3), cards[start:start + 3]):
             with col.container(border=True):
@@ -93,8 +110,9 @@ guide = [
     ("page_lake.py", "Data Lake & Warehouse", ":material/database:", "Architecture, lake inventory, warehouse schema, table relations, lineage, Spark output, data quality."),
     ("page_eda.py", "Exploratory Analysis", ":material/query_stats:", "Every column profiled: distributions, correlations, relationships, spatial patterns, PCA."),
     ("page_explorer.py", "Data Explorer", ":material/table_view:", "Filter the warehouse table and download exactly what you see."),
-    ("page_experiments.py", "ML/DL Experiments", ":material/science:", "Fifteen modeling notebooks, scored with honest spatial validation."),
+    ("page_experiments.py", "ML/DL Experiments", ":material/science:", "Sixteen modeling notebooks, scored with honest spatial validation, with and without Spark MLlib."),
     ("page_ai_lab.py", "AI Lab", ":material/smart_toy:", "Predict any cell, what-if sliders, a live model arena and a deep-learning playground."),
+    ("page_graph.py", "Graph Analytics", ":material/hub:", "The grid as a graph: contiguous suitable land, bottlenecks, communities, crop competition, GraphFrames on Spark."),
 ]
 cols = st.columns(2)
 for i, (page, label, icon, text) in enumerate(guide):

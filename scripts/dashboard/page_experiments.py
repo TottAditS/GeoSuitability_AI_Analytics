@@ -17,11 +17,12 @@ def R(name):
     return t
 
 
-C.page_header("AI · evaluation", "ML/DL Experiments", "Results of the fifteen notebooks in `scripts/modeling` (m01-m15). Task: predict each crop's GAEZ v5 "
+C.page_header("AI · evaluation", "ML/DL Experiments", "Results of the sixteen notebooks in `scripts/modeling` (m01-m16). Task: predict each crop's GAEZ v5 "
            "suitability index at 1 km from the 14 physical drivers (climate, soil, terrain). All headline scores use "
            "**pixel-grouped cross-validation**: whole ~9 km blocks (the pixels of GAEZ's 5 arc-minute grid) are held out, "
            "because neighbouring 1 km cells are nearly alike. m13 compares the 1 km target with the ~9 km product of the "
-           "first round; m14 adds Sentinel-2 satellite imagery, m15 measures the uncertainty.")
+           "first round; m14 adds Sentinel-2 satellite imagery, m15 measures the uncertainty, m16 trains the same models with and "
+           "without Spark MLlib. The graph analytics (g01) have their own page.")
 
 if R("m01_leaderboard") is None:
     C.no_results_note("m01_baselines_cv_leakage.ipynb")
@@ -80,6 +81,10 @@ EXPERIMENTS = {
         "How sure is a model estimate, and the recommendation that follows from it?",
         "Out-of-fold ExtraTrees, a second model for the size of the error, conformal 90 % intervals checked on held-out "
         "folds, and label probabilities from 200 plausible versions of every cell."),
+    "m16 Spark MLlib vs scikit-learn": ("m16_spark_mllib.ipynb",
+        "Does the distributed ML library of Apache Spark reproduce the scikit-learn results, and what does it cost in time?",
+        "Ridge, random forest and gradient boosting in both libraries on the same 14 drivers and pixel-grouped folds (Spark "
+        "MLlib pipelines in local mode with 6 cores), plus training time against data size."),
 }
 choice = st.selectbox("Experiment", list(EXPERIMENTS))
 
@@ -176,6 +181,13 @@ if choice == "Summary":
         top = s2.sort_values("r2").iloc[-1]
         guide += (f"Adding Sentinel-2 imagery lifts the best model to R² {top['r2']:.2f} ({top['model']}, m14): the "
                   "imagery carries land-use information the physical drivers lack. ")
+    ml = R("m16_summary")
+    if ml is not None:
+        m = ml[ml["model"] == "Random forest"].set_index("framework")
+        if {"scikit-learn", "Spark MLlib"} <= set(m.index):
+            guide += (f"Spark MLlib trains the same random forest to R² {m.loc['Spark MLlib', 'r2']:.2f} (scikit-learn "
+                      f"{m.loc['scikit-learn', 'r2']:.2f}), {m.loc['Spark MLlib', 'wall seconds (10 crops x 5 folds)'] / m.loc['scikit-learn', 'wall seconds (10 crops x 5 folds)']:.0f} "
+                      "times slower on one machine (m16). ")
     C.note(guide + "m13 compares the 1 km target with the ~9 km product of the first round.")
 
     C.section("Where do the models err?", "out-of-fold predictions against the target they were trained on")
@@ -484,3 +496,36 @@ else:
                    + ". The maps are on the Suitability Map page, view 'Uncertainty'.")
         figures("m15_coverage", "m15_reliability", "m15_maps_rice")
         table("m15_coverage_by_landcover", "Coverage by land cover")
+
+    elif choice.startswith("m16"):
+        sm, scl = R("m16_summary"), R("m16_scaling")
+        if sm is None or scl is None:
+            C.no_results_note(nb)
+            st.stop()
+        pair = sm[sm["framework"].isin(["scikit-learn", "Spark MLlib"]) & (sm["model"] != "ExtraTrees (reference)")]
+        colors = {"scikit-learn": C.PINE, "Spark MLlib": C.OCHRE}
+        secs = "wall seconds (10 crops x 5 folds)"
+        l, r = st.columns(2)
+        with l:
+            chart(px.bar(pair, x="model", y="r2", color="framework", barmode="group", range_y=(0, 1), text_auto=".3f",
+                         color_discrete_map=colors, title="Same data, folds and models: mean R² (pixel CV)"), 400)
+        with r:
+            chart(px.bar(pair, x="model", y=secs, color="framework", barmode="group", log_y=True, text_auto=".1f",
+                         color_discrete_map=colors, title="Wall time for 50 fits, seconds (log scale)"), 400)
+        long = scl.melt(id_vars="training rows", var_name="framework", value_name="seconds")
+        long["framework"] = long["framework"].str.replace(" (s)", "", regex=False)
+        chart(px.line(long, x="training rows", y="seconds", color="framework", markers=True, log_x=True,
+                      color_discrete_map=colors, title="Random forest (rice, 30 trees): training time against data size"), 340)
+        r2 = pair.pivot(index="model", columns="framework", values="r2")
+        w = pair.pivot(index="model", columns="framework", values=secs)
+        ratio = w["Spark MLlib"] / w["scikit-learn"]
+        sc = scl.set_index("training rows").sort_index()
+        grow = sc.iloc[-1] / sc.iloc[0]
+        st.caption("R², MLlib minus scikit-learn: " + ", ".join(f"{m.lower()} {r2.loc[m, 'Spark MLlib'] - r2.loc[m, 'scikit-learn']:+.3f}"
+                                                              for m in r2.index)
+                   + f". On one machine MLlib took {ratio.min():.0f} to {ratio.max():.0f} times longer; with "
+                   f"{sc.index[-1] / sc.index[0]:.0f} times more rows its training time grew {grow['Spark MLlib (s)']:.1f}x "
+                   f"against {grow['scikit-learn (s)']:.1f}x for scikit-learn. Spark pays a fixed cost per job and earns it "
+                   "back only when the data outgrow one machine; then the same pipeline runs unchanged on a cluster.")
+        figures("m16_summary")
+        table("m16_cv_raw", "Every framework x model x crop")

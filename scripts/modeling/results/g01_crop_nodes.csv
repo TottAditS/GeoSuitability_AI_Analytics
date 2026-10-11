@@ -1,0 +1,11 @@
+crop,suitable km2,competition strength (sum of jaccard),overlap group (Louvain),crops nested inside it,crops it is nested in
+Rice,2181,4.1022,2,3,4
+Maize,8,0,1,0,8
+Cassava,3060,4.2922,2,5,1
+Soybean,256,0.6568,2,1,6
+Oil palm,3938,3.7991,2,8,0
+Rubber,0,0,3,0,0
+Sugarcane,1186,2.6088,2,1,6
+Coffee,3110,4.2674,2,4,1
+Cacao,2508,4.0953,2,3,2
+Coconut,2890,4.2782,2,4,1

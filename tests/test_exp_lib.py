@@ -1,4 +1,5 @@
-"""The shared experiment library: targets, the warehouse table and the spatial cross-validation folds."""
+"""Shared experiment code: targets, the warehouse table, the spatial cross-validation folds and the Spark helpers."""
+import os
 import unittest
 
 import numpy as np
@@ -6,6 +7,16 @@ import numpy as np
 from _setup import DATA_READY, SKIP_REASON
 
 import exp_lib as E
+import exp_spark as S
+
+
+class SparkHelpers(unittest.TestCase):
+    def test_file_urls_become_local_paths(self):
+        # spark.jars and the checkpoint folder come back as file URLs with escaped spaces
+        url = "file:///C:/Users/Some%20User/.ivy2/jars/graphframes.jar"
+        path = "C:/Users/Some User/.ivy2/jars/graphframes.jar"
+        self.assertEqual(S._local_path(url), path if os.name == "nt" else "/" + path)
+        self.assertEqual(S._local_path("D:/plain/path"), "D:/plain/path")
 
 
 class TargetColumns(unittest.TestCase):

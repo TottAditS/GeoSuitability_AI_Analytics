@@ -1,0 +1,71 @@
+framework,model,crop,r2,rmse,mae,spearman
+scikit-learn,Linear (ridge),rice,0.645,1466.7,1046.8,0.7858
+scikit-learn,Linear (ridge),maize,0.6162,624.05,444.15,0.7819
+scikit-learn,Linear (ridge),cassava,0.6135,1704.7,1203,0.7775
+scikit-learn,Linear (ridge),soybean,0.5614,909.69,578.01,0.781
+scikit-learn,Linear (ridge),oilpalm,0.6089,1734.6,1238.3,0.7759
+scikit-learn,Linear (ridge),rubber,0.4665,667.06,488.29,0.6948
+scikit-learn,Linear (ridge),sugarcane,0.6595,1027.7,728.43,0.798
+scikit-learn,Linear (ridge),coffee,0.607,1748,1249.3,0.7737
+scikit-learn,Linear (ridge),cacao,0.6157,1304,936.38,0.7853
+scikit-learn,Linear (ridge),coconut,0.6438,1943.5,1376.9,0.7921
+scikit-learn,Random forest,rice,0.8428,975.98,601.47,0.9062
+scikit-learn,Random forest,maize,0.7945,456.62,282.67,0.893
+scikit-learn,Random forest,cassava,0.8262,1143.1,716.44,0.9031
+scikit-learn,Random forest,soybean,0.7587,674.74,376.69,0.8829
+scikit-learn,Random forest,oilpalm,0.8169,1186.8,762.07,0.9007
+scikit-learn,Random forest,rubber,0.7366,468.67,313.79,0.847
+scikit-learn,Random forest,sugarcane,0.8347,716.06,461.74,0.9042
+scikit-learn,Random forest,coffee,0.8238,1170.4,736.51,0.9029
+scikit-learn,Random forest,cacao,0.8001,940.53,605.67,0.8919
+scikit-learn,Random forest,coconut,0.8423,1293.1,826.85,0.9108
+scikit-learn,Gradient boosting,rice,0.8289,1018.1,626.6,0.9035
+scikit-learn,Gradient boosting,maize,0.7816,470.77,292.85,0.8903
+scikit-learn,Gradient boosting,cassava,0.8189,1166.8,724.48,0.9024
+scikit-learn,Gradient boosting,soybean,0.7395,701.13,388.3,0.8826
+scikit-learn,Gradient boosting,oilpalm,0.8116,1204,765.66,0.8978
+scikit-learn,Gradient boosting,rubber,0.732,472.82,316.01,0.8351
+scikit-learn,Gradient boosting,sugarcane,0.8255,735.79,461.95,0.9029
+scikit-learn,Gradient boosting,coffee,0.8117,1210,767.9,0.899
+scikit-learn,Gradient boosting,cacao,0.7964,949.2,620.53,0.8894
+scikit-learn,Gradient boosting,coconut,0.8247,1363.4,864.59,0.906
+scikit-learn,ExtraTrees (reference),rice,0.8493,955.43,586.25,0.9101
+scikit-learn,ExtraTrees (reference),maize,0.8041,445.88,275.15,0.8992
+scikit-learn,ExtraTrees (reference),cassava,0.838,1103.8,687.67,0.9092
+scikit-learn,ExtraTrees (reference),soybean,0.7799,644.46,359.63,0.8893
+scikit-learn,ExtraTrees (reference),oilpalm,0.8293,1146.1,730.6,0.9082
+scikit-learn,ExtraTrees (reference),rubber,0.7552,451.87,298.33,0.8626
+scikit-learn,ExtraTrees (reference),sugarcane,0.8416,701.04,445.72,0.9064
+scikit-learn,ExtraTrees (reference),coffee,0.8349,1133,712.27,0.909
+scikit-learn,ExtraTrees (reference),cacao,0.8094,918.4,590.34,0.8969
+scikit-learn,ExtraTrees (reference),coconut,0.8493,1264.3,799.45,0.9149
+Spark MLlib,Linear (ridge),rice,0.6451,1466.5,1046.9,0.7857
+Spark MLlib,Linear (ridge),maize,0.6163,623.97,444.23,0.7819
+Spark MLlib,Linear (ridge),cassava,0.6136,1704.4,1203.2,0.7775
+Spark MLlib,Linear (ridge),soybean,0.5614,909.7,578.38,0.7811
+Spark MLlib,Linear (ridge),oilpalm,0.609,1734.2,1238.4,0.7761
+Spark MLlib,Linear (ridge),rubber,0.4666,667,488.53,0.695
+Spark MLlib,Linear (ridge),sugarcane,0.6596,1027.6,728.47,0.798
+Spark MLlib,Linear (ridge),coffee,0.6071,1747.8,1249.6,0.7738
+Spark MLlib,Linear (ridge),cacao,0.6158,1303.9,936.5,0.7854
+Spark MLlib,Linear (ridge),coconut,0.6439,1943.4,1377.3,0.792
+Spark MLlib,Random forest,rice,0.837,993.74,601.48,0.9036
+Spark MLlib,Random forest,maize,0.7945,456.6,281.23,0.8927
+Spark MLlib,Random forest,cassava,0.8246,1148.3,708.1,0.9031
+Spark MLlib,Random forest,soybean,0.7512,685.11,375.38,0.8842
+Spark MLlib,Random forest,oilpalm,0.8191,1179.6,745.67,0.9017
+Spark MLlib,Random forest,rubber,0.7439,462.13,306.96,0.8494
+Spark MLlib,Random forest,sugarcane,0.8316,722.83,457.72,0.9021
+Spark MLlib,Random forest,coffee,0.8238,1170.6,728.89,0.9034
+Spark MLlib,Random forest,cacao,0.7973,947.01,603.3,0.8905
+Spark MLlib,Random forest,coconut,0.8393,1305.4,815.95,0.9115
+Spark MLlib,Gradient boosting,rice,0.7921,1122.4,669.54,0.8782
+Spark MLlib,Gradient boosting,maize,0.7446,509.05,307.7,0.8702
+Spark MLlib,Gradient boosting,cassava,0.7702,1314.4,791.81,0.8752
+Spark MLlib,Gradient boosting,soybean,0.6921,762.25,420.38,0.8653
+Spark MLlib,Gradient boosting,oilpalm,0.7813,1297,804.77,0.8804
+Spark MLlib,Gradient boosting,rubber,0.6863,511.5,326.51,0.8255
+Spark MLlib,Gradient boosting,sugarcane,0.7886,809.84,496.73,0.8826
+Spark MLlib,Gradient boosting,coffee,0.7915,1273.4,788.75,0.8889
+Spark MLlib,Gradient boosting,cacao,0.7693,1010.4,647.42,0.8759
+Spark MLlib,Gradient boosting,coconut,0.7881,1499,908.57,0.8876

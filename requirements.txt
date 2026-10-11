@@ -20,6 +20,8 @@ rasterstats>=0.21
 seaborn>=0.13
 pyspark>=3.5,<3.6
 apache-sedona[spark]>=1.9,<1.10
+# graph analytics; GraphFrames itself is a Spark package fetched at session start (see scripts/modeling/exp_spark.py)
+networkx>=3.0
 streamlit>=1.38
 # dashboard + modeling (environment.yml pins the exact versions, including the CUDA build of torch)
 plotly>=6.0

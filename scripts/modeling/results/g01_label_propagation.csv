@@ -1,0 +1,4 @@
+rounds,communities,seconds,NMI vs Louvain
+5,1900,1.7844,0.6646
+10,1705,1.3769,0.668
+20,1687,2.4691,0.6682
