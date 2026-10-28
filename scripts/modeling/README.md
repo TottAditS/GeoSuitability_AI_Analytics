@@ -28,6 +28,12 @@ Small result tables go to `results/`, figures to `figures/`, bulky per-cell pred
 | m14 | Does Sentinel-2 imagery add to the physical drivers (per-cell statistics with trees, image patches with a CNN and a fusion network)? |
 | m15 | How sure are the estimates? Adaptive conformal 90 % intervals, P(suitable) and recommendation probabilities per cell. |
 | m16 | The same models with and without a Big Data framework: Spark MLlib pipelines vs scikit-learn (ridge, random forest, gradient boosting) on identical folds, plus training time against data size. |
+| e01 | Evaluation only: every model on one set of metrics, per-crop metrics from the out-of-fold predictions, error by land cover, Wilcoxon tests. |
+| e02 | Evaluation only: m16 with vs without Spark MLlib, paired per crop, and a power-law fit of the scaling test. |
+| e03 | Evaluation only: g01 graph results re-checked from the saved node table, with the insight summary. |
+
+The e notebooks only read `results/` and `datasets/processed/experiments/`, so they run in seconds once m01-m16 and g01
+have been run.
 | g01 | Graph analytics on the 1 km grid graph: contiguous suitable land and its bottleneck cells, recommendation blocks, Louvain communities, the crop competition and nesting graph, and the same graph on Spark with GraphFrames. |
 
 `m09` and `m10` read `results/m01_baselines_raw.csv` and the out-of-fold file written by `m01`, so run `m01` first.

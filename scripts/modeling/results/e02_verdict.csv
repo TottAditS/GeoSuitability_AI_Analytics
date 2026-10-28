@@ -1,0 +1,4 @@
+model,mean ΔR²,max |ΔR²|,Wilcoxon p (10 crops),time ratio Spark / sklearn
+Linear (ridge),9e-05,0.0001,,23.12
+Random forest,-0.00143,0.0075,0.25,21.466
+Gradient boosting,-0.03667,0.0487,0.0019531,53.751

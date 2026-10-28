@@ -1,0 +1,5 @@
+ExtraTrees vs,pairs,mean ΔR²,ExtraTrees wins,Wilcoxon p
+XGBoost,20,0.011024,19/20,3.8147e-06
+HistGB,20,0.012042,20/20,1.9073e-06
+kNN,20,0.077193,20/20,1.9073e-06
+Ridge,20,0.21504,20/20,1.9073e-06

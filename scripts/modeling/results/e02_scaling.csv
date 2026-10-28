@@ -1,0 +1,4 @@
+training rows,scikit-learn (s),Spark MLlib (s),ratio Spark / sklearn
+7162,0.108,4.804,44.481
+28648,0.373,6.778,18.172
+114592,1.493,10.983,7.3563

@@ -14,7 +14,9 @@ warehouse, exploratory analysis, graph analytics and an interactive AI lab.
   Suitability 2024 product as a cross-check.
 - **Honest evaluation.** Every headline score holds out whole ~9 km blocks (pixel-grouped cross-validation): the 14
   physical drivers (climate, soil, terrain) reproduce the 1 km GAEZ index with R² 0.82 (ExtraTrees), while a naive random
-  K-fold would report 0.91.
+  K-fold would report 0.91. The lead is consistent: ExtraTrees beats XGBoost on 19 of 20 crop-repeat pairs and
+  HistGradientBoosting on 20 of 20 (Wilcoxon p < 0.001). The largest errors are on built-up land (MAE 1,561 against 425
+  under tree cover), which the physical drivers cannot see (e01).
 - **Multimodal deep learning.** A fusion network (CNN on the 25 x 25 Sentinel-2 image patch of each cell + MLP on the
   drivers) reaches R² 0.87, the best model of the project; Sentinel-2 helps every crop, most of all on built-up land and
   cropland.
@@ -23,7 +25,9 @@ warehouse, exploratory analysis, graph analytics and an interactive AI lab.
 - **Explainability.** SHAP contributions, feature-group ablations and response curves (m03, AI Lab).
 - **With and without a Big Data framework.** Spark MLlib pipelines reproduce the scikit-learn models on identical folds
   (random forest R² 0.806 vs 0.808, ridge identical, boosting 0.760 vs 0.797); on one machine Spark is 21-54 times slower,
-  the fixed cost of a framework built to scale out (m16). Apache Sedona runs the spatial ETL (notebook 06).
+  the fixed cost of a framework built to scale out (m16). Its training time grows with rows^0.30 against rows^0.95 for
+  scikit-learn, so the two would meet at roughly 2.5 million rows, about a national 1 km grid (extrapolated, e02).
+  Apache Sedona runs the spatial ETL (notebook 06).
 - **Graph analytics.** The grid as a graph of 9,333 cells and 18,156 shared sides: for the main crops 66-87 % of the
   suitable land is one contiguous patch, held together by a few dozen bottleneck cells; Louvain finds 77 agro-ecological
   communities; and the crops' suitable lands are nested (oil palm's contains that of all eight other crops with suitable
@@ -54,8 +58,8 @@ scripts/download/         ingestion, one notebook per source
 scripts/preprocessing/    ETL notebooks 01-14 (validation, mosaics, 1 km grid, zonal statistics, Apache Sedona, GAEZ
                           scenario and crops, GCS 2024, Sentinel-2 cell features, GAEZ v5 at 1 km, rain-fed audit,
                           EDA of the current warehouse)
-scripts/modeling/         experiments m01-m16 and graph analytics g01, shared libraries exp_lib.py / exp_torch.py /
-                          exp_spark.py, results/ and figures/
+scripts/modeling/         experiments m01-m16, graph analytics g01, evaluation notebooks e01-e03, shared libraries
+                          exp_lib.py / exp_torch.py / exp_spark.py, results/ and figures/
 scripts/dashboard/        Streamlit dashboard (app.py, one file per page) and its launcher notebook
 tests/                    automated tests
 tools/                    winutils binaries for Spark on Windows (local mode, no Hadoop install)
@@ -87,6 +91,13 @@ Run the notebooks in order, each on its own (they skip work that is already done
 3. **Modeling** - `scripts/modeling/m01` ... `m16` and `g01`, a few minutes each with at most 6 CPU workers; m09, m10,
    m14 use the GPU when there is one, m16 and g01 run on local Spark. What each notebook asks is listed in
    [scripts/modeling/README.md](scripts/modeling/README.md).
+4. **Evaluation** - three notebooks that only read the saved results and run in seconds:
+
+   | notebook | contents |
+   | --- | --- |
+   | [e01_ml_model_evaluation](scripts/modeling/e01_ml_model_evaluation.ipynb) | ML model performance: leaderboard over the three CV schemes, per-crop metrics from the out-of-fold predictions, residual map and error by land cover, Wilcoxon tests, feature sets, Sentinel-2 and deep models, classification, uncertainty, scorecard |
+   | [e02_spark_mllib_evaluation](scripts/modeling/e02_spark_mllib_evaluation.ipynb) | models with vs without Spark MLlib: paired per-crop accuracy, training time, scaling fit |
+   | [e03_graph_analytics_results](scripts/modeling/e03_graph_analytics_results.ipynb) | graph analytics results: structure, contiguous suitable land and bottlenecks, communities, crop competition and nesting, NetworkX vs GraphFrames, insight summary |
 
 ## Dashboard
 

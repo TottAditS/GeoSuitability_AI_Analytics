@@ -1,0 +1,9 @@
+land cover,cells,bias,MAE
+Bare,2,-1587.6,1587.6
+Built-up,772,908.68,1561
+Grassland,76,-597.26,1014.8
+Water,163,-41.749,779.23
+Wetland,12,-532.45,532.62
+Cropland,1282,-254.28,505.58
+Mangroves,6,-351.88,451.55
+Tree cover,6816,-37.96,424.69

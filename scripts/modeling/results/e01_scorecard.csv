@@ -1,0 +1,9 @@
+aspect,model,result
+"Best model, 14 drivers (pixel CV)",ExtraTrees,"R² 0.820, RMSE 873, ρ 0.902"
+Optimism of random K-fold,ExtraTrees,+0.094 R²
+Hardest / easiest crop,ExtraTrees,Rubber (R² 0.76) / Coconut (R² 0.85)
+Largest error by land cover (≥ 50 cells),ExtraTrees,"Built-up (MAE 1561, bias +909)"
+Best model overall,Fusion CNN + drivers,R² 0.869 (drivers + Sentinel-2)
+Recommended-crop label (pixel CV),HistGB / ExtraTrees,"accuracy 0.83-0.86, macro-F1 ≈ 0.5"
+90 % intervals,adaptive conformal,coverage 0.897-0.901 on all crops
+With vs without Spark MLlib,see e02,"same accuracy, slower at this data size"

@@ -1,0 +1,31 @@
+model,crop,r2 Spark MLlib,r2 scikit-learn,rmse Spark MLlib,rmse scikit-learn,spearman Spark MLlib,spearman scikit-learn,ΔR² (Spark - sklearn)
+Gradient boosting,Cacao,0.7693,0.7964,1010.4,949.2,0.8759,0.8894,-0.0271
+Gradient boosting,Cassava,0.7702,0.8189,1314.4,1166.8,0.8752,0.9024,-0.0487
+Gradient boosting,Coconut,0.7881,0.8247,1499,1363.4,0.8876,0.906,-0.0366
+Gradient boosting,Coffee,0.7915,0.8117,1273.4,1210,0.8889,0.899,-0.0202
+Gradient boosting,Maize,0.7446,0.7816,509.05,470.77,0.8702,0.8903,-0.037
+Gradient boosting,Oil palm,0.7813,0.8116,1297,1204,0.8804,0.8978,-0.0303
+Gradient boosting,Rice,0.7921,0.8289,1122.4,1018.1,0.8782,0.9035,-0.0368
+Gradient boosting,Rubber,0.6863,0.732,511.5,472.82,0.8255,0.8351,-0.0457
+Gradient boosting,Soybean,0.6921,0.7395,762.25,701.13,0.8653,0.8826,-0.0474
+Gradient boosting,Sugarcane,0.7886,0.8255,809.84,735.79,0.8826,0.9029,-0.0369
+Linear (ridge),Cacao,0.6158,0.6157,1303.9,1304,0.7854,0.7853,0.0001
+Linear (ridge),Cassava,0.6136,0.6135,1704.4,1704.7,0.7775,0.7775,0.0001
+Linear (ridge),Coconut,0.6439,0.6438,1943.4,1943.5,0.792,0.7921,0.0001
+Linear (ridge),Coffee,0.6071,0.607,1747.8,1748,0.7738,0.7737,0.0001
+Linear (ridge),Maize,0.6163,0.6162,623.97,624.05,0.7819,0.7819,0.0001
+Linear (ridge),Oil palm,0.609,0.6089,1734.2,1734.6,0.7761,0.7759,0.0001
+Linear (ridge),Rice,0.6451,0.645,1466.5,1466.7,0.7857,0.7858,0.0001
+Linear (ridge),Rubber,0.4666,0.4665,667,667.06,0.695,0.6948,0.0001
+Linear (ridge),Soybean,0.5614,0.5614,909.7,909.69,0.7811,0.781,0
+Linear (ridge),Sugarcane,0.6596,0.6595,1027.6,1027.7,0.798,0.798,0.0001
+Random forest,Cacao,0.7973,0.8001,947.01,940.53,0.8905,0.8919,-0.0028
+Random forest,Cassava,0.8246,0.8262,1148.3,1143.1,0.9031,0.9031,-0.0016
+Random forest,Coconut,0.8393,0.8423,1305.4,1293.1,0.9115,0.9108,-0.003
+Random forest,Coffee,0.8238,0.8238,1170.6,1170.4,0.9034,0.9029,0
+Random forest,Maize,0.7945,0.7945,456.6,456.62,0.8927,0.893,0
+Random forest,Oil palm,0.8191,0.8169,1179.6,1186.8,0.9017,0.9007,0.0022
+Random forest,Rice,0.837,0.8428,993.74,975.98,0.9036,0.9062,-0.0058
+Random forest,Rubber,0.7439,0.7366,462.13,468.67,0.8494,0.847,0.0073
+Random forest,Soybean,0.7512,0.7587,685.11,674.74,0.8842,0.8829,-0.0075
+Random forest,Sugarcane,0.8316,0.8347,722.83,716.06,0.9021,0.9042,-0.0031
