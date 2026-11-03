@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import logging
+import os
+import socket
 from pathlib import Path
 
 import requests
@@ -57,3 +59,29 @@ def download_file(url: str, dest: Path, chunk_size: int = 1 << 16, headers: dict
     tmp.rename(dest)
     log.info("Done: %s", dest)
     return dest
+
+
+HDFS_LAKE = "hdfs://localhost:9000/lake"   # the HDFS from infra/hdfs
+
+
+def lake_base() -> str:
+    """Base of the Spark data: an HDFS URI, or "" for the local datasets/ folder.
+
+    Uses HDFS if the NameNode answers on localhost:9000, else the local disk. LAKE_URI overrides this: a URI, or "local".
+    """
+    uri = os.environ.get("LAKE_URI", "").strip()
+    if uri:
+        return "" if uri.lower() == "local" else uri.rstrip("/")
+    try:
+        with socket.create_connection(("localhost", 9000), timeout=0.5):
+            return HDFS_LAKE
+    except OSError:
+        return ""
+
+
+def lake_path(*parts: str) -> str:
+    """Full path of a file under datasets/, e.g. lake_path("processed", "features", "tabular_features.csv")."""
+    base = lake_base()
+    if base:
+        return "/".join([base, *[p.strip("/") for p in parts]])
+    return str(PROJECT_ROOT.joinpath("datasets", *parts))

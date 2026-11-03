@@ -48,7 +48,7 @@ digraph G {
     p9 [label="09-10 GCS 2024\\ncross-check"]; p11 [label="11 Sentinel-2\\ncell features"]; p12 [label="12 GAEZ v5 at 1 km\\n(remote COG window)"]; }
   subgraph cluster_wh { label="WAREHOUSE / MART (datasets/processed)"; style=filled; color="#F1F5EC"; node [fillcolor="#CFE0C3"];
     grid [label="grid_1km.gpkg\\n(dimension)"]; fact [label="tabular_features.csv\\n(fact table)"];
-    gcs [label="gcs2024_zonal_stats.csv"]; s2m [label="Sentinel-2 mosaics\\n(2020-2024)"]; spark [label="spark_output\\n(Parquet)"];
+    gcs [label="gcs2024_zonal_stats.csv"]; s2m [label="Sentinel-2 mosaics\\n(2020-2024)"]; spark [label="spark_output\\n(Parquet, on HDFS\\nwhen it is up)"];
     s2c [label="sentinel2_cell_stats.csv\\n(1:1 with the fact table)"]; s2p [label="sentinel2_patches/*.npy\\n(25 x 25 px per cell)"]; }
   subgraph cluster_use { label="Consumers"; style=dashed; color=grey; node [fillcolor="#F5F2E6"];
     dash [label="Streamlit dashboard"]; ml [label="ML / DL and graph analytics\\nscripts/modeling m01-m16, g01"]; oof [label="experiments/*.parquet\\n(out-of-fold predictions)"]; }
@@ -73,7 +73,7 @@ digraph G {
     st.markdown(
         "- **Lake**: every source kept in its native format, resolution and CRS; nothing is joined there.\n"
         "- **Processing**: notebooks validate, mosaic, grid and aggregate (zonal statistics), and Apache Sedona on "
-        "Spark (local mode) runs the distributed spatial SQL / aggregation step.\n"
+        "Spark (local mode) runs the spatial join and the aggregation. It reads and writes HDFS when HDFS is running.\n"
         "- **Warehouse / mart**: one fact table keyed by `grid_id` (one row per 1 km cell) plus the grid geometry; "
         "fixed schema, ready for BI and ML.\n"
         "- **Consumers**: this dashboard and the modeling notebooks read only the warehouse layer."
@@ -197,16 +197,16 @@ digraph ER {{
 # ----------------------------------------------------------------------------------------- spark
 with tabs[4]:
     st.caption("Output of `scripts/preprocessing/06_sedona_processing.ipynb`: Apache Sedona (spatial SQL on Apache Spark, "
-               "local mode) loads the grid and the fact table, runs the spatial join / aggregation and writes Parquet.")
+               "local mode) joins the grid to the province boundaries, aggregates the fact table and writes Parquet. "
+               "When HDFS is running, it reads and writes there.")
     found = False
     for name in ["features_by_best_crop", "grid_by_province"]:
-        path = C.SPARK_DIR / name
-        if not path.exists() or not any(path.rglob("*.parquet")):
+        part, source, n_files = C.load_spark_output(name)
+        if part is None:
             continue
         found = True
-        part = pd.read_parquet(path)
         C.section(f"`{name}`")
-        st.write(f"{len(part):,} rows x {part.shape[1]} columns, {len(list(path.rglob('*.parquet')))} Parquet part files")
+        st.write(f"{len(part):,} rows x {part.shape[1]} columns, {n_files} Parquet part files, read from **{source}**")
         l, r = st.columns([1, 1])
         l.dataframe(pd.DataFrame({"column": part.columns, "dtype": part.dtypes.astype(str)}), hide_index=True,
                     width="stretch", height=260)
@@ -220,6 +220,21 @@ with tabs[4]:
             st.caption("Partitioned by the plain argmax crop (no 5,000 threshold), as the Sedona job writes it.")
     if not found:
         st.info("No Spark output found: run `scripts/preprocessing/06_sedona_processing.ipynb`.")
+
+    C.section("HDFS copy of the analysis layer")
+    hdfs = C.hdfs_status("/lake")
+    if hdfs is None:
+        st.info("HDFS is not running (optional). Start it with `infra/hdfs/load_lake.ps1`. Until then, the local copy is shown.")
+    else:
+        sm = hdfs["summary"]
+        h = st.columns(3)
+        h[0].metric("HDFS /lake", f"{sm['length'] / 1e6:.1f} MB", border=True)
+        h[1].metric("Files", f"{sm['fileCount']:,}", border=True)
+        h[2].metric("Replication", f"{sm['spaceConsumed'] / max(sm['length'], 1):.0f} copies", border=True,
+                    help="Bytes stored in HDFS divided by the size of the data")
+        st.dataframe(pd.DataFrame([{"entry": e["pathSuffix"], "type": e["type"].lower()} for e in hdfs["entries"]]),
+                     hide_index=True, width="stretch")
+        st.caption("Read through WebHDFS on `localhost:9870`. Spark uses `hdfs://localhost:9000/lake`.")
 
 # ----------------------------------------------------------------------------------------- quality
 with tabs[5]:

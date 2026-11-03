@@ -61,8 +61,11 @@ scripts/preprocessing/    ETL notebooks 01-14 (validation, mosaics, 1 km grid, z
 scripts/modeling/         experiments m01-m16, graph analytics g01, evaluation notebooks e01-e03, shared libraries
                           exp_lib.py / exp_torch.py / exp_spark.py, results/ and figures/
 scripts/dashboard/        Streamlit dashboard (app.py, one file per page) and its launcher notebook
+evaluations/              every evaluation notebook (EDA, dataset quality, ML models, Spark MLlib, graph analytics) in
+                          one folder - duplicate copies kept in sync with the notebooks above, see evaluations/README.md
 tests/                    automated tests
-tools/                    winutils binaries for Spark on Windows (local mode, no Hadoop install)
+tools/                    winutils binaries for Spark on Windows (local mode)
+infra/hdfs/               optional HDFS in Docker (2 DataNodes, 2 copies of every block) for the Spark layer, see its README
 ```
 
 ## Setup
@@ -85,19 +88,23 @@ Run the notebooks in order, each on its own (they skip work that is already done
    downloaded by hand from Zenodo; see [scripts/download/README.md](scripts/download/README.md)).
 2. **Preprocessing** - `scripts/preprocessing/01` ... `14`: validate the raw data, mosaic Sentinel-2, build the 1 km grid,
    zonal statistics into the fact table `datasets/processed/features/tabular_features.csv`, a first EDA (05), the Apache
-   Sedona / Spark job (06), the irrigated scenario and ten crops (07, 08), GCS 2024 (09, 10), Sentinel-2 cell features and
+   Sedona / Spark job (06, on HDFS when it is running), the irrigated scenario and ten crops (07, 08), GCS 2024 (09, 10), Sentinel-2 cell features and
    image patches (11), GAEZ v5 at 1 km (12), the rain-fed audit columns of every crop (13) and an exploratory analysis of
    the current warehouse (14, figures in `scripts/preprocessing/eda_figures/`).
 3. **Modeling** - `scripts/modeling/m01` ... `m16` and `g01`, a few minutes each with at most 6 CPU workers; m09, m10,
    m14 use the GPU when there is one, m16 and g01 run on local Spark. What each notebook asks is listed in
    [scripts/modeling/README.md](scripts/modeling/README.md).
-4. **Evaluation** - three notebooks that only read the saved results and run in seconds:
+4. **Evaluation** - read-only over the results of steps 2-3, runs in seconds except the two that redo the raw scans
+   (EDA, dataset quality). Every evaluation notebook is collected in one folder, [evaluations/](evaluations/README.md),
+   as a duplicate kept in sync with the notebook that actually produced the numbers:
 
-   | notebook | contents |
-   | --- | --- |
-   | [e01_ml_model_evaluation](scripts/modeling/e01_ml_model_evaluation.ipynb) | ML model performance: leaderboard over the three CV schemes, per-crop metrics from the out-of-fold predictions, residual map and error by land cover, Wilcoxon tests, feature sets, Sentinel-2 and deep models, classification, uncertainty, scorecard |
-   | [e02_spark_mllib_evaluation](scripts/modeling/e02_spark_mllib_evaluation.ipynb) | models with vs without Spark MLlib: paired per-crop accuracy, training time, scaling fit |
-   | [e03_graph_analytics_results](scripts/modeling/e03_graph_analytics_results.ipynb) | graph analytics results: structure, contiguous suitable land and bottlenecks, communities, crop competition and nesting, NetworkX vs GraphFrames, insight summary |
+   | notebook in `evaluations/` | contents | source of truth |
+   | --- | --- | --- |
+   | [01_eda_evaluation](evaluations/01_eda_evaluation.ipynb) | EDA of the warehouse table: distributions, correlations, spatial patterns | `scripts/preprocessing/14_eda_current_warehouse.ipynb` |
+   | [02_dataset_quality_evaluation](evaluations/02_dataset_quality_evaluation.ipynb) | raw dataset quality: CRS, resolution, extent, nodata, value ranges | `scripts/preprocessing/01_validate_datasets.ipynb` |
+   | [03_ml_model_evaluation](evaluations/03_ml_model_evaluation.ipynb) | ML model performance: leaderboard over the three CV schemes, per-crop metrics from the out-of-fold predictions, residual map and error by land cover, Wilcoxon tests, feature sets, Sentinel-2 and deep models, classification, uncertainty, scorecard | `scripts/modeling/e01_ml_model_evaluation.ipynb` |
+   | [04_spark_mllib_evaluation](evaluations/04_spark_mllib_evaluation.ipynb) | models with vs without Spark MLlib: paired per-crop accuracy, training time, scaling fit | `scripts/modeling/e02_spark_mllib_evaluation.ipynb` |
+   | [05_graph_analytics_evaluation](evaluations/05_graph_analytics_evaluation.ipynb) | graph analytics results: structure, contiguous suitable land and bottlenecks, communities, crop competition and nesting, NetworkX vs GraphFrames, insight summary | `scripts/modeling/e03_graph_analytics_results.ipynb` |
 
 ## Dashboard
 

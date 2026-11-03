@@ -15,7 +15,8 @@ Output of the ETL pipeline (`scripts/preprocessing/01`-`04`): reprojected, resam
   `processed/sentinel2_patches/` — one 25 x 25 image patch per cell and year for convolutional models (both written by
   `scripts/preprocessing/11_sentinel2_cell_features.ipynb`)
 - `processed/features/tabular_features.csv` — the single fact table: one row per grid cell, one column per feature (climate, soil, terrain, land cover, GAEZ suitability at ~9 km and 1 km, GCS 2024), used directly for EDA, modeling, and the Sedona/Spark processing demo (`scripts/preprocessing/06_sedona_processing.ipynb`)
-- `processed/spark_output/` — partitioned Parquet written by the Sedona job (notebook 06); `checkpoints/` is the scratch
+- `processed/spark_output/` — partitioned Parquet written by the Sedona job (notebook 06). While HDFS (`infra/hdfs`) is running, the job
+  reads and writes `/lake/processed/spark_output` there instead, and this local copy is not updated; `checkpoints/` is the scratch
   space of GraphFrames (`scripts/modeling/g01_graph_analytics.ipynb`), emptied when its Spark session stops
 - `processed/experiments/` — per-cell outputs of `scripts/modeling`, keyed by `grid_id`: out-of-fold predictions, the
   intervals and label probabilities of m15 and the graph attributes of g01 (`g01_nodes.parquet`: community, recommended

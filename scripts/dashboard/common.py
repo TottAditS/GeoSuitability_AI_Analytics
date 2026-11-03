@@ -421,6 +421,97 @@ def processed_inventory() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+WEBHDFS = "http://localhost:9870/webhdfs/v1"
+NAMENODE_JMX = "http://localhost:9870/jmx?qry=Hadoop:service=NameNode,name=NameNodeInfo"
+
+
+def _webhdfs(path: str, op: str):
+    from urllib.request import urlopen
+    return urlopen(f"{WEBHDFS}{path}?op={op}", timeout=5)
+
+
+@st.cache_data(ttl=30, show_spinner=False)
+def hdfs_status(path: str = "/lake") -> dict | None:
+    """Size and top-level entries of an HDFS folder (via WebHDFS), or None if HDFS is down."""
+    try:
+        with _webhdfs(path, "GETCONTENTSUMMARY") as r:
+            summary = json.load(r)["ContentSummary"]
+        with _webhdfs(path, "LISTSTATUS") as r:
+            entries = json.load(r)["FileStatuses"]["FileStatus"]
+    except Exception:
+        return None
+    return {"summary": summary, "entries": entries}
+
+
+def _hdfs_parquet_files(path: str) -> list[str]:
+    """All .parquet files under an HDFS folder, including partition subfolders."""
+    with _webhdfs(path, "LISTSTATUS") as r:
+        entries = json.load(r)["FileStatuses"]["FileStatus"]
+    files = []
+    for e in entries:
+        child = f"{path}/{e['pathSuffix']}"
+        if e["type"] == "DIRECTORY":
+            files += _hdfs_parquet_files(child)
+        elif e["pathSuffix"].endswith(".parquet"):
+            files.append(child)
+    return files
+
+
+def _hdfs_read(path: str) -> bytes:
+    """Read an HDFS file through WebHDFS. If the DataNode the NameNode points to is down, ask for another copy.
+
+    The NameNode keeps a dead DataNode in its list for about 10 minutes, so it may still redirect to it.
+    """
+    from urllib.parse import urlparse
+    from urllib.request import urlopen
+    excluded: list[str] = []
+    for _ in range(3):
+        skip = f"&excludedatanodes={','.join(excluded)}" if excluded else ""
+        with _webhdfs(path, "OPEN&noredirect=true" + skip) as r:
+            location = json.load(r)["Location"]
+        try:
+            with urlopen(location, timeout=10) as r:
+                return r.read()
+        except OSError:
+            # Find the DataNode behind this web port and exclude it on the next try.
+            port = str(urlparse(location).port)
+            with urlopen(NAMENODE_JMX, timeout=5) as r:
+                live = json.loads(json.load(r)["beans"][0]["LiveNodes"])
+            bad = [n["xferaddr"] for n in live.values() if n["infoAddr"].endswith(":" + port)]
+            if not bad or bad[0] in excluded:
+                raise
+            excluded.append(bad[0])
+    raise OSError(f"no DataNode could serve {path}")
+
+
+@st.cache_data(ttl=300, show_spinner="Reading from HDFS...")
+def load_spark_output(name: str):
+    """Read a Parquet output of notebook 06, from HDFS if it is up, else from the local copy.
+
+    Returns (DataFrame, source, number of part files), or (None, None, 0) if neither has it.
+    A partition folder such as `best_crop=Rice` becomes a column, as pandas does locally.
+    """
+    import io
+    try:
+        files = _hdfs_parquet_files(f"/lake/processed/spark_output/{name}")
+        if files:
+            parts = []
+            for f in files:
+                part = pd.read_parquet(io.BytesIO(_hdfs_read(f)))
+                for seg in f.split("/")[:-1]:
+                    if "=" in seg:
+                        key, val = seg.split("=", 1)
+                        part[key] = val
+                parts.append(part)
+            return pd.concat(parts, ignore_index=True), "HDFS", len(files)
+    except Exception:
+        pass   # HDFS is down or has no such dataset: use the local copy
+    local = SPARK_DIR / name
+    if local.exists() and any(local.rglob("*.parquet")):
+        return pd.read_parquet(local), "local disk", len(list(local.rglob("*.parquet")))
+    return None, None, 0
+
+
 # --------------------------------------------------------------------------------------------
 # Plot helpers
 # --------------------------------------------------------------------------------------------

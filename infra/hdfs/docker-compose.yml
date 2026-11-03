@@ -1,0 +1,62 @@
+# HDFS with one NameNode and two DataNodes, replication 2: every block is stored twice, so losing one
+# DataNode loses no data. About 2.3 GB of RAM. No YARN.
+#
+#   docker compose up -d     start (the first run formats the NameNode)
+#   docker compose stop      free the RAM, keep the data
+#   docker compose down      remove the containers and the data (load_lake.ps1 refills it)
+#
+# The image runs Hadoop as the user `hadoop`, so data lives in /tmp/hadoop-hadoop inside the containers.
+# A Docker volume there would be owned by root and not writable.
+#
+# Both DataNodes advertise themselves as `localhost`, so clients on Windows reach them through the published
+# ports. They need different ports for that: 9866/9864 for the first, 9876/9875 for the second.
+name: geosuitability-hdfs
+
+x-hadoop: &hadoop
+  image: apache/hadoop:3.3.6
+  env_file: ./hadoop.env
+
+services:
+  namenode:
+    <<: *hadoop
+    hostname: namenode
+    command: ["hdfs", "namenode"]
+    mem_limit: 768m
+    environment:
+      ENSURE_NAMENODE_DIR: /tmp/hadoop-hadoop/dfs/name
+      HADOOP_HEAPSIZE_MAX: 512m
+    ports:
+      - "9870:9870"   # web UI and WebHDFS
+      - "9000:9000"   # RPC (hdfs://localhost:9000)
+    volumes:
+      # the processed layer, read-only: load_lake.ps1 copies a subset of it into HDFS
+      - ../../datasets/processed:/import:ro
+
+  datanode:
+    <<: *hadoop
+    hostname: datanode
+    command: ["hdfs", "datanode"]
+    mem_limit: 768m
+    environment:
+      HADOOP_HEAPSIZE_MAX: 512m
+    depends_on:
+      - namenode
+    ports:
+      - "9864:9864"   # web UI and WebHDFS
+      - "9866:9866"   # block transfer used by HDFS clients
+
+  datanode2:
+    <<: *hadoop
+    hostname: datanode2
+    command: ["hdfs", "datanode"]
+    mem_limit: 768m
+    environment:
+      HADOOP_HEAPSIZE_MAX: 512m
+      HDFS-SITE.XML_dfs.datanode.address: 0.0.0.0:9876
+      HDFS-SITE.XML_dfs.datanode.http.address: 0.0.0.0:9875
+      HDFS-SITE.XML_dfs.datanode.ipc.address: 0.0.0.0:9877
+    depends_on:
+      - namenode
+    ports:
+      - "9875:9875"
+      - "9876:9876"
