@@ -8,6 +8,7 @@
 # The image runs Hadoop as the user `hadoop`, so data lives in /tmp/hadoop-hadoop inside the containers.
 # A Docker volume there would be owned by root and not writable.
 #
+# Ports are published on 127.0.0.1 only, so nothing outside this machine can reach HDFS (permissions are off).
 # Both DataNodes advertise themselves as `localhost`, so clients on Windows reach them through the published
 # ports. They need different ports for that: 9866/9864 for the first, 9876/9875 for the second.
 name: geosuitability-hdfs
@@ -26,8 +27,8 @@ services:
       ENSURE_NAMENODE_DIR: /tmp/hadoop-hadoop/dfs/name
       HADOOP_HEAPSIZE_MAX: 512m
     ports:
-      - "9870:9870"   # web UI and WebHDFS
-      - "9000:9000"   # RPC (hdfs://localhost:9000)
+      - "127.0.0.1:9870:9870"   # web UI and WebHDFS
+      - "127.0.0.1:9000:9000"   # RPC (hdfs://localhost:9000)
     volumes:
       # the processed layer, read-only: load_lake.ps1 copies a subset of it into HDFS
       - ../../datasets/processed:/import:ro
@@ -42,8 +43,8 @@ services:
     depends_on:
       - namenode
     ports:
-      - "9864:9864"   # web UI and WebHDFS
-      - "9866:9866"   # block transfer used by HDFS clients
+      - "127.0.0.1:9864:9864"   # web UI and WebHDFS
+      - "127.0.0.1:9866:9866"   # block transfer used by HDFS clients
 
   datanode2:
     <<: *hadoop
@@ -58,5 +59,5 @@ services:
     depends_on:
       - namenode
     ports:
-      - "9875:9875"
-      - "9876:9876"
+      - "127.0.0.1:9875:9875"
+      - "127.0.0.1:9876:9876"

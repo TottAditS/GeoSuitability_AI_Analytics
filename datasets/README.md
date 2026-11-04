@@ -73,3 +73,20 @@ statistics, a hand-written Spearman formula that matches `scipy.stats.spearmanr`
 ## Why this split
 
 Raw geospatial sources arrive in incompatible formats/resolutions/CRS and can't be queried together directly — they're stored as-is (lake) and only reconciled into a shared schema (warehouse/mart) during the ETL pass, once, so every downstream step (EDA, modeling, processing frameworks) reads from one consistent table instead of re-deriving it.
+
+## Where the data comes from
+
+All sources are open data. Most are fetched through an API or a public endpoint, so there is no single file to link. This table lists the official page, the address the notebook calls, and the notebook.
+
+| Dataset | Official page | Endpoint or access | Notebook |
+|---|---|---|---|
+| SoilGrids 2.0 | https://soilgrids.org | https://files.isric.org/soilgrids/latest/data/ (remote VRT read through GDAL, clipped to Banten) | `download_soilgrids.ipynb` |
+| WorldClim v2.1 | https://www.worldclim.org | https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_2.5m_bio.zip | `download_worldclim.ipynb` |
+| CHIRPS v2.0 | https://www.chc.ucsb.edu/data/chirps | https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_monthly/tifs/ | `download_chirps.ipynb` |
+| Sentinel-2 L2A | https://dataspace.copernicus.eu | Google Earth Engine, collection `COPERNICUS/S2_SR_HARMONIZED` (needs a Google account) | `download_sentinel2.ipynb` |
+| ESA WorldCover | https://esa-worldcover.org | https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ | `download_worldcover.ipynb` |
+| Copernicus DEM GLO-30 | https://opentopography.org | https://portal.opentopography.org/API/globaldem (`demtype=COP30`, free API key) | `download_opentopography_dem.ipynb` |
+| GAEZ v5 | https://gaez.fao.org | https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/ | `download_gaez.ipynb`, preprocessing 07, 08, 12 |
+| Global Crop Suitability 2024 | https://zenodo.org/records/17666722 | Manual download from the Zenodo record | preprocessing 09 and 10 |
+| CropSuite | https://zenodo.org/records/13285542 | Manual download from the Zenodo record (PNG maps, comparison only) | none |
+| Administrative boundaries | https://www.geoboundaries.org | https://www.geoboundaries.org/api/current/gbOpen/IDN/ADM1/ | `download_geoboundaries.ipynb` |
